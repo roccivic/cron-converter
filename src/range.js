@@ -7,7 +7,7 @@
     if (str === '*') {
       this.values = _.range(min, max + 1);
     } else {
-      var parsed = str.split(',').map(function(part) {
+      var parsed = _.map(str.split(','), function(part) {
         var subparts = part.split('-');
         if (subparts.length == 1) {
           var value = parseInt(subparts[0]);

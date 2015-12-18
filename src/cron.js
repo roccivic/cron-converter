@@ -1,5 +1,6 @@
 (function(module) {
   'use strict';
+  var _ = require('lodash');
   var Part = require('./part');
   function Cron() {
     this.parts = null;
@@ -7,7 +8,7 @@
   Cron.prototype.parse = function(str) {
     var parts = str.trim().split(' ');
     if (parts.length === 5) {
-      this.parts = parts.map(function(str, idx) {
+      this.parts = _.map(parts, function(str, idx) {
         return new Part(str, idx);
       });
     } else {
