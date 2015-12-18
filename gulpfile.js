@@ -4,6 +4,12 @@ var mocha = require('gulp-mocha');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 
+var allJsFiles = [
+  'src/*.js',
+  'test/*.js',
+  'gulpfile.js'
+];
+
 gulp.task('pre-test', function() {
   return gulp.src('src/*.js')
     .pipe(istanbul())
@@ -17,21 +23,13 @@ gulp.task('test', ['pre-test'], function() {
 });
 
 gulp.task('jscs', function() {
-  return gulp.src([
-      'src/*.js',
-      'test/*.js',
-      'gulpfile.js'
-    ])
+  return gulp.src(allJsFiles)
     .pipe(jscs())
     .pipe(jscs.reporter());
 });
 
 gulp.task('jshint', function() {
-  return gulp.src([
-      'src/*.js',
-      'test/*.js',
-      'gulpfile.js'
-    ])
+  return gulp.src(allJsFiles)
     .pipe(jshint())
     .pipe(jshint.reporter());
 });
