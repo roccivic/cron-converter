@@ -17,6 +17,14 @@
     }
     return this;
   };
+  Cron.prototype.toArray = function() {
+    if (this.parts === null) {
+      throw new Error(
+          'No schedule found'
+      );
+    }
+    return this.parts;
+  };
   Cron.prototype.toString = function() {
     if (this.parts === null) {
       throw new Error(
