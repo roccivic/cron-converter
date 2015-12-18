@@ -9,15 +9,15 @@
     } else {
       var parsed = _.map(str.split(','), function(part) {
         var subparts = part.split('-');
-        if (subparts.length == 1) {
-          var value = parseInt(subparts[0]);
+        if (subparts.length === 1) {
+          var value = parseInt(subparts[0], 10);
           if (isNaN(value)) {
             throw new Error('Invalid value');
           }
           return [value];
-        } else if (subparts.length == 2) {
-          var minValue = parseInt(subparts[0]);
-          var maxValue = parseInt(subparts[1]);
+        } else if (subparts.length === 2) {
+          var minValue = parseInt(subparts[0], 10);
+          var maxValue = parseInt(subparts[1], 10);
           if (maxValue <= minValue) {
             throw new Error(
               'Range syntax error: max range is less than min range'
@@ -46,7 +46,7 @@
     var retval = [];
     var startRange = null;
     _.forEach(this.values, function(value, index, self) {
-      if (value != self[index + 1] - 1) {
+      if (value !== self[index + 1] - 1) {
         if (startRange) {
           retval.push(startRange + '-' + value);
           startRange = null;
