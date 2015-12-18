@@ -24,8 +24,7 @@ describe('invalidRange', function() {
     }
   ];
   it('should throw on invalid strings', function() {
-    for (var i in invalidRanges) {
-      var invalidRange = invalidRanges[i];
+    invalidRanges.forEach(function(invalidRange) {
       assert.throws(
           function() {
             new Range(
@@ -36,6 +35,6 @@ describe('invalidRange', function() {
           },
           Error
       );
-    }
+    });
   });
 });
