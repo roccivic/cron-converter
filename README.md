@@ -4,6 +4,7 @@ Cron string parser for node
 
 [![Build Status](https://travis-ci.org/roccivic/cron-converter.svg)](https://travis-ci.org/roccivic/cron-converter)
 [![MIT License Badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/roccivic/cron-converter/blob/master/LICENCE.txt)
+[![Issue Count](https://codeclimate.com/github/roccivic/cron-converter/badges/issue_count.svg)](https://codeclimate.com/github/roccivic/cron-converter)
 
 ## Install
 
