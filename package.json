@@ -1,0 +1,26 @@
+{
+  "name": "cron-converter",
+  "version": "0.0.1",
+  "description": "Cron string converter",
+  "main": "src/cron.js",
+  "scripts": {
+    "test": "gulp test",
+    "preinstall": "npm install -g gulp"
+  },
+  "keywords": [
+    "cron"
+  ],
+  "author": "Rouslan Placella",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-jscs": "^3.0.2",
+    "gulp-jshint": "~2",
+    "gulp-mocha": "^2.2.0",
+    "jshint": "~2"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
+}
