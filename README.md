@@ -2,6 +2,8 @@
 
 Cron string parser for node
 
+[![Build Status](https://travis-ci.org/roccivic/cron-converter.svg)](https://travis-ci.org/roccivic/cron-converter)
+
 ## Install
 
 ```
