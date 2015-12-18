@@ -1,4 +1,4 @@
-(function(module) {
+(function() {
   'use strict';
   var _ = require('lodash');
   var Part = require('./part');
@@ -37,4 +37,4 @@
     return this.parts.join(' ');
   };
   module.exports = Cron;
-})(module);
+})();

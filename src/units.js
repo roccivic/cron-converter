@@ -1,4 +1,4 @@
-(function(module) {
+(function() {
   'use strict';
   module.exports = [
     {
@@ -27,4 +27,4 @@
       max: 6
     }
   ];
-})(module);
+})();

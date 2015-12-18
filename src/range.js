@@ -1,4 +1,4 @@
-(function(module) {
+(function() {
   'use strict';
   var _ = require('lodash');
   function Range(str, min, max) {
@@ -60,4 +60,4 @@
     return retval.join(',');
   };
   module.exports = Range;
-})(module);
+})();

@@ -1,4 +1,4 @@
-(function(module) {
+(function() {
   'use strict';
   var Range = require('./range');
   var units = require('./units');
@@ -13,4 +13,4 @@
     return this.range.toString();
   };
   module.exports = Part;
-})(module);
+})();
