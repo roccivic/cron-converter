@@ -36,6 +36,9 @@
       }
     }
   }
+  Range.prototype.toArray = function() {
+    return this.values;
+  };
   Range.prototype.toString = function() {
     if (this.values.length === this.max - this.min + 1) {
       return '*';

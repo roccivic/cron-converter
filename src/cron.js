@@ -23,7 +23,9 @@
           'No schedule found'
       );
     }
-    return this.parts;
+    return this.parts.map(function(part) {
+      return part.toArray();
+    });
   };
   Cron.prototype.toString = function() {
     if (this.parts === null) {
