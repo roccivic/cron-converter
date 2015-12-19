@@ -21,6 +21,11 @@ function Cron() {
  * @param {string} str The string to parse.
  */
 Cron.prototype.parse = function(str) {
+  if (typeof str !== 'string') {
+    throw new Error(
+        'Invalid cron string'
+    );
+  }
   var parts = str.trim().split(' ');
   if (parts.length === 5) {
     this.parts = _.map(parts, function(str, idx) {
