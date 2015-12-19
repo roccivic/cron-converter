@@ -1,6 +1,6 @@
 # cron-converter
 
-Cron string parser for node
+Cron string parser for node and the browser
 
 [![npm](https://img.shields.io/npm/v/cron-converter.svg)](https://www.npmjs.com/package/cron-converter)
 [![Bower](https://img.shields.io/bower/v/cron-converter.svg)]()
