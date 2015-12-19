@@ -10,7 +10,7 @@
   "keywords": [
     "cron"
   ],
-  "author": "Rouslan Placella",
+  "author": "Rouslan Placella <rouslan@placella.com> (https://github.com/roccivic)",
   "license": "MIT",
   "repository": {
     "type" : "git",
