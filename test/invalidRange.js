@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 describe('invalidRange', function() {
   var Range = require('../src/range');
