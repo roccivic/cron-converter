@@ -31,7 +31,7 @@ interval.apply = function(values, interval) {
  * Finds an interval in an array.
  * Returns undefined, if no matches are found.
  *
- * @param {values} values An array of positive integers to filter.
+ * @param {array} values An array of positive integers to filter.
  * @return {object} The found object.
  */
 interval.find = function(values) {
@@ -67,6 +67,8 @@ interval.find = function(values) {
  * Generates a string representation of an interval found with find()
  *
  * @param {object} foundInterval The interval returned by find().
+ * @param {number} min The minimum value of the range.
+ * @param {number} max The maximum value of the range.
  * @return {string} The resulting string.
  */
 interval.toString = function(foundInterval, min, max) {
