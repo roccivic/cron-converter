@@ -43,6 +43,7 @@ console.log(cronInstance.toString());
 ```bash
 git clone https://github.com/roccivic/cron-converter
 cd cron-converter
+npm install -g gulp
 npm install
 gulp
 ```

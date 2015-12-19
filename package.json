@@ -4,8 +4,7 @@
   "description": "Cron string converter",
   "main": "src/cron.js",
   "scripts": {
-    "test": "gulp test",
-    "preinstall": "npm install -g gulp"
+    "test": "gulp test"
   },
   "keywords": [
     "cron"
