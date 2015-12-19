@@ -18,7 +18,12 @@ describe('invalidCron', function() {
       null,
       NaN,
       '',
-      ''
+      '0',
+      '0 0 0 0 0',
+      '/ / / / /',
+      '60 5 5 5 5',
+      '/5 5 5 5 5',
+      '10-5/5 5 5 5 5'
     ];
     invalidCron.forEach(function(invalid) {
       var cron = new Cron();
