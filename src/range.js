@@ -84,13 +84,13 @@ Range.prototype.toString = function() {
   var startRange = null;
   _.forEach(this.values, function(value, index, self) {
     if (value !== self[index + 1] - 1) {
-      if (startRange) {
+      if (startRange !== null) {
         retval.push(startRange + '-' + value);
         startRange = null;
       } else {
         retval.push(value);
       }
-    } else if (!startRange) {
+    } else if (startRange === null) {
       startRange = value;
     }
   });
