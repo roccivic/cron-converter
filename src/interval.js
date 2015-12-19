@@ -14,7 +14,7 @@ interval.apply = function(values, interval) {
   if (typeof interval === 'undefined') {
     return values;
   }
-  var interval = parseInt(interval, 10);
+  interval = parseInt(interval, 10);
   if (isNaN(interval)) {
     throw new Error('Invalid interval value');
   }
