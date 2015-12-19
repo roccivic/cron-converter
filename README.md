@@ -2,6 +2,7 @@
 
 Cron string parser for node
 
+[![npm](https://img.shields.io/npm/v/cron-converter.svg)]()
 [![Build Status](https://travis-ci.org/roccivic/cron-converter.svg)](https://travis-ci.org/roccivic/cron-converter)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
 [![Dependency Status](https://david-dm.org/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
@@ -13,27 +14,15 @@ Cron string parser for node
 
 ## Install
 
-```
-npm install
-```
-
-## Lint
-
-```
-gulp lint
-```
-
-## Test
-
-```
-gulp test
+```bash
+npm install cron-converter --save
 ```
 
 ## Use
 
 ```js
 // Get the Cron constructor
-var Cron = require('cron');
+var Cron = require('cron-converter');
 
 // Create a new instance
 var cronInstance = new Cron();
@@ -47,4 +36,13 @@ console.log(cronInstance.toArray());
 // Prints: '1 1 1 1 1'
 console.log(cronInstance.toString());
 
+```
+
+## Test and build
+
+```bash
+git clone https://github.com/roccivic/cron-converter
+cd cron-converter
+npm install
+gulp
 ```
