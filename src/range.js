@@ -16,10 +16,15 @@ var interval = require('./interval');
 function Range(str, unit) {
   this.unit = unit;
   var stringParts = str.split('/');
-  var rangeString = stringParts[0];
-  var intervalString = stringParts[1];
   if (stringParts.length > 2) {
     throw new Error('Interval syntax error');
+  }
+  var rangeString = stringParts[0];
+  var intervalString = stringParts[1];
+  if (this.unit.alt) {
+    for (var i=0; i<this.unit.alt.length; i++) {
+      rangeString = rangeString.replace(this.unit.alt[i], i + this.unit.min);
+    }
   }
   var parsedValues;
   if (rangeString === '*') {

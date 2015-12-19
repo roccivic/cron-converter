@@ -12,6 +12,22 @@ describe('validRange', function() {
       max: 6
     },
     {
+      input: 'MON',
+      arr: [0],
+      output: '0',
+      min: 0,
+      max: 6,
+      alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+    },
+    {
+      input: 'MON,TUE,WED',
+      arr: [0,1,2],
+      output: '0-2',
+      min: 0,
+      max: 6,
+      alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+    },
+    {
       input: '1-20/5',
       arr: [5,10,15,20],
       output: '*/5',
