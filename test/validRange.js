@@ -73,8 +73,7 @@ describe('validRange', function() {
       var validRange = validRanges[i];
       var range = new Range(
         validRange.input,
-        validRange.min,
-        validRange.max
+        validRange
       );
       assert.deepEqual(
           range.values,

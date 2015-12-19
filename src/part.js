@@ -12,8 +12,7 @@ var units = require('./units');
  * @this {Part}
  */
 function Part(str, index) {
-  var unit = units[index];
-  this.range = new Range(str, unit.min, unit.max);
+  this.range = new Range(str, units[index]);
 }
 
 /**

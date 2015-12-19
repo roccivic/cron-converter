@@ -46,8 +46,7 @@ describe('invalidRange', function() {
           function() {
             new Range(
               invalidRange.input,
-              invalidRange.min,
-              invalidRange.max
+              invalidRange
             );
           },
           Error

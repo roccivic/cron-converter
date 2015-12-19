@@ -11,12 +11,10 @@ var interval = require('./interval');
  * @constructor
  * @this {Range}
  * @param {string} str The string to be parsed as a range.
- * @param {number} min The minimum range value (inclusive).
- * @param {number} max The maximum range value (inclusive).
+ * @param {object} unit The unit of measurement of time (see units.js).
  */
-function Range(str, min, max) {
-  this.min = min;
-  this.max = max;
+function Range(str, unit) {
+  this.unit = unit;
   var stringParts = str.split('/');
   var rangeString = stringParts[0];
   var intervalString = stringParts[1];
@@ -25,7 +23,7 @@ function Range(str, min, max) {
   }
   var parsedValues;
   if (rangeString === '*') {
-    parsedValues = _.range(min, max + 1);
+    parsedValues = _.range(this.unit.min, this.unit.max + 1);
   } else {
     var parsed = _.map(rangeString.split(','), function(part) {
       var subparts = part.split('-');
@@ -51,7 +49,7 @@ function Range(str, min, max) {
     parsedValues = _.sortBy(_.union(_.flatten(parsed)));
     var first = parsedValues[0];
     var last = parsedValues[parsedValues.length - 1];
-    if (first < min || first > max || last < min || last > max) {
+    if (first < this.unit.min || first > this.unit.max || last < this.unit.min || last > this.unit.max) {
       throw new Error('Value out of range');
     }
   }
@@ -75,12 +73,12 @@ Range.prototype.toArray = function() {
  * @return {string} The range as a string.
  */
 Range.prototype.toString = function() {
-  if (this.values.length === this.max - this.min + 1) {
+  if (this.values.length === this.unit.max - this.unit.min + 1) {
     return '*';
   }
   var foundInterval = interval.find(this.values);
   if (foundInterval) {
-    return interval.toString(foundInterval, this.min, this.max);
+    return interval.toString(foundInterval, this.unit.min, this.unit.max);
   }
   var retval = [];
   var startRange = null;
