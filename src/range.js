@@ -60,4 +60,4 @@
     return retval.join(',');
   };
   module.exports = Range;
-})();
+}());

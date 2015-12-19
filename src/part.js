@@ -13,4 +13,4 @@
     return this.range.toString();
   };
   module.exports = Part;
-})();
+}());

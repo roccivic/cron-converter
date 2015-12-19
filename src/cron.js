@@ -37,4 +37,4 @@
     return this.parts.join(' ');
   };
   module.exports = Cron;
-})();
+}());
