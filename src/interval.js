@@ -66,16 +66,17 @@ interval.find = function(values) {
 /**
  * Generates a string representation of an interval found with find()
  *
- * @param {object} foundInterval The interval returned by find().
+ * @param {object} found The interval returned by find().
  * @param {number} min The minimum value of the range.
  * @param {number} max The maximum value of the range.
  * @return {string} The resulting string.
  */
-interval.toString = function(foundInterval, min, max) {
-  if (foundInterval.min === min && foundInterval.max === max) {
-    return '*/' + foundInterval.diff;
+interval.toString = function(found, min, max) {
+  var diff = found.diff;
+  if (found.min - diff < min && found.max + diff > max) {
+    return '*/' + found.diff;
   }
-  return foundInterval.min + '-' + foundInterval.max + '/' + foundInterval.diff;
+  return found.min + '-' + found.max + '/' + found.diff;
 };
 
 module.exports = interval;

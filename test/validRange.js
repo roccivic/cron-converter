@@ -7,7 +7,7 @@ describe('validRange', function() {
     {
       input: '1-20/5',
       arr: [5,10,15,20],
-      output: '5-20/5',
+      output: '*/5',
       min: 1,
       max: 24
     },
@@ -17,6 +17,13 @@ describe('validRange', function() {
       output: '*/5',
       min: 0,
       max: 20
+    },
+    {
+      input: '5-20/5',
+      arr: [5,10,15,20],
+      output: '5-20/5',
+      min: 0,
+      max: 100
     },
     {
       input: '*/3',
