@@ -2,7 +2,7 @@
 
 Cron string parser for node
 
-[![npm](https://img.shields.io/npm/v/cron-converter.svg)]()
+[![npm](https://img.shields.io/npm/v/cron-converter.svg)](https://www.npmjs.com/package/cron-converter)
 [![Build Status](https://travis-ci.org/roccivic/cron-converter.svg)](https://travis-ci.org/roccivic/cron-converter)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
 [![Dependency Status](https://david-dm.org/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
