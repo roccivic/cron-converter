@@ -47,7 +47,7 @@ gulp.task('coveralls', ['test'], function() {
 gulp.task('dist', function() {
   return browserify('src/cron.js')
     .bundle()
-    .pipe(source('bundle.js'))
+    .pipe(source('cron.min.js'))
     .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest('dist/'));

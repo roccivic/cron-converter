@@ -4,7 +4,8 @@
   "description": "Cron string converter",
   "main": "src/cron.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "preversion": "gulp && git add --force dist/cron.min.js && git commit -m \"Updated cron.min.js\""
   },
   "keywords": [
     "cron"
