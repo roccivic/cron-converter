@@ -19,7 +19,7 @@ function Range(str, unit) {
   if (stringParts.length > 2) {
     throw new Error('Interval syntax error');
   }
-  var rangeString = stringParts[0];
+  var rangeString = stringParts[0].toUpperCase();
   var intervalString = stringParts[1];
   if (this.unit.alt) {
     for (var i=0; i<this.unit.alt.length; i++) {

@@ -28,6 +28,14 @@ describe('validRange', function() {
       alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
     },
     {
+      input: 'mon-fri',
+      arr: [0,1,2,3,4],
+      output: '0-4',
+      min: 0,
+      max: 6,
+      alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+    },
+    {
       input: '1-20/5',
       arr: [5,10,15,20],
       output: '*/5',
