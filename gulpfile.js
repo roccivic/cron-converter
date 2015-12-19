@@ -35,7 +35,7 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter());
 });
 
-gulp.task('coveralls', function() {
+gulp.task('coveralls', ['test'], function() {
   return gulp.src('coverage/lcov.info')
     .pipe(coveralls());
 });
@@ -44,4 +44,4 @@ gulp.task('lint', ['jshint', 'jscs']);
 
 gulp.task('default', ['lint', 'test']);
 
-gulp.task('travis', ['lint', 'test', 'coveralls']);
+gulp.task('travis', ['lint', 'coveralls']);
