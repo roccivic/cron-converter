@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 describe('extraCron', function() {
   var Cron = require('../src/cron');
