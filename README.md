@@ -8,6 +8,7 @@ Cron string parser for node
 [![devDependency Status](https://david-dm.org/roccivic/cron-converter/dev-status.svg)](https://david-dm.org/roccivic/cron-converter#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/roccivic/cron-converter/badges/gpa.svg)](https://codeclimate.com/github/roccivic/cron-converter)
 [![Issue Count](https://codeclimate.com/github/roccivic/cron-converter/badges/issue_count.svg)](https://codeclimate.com/github/roccivic/cron-converter)
+[![Inline docs](http://inch-ci.org/github/roccivic/cron-converter.svg?branch=master)](http://inch-ci.org/github/roccivic/cron-converter)
 [![MIT License Badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/roccivic/cron-converter/blob/master/LICENCE.txt)
 
 ## Install
