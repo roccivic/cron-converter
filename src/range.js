@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var interval = require('./interval');
 
 /**
  * Creates an instance of Range.
@@ -16,10 +17,17 @@ var _ = require('lodash');
 function Range(str, min, max) {
   this.min = min;
   this.max = max;
-  if (str === '*') {
-    this.values = _.range(min, max + 1);
+  var stringParts = str.split('/');
+  var rangeString = stringParts[0];
+  var intervalString = stringParts[1];
+  if (stringParts.length > 2) {
+    throw new Error('Interval syntax error');
+  }
+  var parsedValues;
+  if (rangeString === '*') {
+    parsedValues = _.range(min, max + 1);
   } else {
-    var parsed = _.map(str.split(','), function(part) {
+    var parsed = _.map(rangeString.split(','), function(part) {
       var subparts = part.split('-');
       if (subparts.length === 1) {
         var value = parseInt(subparts[0], 10);
@@ -40,13 +48,14 @@ function Range(str, min, max) {
         throw new Error('Range syntax error');
       }
     });
-    this.values = _.sortBy(_.union(_.flatten(parsed)));
-    var first = this.values[0];
-    var last = this.values[this.values.length - 1];
+    parsedValues = _.sortBy(_.union(_.flatten(parsed)));
+    var first = parsedValues[0];
+    var last = parsedValues[parsedValues.length - 1];
     if (first < min || first > max || last < min || last > max) {
       throw new Error('Value out of range');
     }
   }
+  this.values = interval.apply(parsedValues, intervalString);
 }
 
 /**
@@ -68,6 +77,10 @@ Range.prototype.toArray = function() {
 Range.prototype.toString = function() {
   if (this.values.length === this.max - this.min + 1) {
     return '*';
+  }
+  var foundInterval = interval.find(this.values);
+  if (foundInterval) {
+    return interval.toString(foundInterval, this.min, this.max);
   }
   var retval = [];
   var startRange = null;

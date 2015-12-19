@@ -8,6 +8,21 @@ describe('invalidRange', function() {
       max: 2
     },
     {
+      input: '*/',
+      min: 1,
+      max: 2
+    },
+    {
+      input: '*/5/5',
+      min: 1,
+      max: 2
+    },
+    {
+      input: '*/a',
+      min: 1,
+      max: 2
+    },
+    {
       input: '1-2-3',
       min: 1,
       max: 10

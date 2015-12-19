@@ -3,6 +3,27 @@ describe('validRange', function() {
   var Range = require('../src/range');
   var validRanges = [
     {
+      input: '1-20/5',
+      arr: [5,10,15,20],
+      output: '5-20/5',
+      min: 1,
+      max: 24
+    },
+    {
+      input: '0-20/5',
+      arr: [0,5,10,15,20],
+      output: '*/5',
+      min: 0,
+      max: 20
+    },
+    {
+      input: '*/3',
+      arr: [0,3,6,9],
+      output: '*/3',
+      min: 0,
+      max: 9
+    },
+    {
       input: '1,2,3',
       arr: [1,2,3],
       output: '1-3',
