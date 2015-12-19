@@ -10,7 +10,7 @@ var _ = require('lodash');
  * @param {string} interval The interval to leave between numbers in the output.
  * @return {array} The resulting array.
  */
-interval.apply = function (values, interval) {
+interval.apply = function(values, interval) {
   if (typeof interval === 'undefined') {
     return values;
   }
@@ -19,7 +19,7 @@ interval.apply = function (values, interval) {
     throw new Error('Invalid interval value');
   }
   var retval = [];
-  _.forEach(values, function (value) {
+  _.forEach(values, function(value) {
     if (value % interval === 0) {
       retval.push(value);
     }
@@ -34,14 +34,14 @@ interval.apply = function (values, interval) {
  * @param {values} values An array of positive integers to filter.
  * @return {array} The resulting array.
  */
-interval.find = function (values) {
+interval.find = function(values) {
   if (values.length < 3) {
     return;
   }
   var diff = null;
   var min = values[0];
   var max = values[values.length - 1];
-  for (var i = 0; i<values.length; i++) {
+  for (var i = 0; i < values.length; i++) {
     var value = values[i];
     if (i === 0) {
       diff = values[1] - value;
@@ -69,11 +69,11 @@ interval.find = function (values) {
  * @param {array} foundInterval The interval returned by find().
  * @return {string} The resulting string.
  */
-interval.toString = function (foundInterval, min, max) {
+interval.toString = function(foundInterval, min, max) {
   if (foundInterval.min === min && foundInterval.max === max) {
-    return "*/" + foundInterval.diff;
+    return '*/' + foundInterval.diff;
   }
-  return foundInterval.min + "-" + foundInterval.max + "/" + foundInterval.diff;
+  return foundInterval.min + '-' + foundInterval.max + '/' + foundInterval.diff;
 };
 
 module.exports = interval;
