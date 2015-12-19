@@ -55,7 +55,7 @@ gulp.task('dist', function() {
 
 gulp.task('lint', ['jshint', 'jscs']);
 
-gulp.task('default', ['lint', 'test']);
+gulp.task('default', ['build']);
 
 gulp.task('travis', ['lint', 'coveralls']);
 
