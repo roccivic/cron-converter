@@ -1,6 +1,18 @@
 'use strict';
 
 var _ = require('lodash');
+
+/**
+ * Creates an instance of Range.
+ * Range objects represent
+ * a range of positive integers.
+ *
+ * @constructor
+ * @this {Range}
+ * @param {string} str The string to be parsed as a range.
+ * @param {number} min The minimum range value (inclusive).
+ * @param {number} max The maximum range value (inclusive).
+ */
 function Range(str, min, max) {
   this.min = min;
   this.max = max;
@@ -36,9 +48,23 @@ function Range(str, min, max) {
     }
   }
 }
+
+/**
+ * Returns the range as an array of integers.
+ *
+ * @this {Range}
+ * @return {array} The range as an array.
+ */
 Range.prototype.toArray = function() {
   return this.values;
 };
+
+/**
+ * Returns the range as a string.
+ *
+ * @this {Range}
+ * @return {string} The range as a string.
+ */
 Range.prototype.toString = function() {
   if (this.values.length === this.max - this.min + 1) {
     return '*';
@@ -59,4 +85,5 @@ Range.prototype.toString = function() {
   });
   return retval.join(',');
 };
+
 module.exports = Range;
