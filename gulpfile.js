@@ -1,8 +1,9 @@
 var gulp = require('gulp');
+var coveralls = require('gulp-coveralls');
 var istanbul = require('gulp-istanbul');
-var mocha = require('gulp-mocha');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
+var mocha = require('gulp-mocha');
 
 var allJsFiles = [
   'src/*.js',
@@ -34,6 +35,13 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter());
 });
 
+gulp.task('coveralls', function() {
+  return gulp.src('coverage/lcov.info')
+    .pipe(coveralls());
+});
+
 gulp.task('lint', ['jshint', 'jscs']);
 
 gulp.task('default', ['lint', 'test']);
+
+gulp.task('travis', ['lint', 'test', 'coveralls']);
