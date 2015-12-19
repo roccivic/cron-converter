@@ -12,6 +12,10 @@
   ],
   "author": "Rouslan Placella",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/roccivic/cron-converter.git"
+  },
   "devDependencies": {
     "browserify": "^12.0.1",
     "gulp": "^3.9.0",
