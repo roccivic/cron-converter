@@ -18,6 +18,12 @@ Cron string parser for node
 npm install cron-converter --save
 ```
 
+or
+
+```bash
+bower install cron-converter --save
+```
+
 ## Use
 
 ```js
