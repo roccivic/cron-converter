@@ -31,9 +31,12 @@ bower install cron-converter --save
 ## Use
 
 ```js
-// Get the Cron constructor
+// This step is for usage from node,
+// the bower build exposes a global
 var Cron = require('cron-converter');
+```
 
+```js
 // Create a new instance
 var cronInstance = new Cron();
 
