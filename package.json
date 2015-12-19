@@ -1,6 +1,6 @@
 {
   "name": "cron-converter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Cron string converter",
   "main": "src/cron.js",
   "scripts": {
