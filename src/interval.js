@@ -32,7 +32,7 @@ interval.apply = function(values, interval) {
  * Returns undefined, if no matches are found.
  *
  * @param {values} values An array of positive integers to filter.
- * @return {array} The resulting array.
+ * @return {object} The found object.
  */
 interval.find = function(values) {
   if (values.length < 3) {
@@ -66,7 +66,7 @@ interval.find = function(values) {
 /**
  * Generates a string representation of an interval found with find()
  *
- * @param {array} foundInterval The interval returned by find().
+ * @param {object} foundInterval The interval returned by find().
  * @return {string} The resulting string.
  */
 interval.toString = function(foundInterval, min, max) {
