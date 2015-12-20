@@ -98,6 +98,13 @@ describe('Range', function() {
         output: '5',
         min: 1,
         max: 5
+      },
+      {
+        input: '1,2,3,4,5,6,7,8,9,10/5',
+        arr: [5,10],
+        output: '5,10',
+        min: 1,
+        max: 10
       }
     ];
     validRanges.forEach(function(validRange) {
