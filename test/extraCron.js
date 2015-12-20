@@ -1,10 +1,19 @@
 'use strict';
 
 var assert = require('assert');
-describe('extraCron', function() {
+describe('Cron', function() {
   var Cron = require('../src/cron');
-  var cron = new Cron();
-  it('result of toArray should not affect object', function() {
+  it('Should throw when uninstanciated', function() {
+    var cron = new Cron();
+    assert.throws(function() {
+      cron.toString();
+    }, Error);
+    assert.throws(function() {
+      cron.toArray();
+    }, Error);
+  });
+  it('Result of toArray should not affect object', function() {
+    var cron = new Cron();
     cron.parse('1 1 1 1 1');
     var arr = cron.toArray();
     assert.deepEqual(
