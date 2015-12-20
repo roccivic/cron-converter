@@ -11,10 +11,14 @@ describe('Cron', function() {
       '',
       '0',
       '0 0 0 0 0',
+      '0 0 0 1 0',
+      '0 0 1 0 0',
       '/ / / / /',
       '60 5 5 5 5',
       '/5 5 5 5 5',
-      '10-5/5 5 5 5 5'
+      '10-5/5 5 5 5 5',
+      '* * 0 * *',
+      '* * * 0 *'
     ];
     invalidCron.forEach(function(invalid) {
       it('Invalid string "' + invalid + '"', function() {
