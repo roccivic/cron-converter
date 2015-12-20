@@ -21,14 +21,14 @@ function Range(str, unit) {
   }
   var rangeString = stringParts[0].toUpperCase();
   var intervalString = stringParts[1];
-  if (this.unit.alt) {
-    for (var i=0; i<this.unit.alt.length; i++) {
-      rangeString = rangeString.replace(this.unit.alt[i], i + this.unit.min);
+  if (unit.alt) {
+    for (var i = 0; i < unit.alt.length; i++) {
+      rangeString = rangeString.replace(unit.alt[i], i + unit.min);
     }
   }
   var parsedValues;
   if (rangeString === '*') {
-    parsedValues = _.range(this.unit.min, this.unit.max + 1);
+    parsedValues = _.range(unit.min, unit.max + 1);
   } else {
     var parsed = _.map(rangeString.split(','), function(part) {
       var subparts = part.split('-');
@@ -54,7 +54,8 @@ function Range(str, unit) {
     parsedValues = _.sortBy(_.union(_.flatten(parsed)));
     var first = parsedValues[0];
     var last = parsedValues[parsedValues.length - 1];
-    if (first < this.unit.min || first > this.unit.max || last < this.unit.min || last > this.unit.max) {
+    var u = unit;
+    if (first < u.min || first > u.max || last < u.min || last > u.max) {
       throw new Error('Value out of range');
     }
   }
