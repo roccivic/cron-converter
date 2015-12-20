@@ -30,6 +30,6 @@ module.exports = [
     name: 'dayOfWeek',
     min: 0,
     max: 6,
-    alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+    alt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
   }
 ];

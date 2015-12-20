@@ -13,28 +13,28 @@ describe('Range', function() {
         max: 6
       },
       {
-        input: 'MON',
+        input: 'SUN',
         arr: [0],
         output: '0',
         min: 0,
         max: 6,
-        alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+        alt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
       },
       {
-        input: 'MON,TUE,WED',
+        input: 'SUN,MON,TUE',
         arr: [0,1,2],
         output: '0-2',
         min: 0,
         max: 6,
-        alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+        alt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
       },
       {
         input: 'mon-fri',
-        arr: [0,1,2,3,4],
-        output: '0-4',
+        arr: [1,2,3,4,5],
+        output: '1-5',
         min: 0,
         max: 6,
-        alt: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+        alt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
       },
       {
         input: '1-20/5',
