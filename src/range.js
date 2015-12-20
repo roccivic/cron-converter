@@ -54,8 +54,7 @@ function Range(str, unit) {
     parsedValues = _.sortBy(_.union(_.flatten(parsed)));
     var first = parsedValues[0];
     var last = parsedValues[parsedValues.length - 1];
-    var u = unit;
-    if (first < u.min || first > u.max || last < u.min || last > u.max) {
+    if (first < unit.min || last > unit.max) {
       throw new Error('Value out of range');
     }
   }
