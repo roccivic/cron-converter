@@ -24,6 +24,9 @@ interval.apply = function(values, interval) {
       retval.push(value);
     }
   });
+  if (!retval.length) {
+    throw new Error('Empty interval value');
+  }
   return retval;
 };
 

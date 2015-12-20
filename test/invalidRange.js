@@ -39,6 +39,11 @@ describe('Range', function() {
         input: '',
         min: 1,
         max: 10
+      },
+      {
+        input: '1-6/10',
+        min: 1,
+        max: 10
       }
     ];
     invalidRanges.forEach(function(invalidRange) {
