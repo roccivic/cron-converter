@@ -3,7 +3,7 @@
 var assert = require('assert');
 describe('Range', function() {
   var Range = require('../src/range');
-  describe('Should throw on invalid strings', function () {
+  describe('Should throw on invalid strings', function() {
     var invalidRanges = [
       {
         input: '3-1',

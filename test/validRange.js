@@ -3,7 +3,7 @@
 var assert = require('assert');
 describe('Range', function() {
   var Range = require('../src/range');
-  describe('Should parse valid strings', function () {
+  describe('Should parse valid strings', function() {
     var validRanges = [
       {
         input: '0-4',
