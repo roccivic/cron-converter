@@ -1,18 +1,26 @@
 'use strict';
 
 var Range = require('./range');
+var interval = require('./interval');
 var units = require('./units');
 
 /**
  * Creates an instance of Part.
- * Part objects represent one part
- * of a cron schedule.
+ * Part objects represent one part of a cron schedule.
  *
  * @constructor
  * @this {Part}
  */
 function Part(str, index) {
-  this.range = new Range(str, units[index]);
+  var stringParts = str.split('/');
+  if (stringParts.length > 2) {
+    throw new Error('Interval syntax error');
+  }
+  var rangeString = stringParts[0];
+  var intervalString = stringParts[1];
+  this.unit = units[index];
+  this.range = new Range(rangeString, this.unit);
+  this.range.values = interval.apply(this.range.values, intervalString);
 }
 
 /**
@@ -33,7 +41,14 @@ Part.prototype.toArray = function() {
  * @return {string} The cron schedule part as a string.
  */
 Part.prototype.toString = function() {
-  return this.range.toString();
+  var retval = this.range.toString();
+  if (retval !== '*') {
+    var foundInterval = interval.find(this.range.values);
+    if (foundInterval) {
+      retval = interval.toString(foundInterval, this.unit.min, this.unit.max);
+    }
+  }
+  return retval;
 };
 
 module.exports = Part;

@@ -6,22 +6,12 @@ describe('Range', function() {
   describe('Should throw on invalid strings', function() {
     var invalidRanges = [
       {
+        input: '',
+        min: 1,
+        max: 10
+      },
+      {
         input: '3-1',
-        min: 1,
-        max: 2
-      },
-      {
-        input: '*/',
-        min: 1,
-        max: 2
-      },
-      {
-        input: '*/5/5',
-        min: 1,
-        max: 2
-      },
-      {
-        input: '*/a',
         min: 1,
         max: 2
       },
@@ -36,12 +26,7 @@ describe('Range', function() {
         max: 20
       },
       {
-        input: '',
-        min: 1,
-        max: 10
-      },
-      {
-        input: '1-6/10',
+        input: '**',
         min: 1,
         max: 10
       }

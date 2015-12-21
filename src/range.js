@@ -1,27 +1,20 @@
 'use strict';
 
 var _ = require('lodash');
-var interval = require('./interval');
 
 /**
  * Creates an instance of Range.
- * Range objects represent
- * a range of positive integers.
+ * Range objects represent a collection of positive integers.
  *
  * @constructor
  * @this {Range}
- * @param {string} str The string to be parsed as a range.
+ * @param {string} rangeString The string to be parsed as a range.
  * @param {object} unit The unit of measurement of time (see units.js).
  */
-function Range(str, unit) {
+function Range(rangeString, unit) {
   this.unit = unit;
-  var stringParts = str.split('/');
-  if (stringParts.length > 2) {
-    throw new Error('Interval syntax error');
-  }
-  var rangeString = stringParts[0].toUpperCase();
-  var intervalString = stringParts[1];
   if (unit.alt) {
+    rangeString = rangeString.toUpperCase();
     for (var i = 0; i < unit.alt.length; i++) {
       rangeString = rangeString.replace(unit.alt[i], i + unit.min);
     }
@@ -58,7 +51,7 @@ function Range(str, unit) {
       throw new Error('Value out of range');
     }
   }
-  this.values = interval.apply(parsedValues, intervalString);
+  this.values = parsedValues;
 }
 
 /**
@@ -80,10 +73,6 @@ Range.prototype.toArray = function() {
 Range.prototype.toString = function() {
   if (this.values.length === this.unit.max - this.unit.min + 1) {
     return '*';
-  }
-  var foundInterval = interval.find(this.values);
-  if (foundInterval) {
-    return interval.toString(foundInterval, this.unit.min, this.unit.max);
   }
   var retval = [];
   var startRange = null;

@@ -28,6 +28,10 @@ describe('Cron', function() {
       {
         in: '0-59 0-23 1-31 JAN-DEC SUN-SAT',
         out: '* * * * *'
+      },
+      {
+        in: '*/5 0-5/5 1-31 JAN-DEC SUN-SAT',
+        out: '*/5 0,5 * * *'
       }
     ];
     validCron.forEach(function(valid) {
