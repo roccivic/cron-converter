@@ -1,7 +1,9 @@
 'use strict';
 
-var interval = {};
 var _ = require('lodash');
+
+function Interval() {
+}
 
 /**
  * Applies an interval to an array
@@ -10,7 +12,7 @@ var _ = require('lodash');
  * @param {string} interval The interval to leave between numbers in the output.
  * @return {array} The resulting array.
  */
-interval.apply = function(values, interval) {
+Interval.prototype.apply = function(values, interval) {
   if (typeof interval === 'undefined') {
     return values;
   }
@@ -37,7 +39,7 @@ interval.apply = function(values, interval) {
  * @param {array} values An array of positive integers to filter.
  * @return {object} The found object.
  */
-interval.find = function(values) {
+Interval.prototype.find = function(values) {
   if (values.length < 3) {
     return;
   }
@@ -74,7 +76,7 @@ interval.find = function(values) {
  * @param {number} max The maximum value of the range.
  * @return {string} The resulting string.
  */
-interval.toString = function(found, min, max) {
+Interval.prototype.toString = function(found, min, max) {
   var diff = found.diff;
   if (found.min - diff < min && found.max + diff > max) {
     return '*/' + found.diff;
@@ -82,4 +84,4 @@ interval.toString = function(found, min, max) {
   return found.min + '-' + found.max + '/' + found.diff;
 };
 
-module.exports = interval;
+module.exports = Interval;

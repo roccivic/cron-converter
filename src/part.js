@@ -1,7 +1,7 @@
 'use strict';
 
 var Range = require('./range');
-var interval = require('./interval');
+var Interval = require('./interval');
 var units = require('./units');
 
 /**
@@ -20,7 +20,8 @@ function Part(str, index) {
   var intervalString = stringParts[1];
   this.unit = units[index];
   this.range = new Range(rangeString, this.unit);
-  this.range.values = interval.apply(this.range.values, intervalString);
+  this.interval = new Interval();
+  this.range.values = this.interval.apply(this.range.values, intervalString);
 }
 
 /**
@@ -43,9 +44,13 @@ Part.prototype.toArray = function() {
 Part.prototype.toString = function() {
   var retval = this.range.toString();
   if (retval !== '*') {
-    var foundInterval = interval.find(this.range.values);
+    var foundInterval = this.interval.find(this.range.values);
     if (foundInterval) {
-      retval = interval.toString(foundInterval, this.unit.min, this.unit.max);
+      retval = this.interval.toString(
+        foundInterval,
+        this.unit.min,
+        this.unit.max
+      );
     }
   }
   return retval;
