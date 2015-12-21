@@ -18,7 +18,11 @@ describe('Cron', function() {
       '/5 5 5 5 5',
       '10-5/5 5 5 5 5',
       '* * 0 * *',
-      '* * * 0 *'
+      '* * * 0 *',
+      '0/5/5 * * 0 *',
+      '1-6/10 * * * *',
+      '5/a * * * *',
+      '5/ * * * *'
     ];
     invalidCron.forEach(function(invalid) {
       it('Invalid string "' + invalid + '"', function() {

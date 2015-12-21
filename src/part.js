@@ -16,16 +16,12 @@ function Part(str, index) {
   if (stringParts.length > 2) {
     throw new Error('Interval syntax error');
   }
-  var rangeString = stringParts[0];
-  var intervalString = stringParts[1];
   this.unit = units[index];
+  var rangeString = stringParts[0];
+  var stepString = stringParts[1];
   this.range = new Range(rangeString, this.unit);
-  if (typeof intervalString !== 'undefined') {
-    this.interval = new Interval();
-    this.range.values = this.interval.apply(
-      this.range.values,
-      intervalString
-    );
+  if (typeof stepString !== 'undefined') {
+    this.interval = new Interval(this.range, stepString);
   }
 }
 
@@ -37,6 +33,9 @@ function Part(str, index) {
  * @return {array} The cron schedule part as an array.
  */
 Part.prototype.toArray = function() {
+  if (this.interval) {
+    return this.interval.toArray();
+  }
   return this.range.toArray();
 };
 
@@ -47,18 +46,10 @@ Part.prototype.toArray = function() {
  * @return {string} The cron schedule part as a string.
  */
 Part.prototype.toString = function() {
-  var retval = this.range.toString();
-  if (retval !== '*' && this.interval) {
-    var foundInterval = this.interval.find(this.range.values);
-    if (foundInterval) {
-      retval = this.interval.toString(
-        foundInterval,
-        this.unit.min,
-        this.unit.max
-      );
-    }
+  if (this.interval) {
+    return this.interval.toString();
   }
-  return retval;
+  return this.range.toString();
 };
 
 module.exports = Part;

@@ -2,83 +2,64 @@
 
 var _ = require('lodash');
 
-function Interval() {
+/**
+ * Creates an instance of Interval.
+ * Interval objects represent a collection of
+ * evenly spaced positive integers.
+ *
+ * @constructor
+ * @this {Interval}
+ * @param {Range} range The string to be parsed as a range.
+ * @param {number} step The difference between numbers in the interval;
+ */
+function Interval(range, step) {
+  step = parseInt(step, 10);
+  if (isNaN(step)) {
+    throw new Error('Invalid interval value');
+  }
+  var allValues = [];
+  _.forEach(range.values, function(value) {
+    if (value % step === 0) {
+      allValues.push(value);
+    }
+  });
+  if (!allValues.length) {
+    throw new Error('Empty interval value');
+  }
+  this.min = range.values[0];
+  this.max = range.values[range.values.length - 1];
+  this.unit = range.unit;
+  this.step = step;
 }
 
 /**
- * Applies an interval to an array
+ * Returns the interval as an array of integers.
  *
- * @param {array} values An array of positive integers to filter.
- * @param {string} interval The interval to leave between numbers in the output.
- * @return {array} The resulting array.
+ * @this {Interval}
+ * @return {array} The interval as an array.
  */
-Interval.prototype.apply = function(values, interval) {
-  interval = parseInt(interval, 10);
-  if (isNaN(interval)) {
-    throw new Error('Invalid interval value');
-  }
+Interval.prototype.toArray = function() {
   var retval = [];
-  _.forEach(values, function(value) {
-    if (value % interval === 0) {
-      retval.push(value);
+  for (var i = this.min; i < this.max; i++) {
+    if (i % this.step === 0) {
+      retval.push(i);
     }
-  });
-  if (!retval.length) {
-    throw new Error('Empty interval value');
   }
   return retval;
 };
 
 /**
- * Finds an interval in an array.
- * Returns undefined, if no matches are found.
+ * Generates a string representation of the interval.
  *
- * @param {array} values An array of positive integers to filter.
- * @return {object} The found object.
- */
-Interval.prototype.find = function(values) {
-  if (values.length < 3) {
-    return;
-  }
-  var diff = null;
-  var min = values[0];
-  var max = values[values.length - 1];
-  for (var i = 0; i < values.length; i++) {
-    var value = values[i];
-    if (i === 0) {
-      diff = values[1] - value;
-    } else {
-      if (typeof values[i + 1] !== 'undefined') {
-        var newDiff = values[i + 1] - value;
-        if (newDiff !== diff) {
-          return;
-        }
-      }
-    }
-  }
-  if (diff > 1) {
-    return {
-      min: min,
-      max: max,
-      diff: diff
-    };
-  }
-};
-
-/**
- * Generates a string representation of an interval found with find()
- *
- * @param {object} found The interval returned by find().
- * @param {number} min The minimum value of the range.
- * @param {number} max The maximum value of the range.
+ * @this {Interval}
  * @return {string} The resulting string.
  */
-Interval.prototype.toString = function(found, min, max) {
-  var diff = found.diff;
-  if (found.min - diff < min && found.max + diff > max) {
-    return '*/' + found.diff;
+Interval.prototype.toString = function() {
+  var step = this.step;
+  if (this.min - step < this.unit.min && this.max + step > this.unit.max) {
+    return '*/' + this.step;
   }
-  return found.min + '-' + found.max + '/' + found.diff;
+  return this.min + '-' + this.max + '/' + this.step;
 };
 
 module.exports = Interval;

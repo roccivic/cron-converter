@@ -30,15 +30,20 @@ describe('Cron', function() {
         out: '* * * * *'
       },
       {
-        in: '*/5 0-5/5 1-31 JAN-DEC SUN-SAT',
+        in: '*/5 0-5/10 1-31 JAN-DEC SUN-SAT',
+        out: '*/5 0-5/10 * * *'
+      },
+      {
+        in: '*/5 0,5 1-31 JAN-DEC SUN-SAT',
         out: '*/5 0,5 * * *'
       }
     ];
     validCron.forEach(function(valid) {
       it('Valid string "' + valid.in + '"', function() {
         var cron = new Cron();
+        cron.parse(valid.in);
         assert.equal(
-            cron.parse(valid.in),
+            cron.toString(),
             valid.out
         );
       });
