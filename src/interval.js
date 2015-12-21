@@ -13,9 +13,6 @@ function Interval() {
  * @return {array} The resulting array.
  */
 Interval.prototype.apply = function(values, interval) {
-  if (typeof interval === 'undefined') {
-    return values;
-  }
   interval = parseInt(interval, 10);
   if (isNaN(interval)) {
     throw new Error('Invalid interval value');

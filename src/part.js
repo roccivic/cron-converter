@@ -21,7 +21,12 @@ function Part(str, index) {
   this.unit = units[index];
   this.range = new Range(rangeString, this.unit);
   this.interval = new Interval();
-  this.range.values = this.interval.apply(this.range.values, intervalString);
+  if (typeof intervalString !== 'undefined') {
+    this.range.values = this.interval.apply(
+      this.range.values,
+      intervalString
+    );
+  }
 }
 
 /**
