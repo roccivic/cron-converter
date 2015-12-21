@@ -20,8 +20,8 @@ function Part(str, index) {
   var intervalString = stringParts[1];
   this.unit = units[index];
   this.range = new Range(rangeString, this.unit);
-  this.interval = new Interval();
   if (typeof intervalString !== 'undefined') {
+    this.interval = new Interval();
     this.range.values = this.interval.apply(
       this.range.values,
       intervalString
@@ -48,7 +48,7 @@ Part.prototype.toArray = function() {
  */
 Part.prototype.toString = function() {
   var retval = this.range.toString();
-  if (retval !== '*') {
+  if (retval !== '*' && this.interval) {
     var foundInterval = this.interval.find(this.range.values);
     if (foundInterval) {
       retval = this.interval.toString(
