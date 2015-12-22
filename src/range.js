@@ -10,6 +10,7 @@ var _ = require('lodash');
  * @this {Range}
  * @param {string} rangeString The string to be parsed as a range.
  * @param {object} unit The unit of measurement of time (see units.js).
+ * @param {number} step The difference between numbers in the interval.
  */
 function Range(rangeString, unit, step) {
   this.unit = unit;
@@ -113,6 +114,7 @@ Range.prototype.getStep = function() {
  * Returns true if the range can be represented as an interval.
  *
  * @this {Range}
+ * @param {number} step The difference between numbers in the interval.
  * @return {boolean} true/false.
  */
 Range.prototype.isInterval = function(step) {
@@ -130,6 +132,7 @@ Range.prototype.isInterval = function(step) {
  * Returns true if the range contains all the interval values.
  *
  * @this {Range}
+ * @param {number} step The difference between numbers in the interval.
  * @return {boolean} true/false.
  */
 Range.prototype.isFullInterval = function(step) {
