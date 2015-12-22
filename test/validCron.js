@@ -35,7 +35,7 @@ describe('Cron', function() {
       },
       {
         in: '*/5 0-5/10 1-31 JAN-DEC SUN-SAT',
-        out: '*/5 0-5/10 * * *'
+        out: '*/5 0 * * *'
       },
       {
         in: '*/5 0,5 1-31 JAN-DEC SUN-SAT',

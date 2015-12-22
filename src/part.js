@@ -21,7 +21,11 @@ function Part(str, index) {
   var stepString = stringParts[1];
   this.range = new Range(rangeString, this.unit);
   if (typeof stepString !== 'undefined') {
-    this.interval = new Interval(this.range, stepString);
+    var step = parseInt(stepString, 10);
+    if (isNaN(step)) {
+      throw new Error('Invalid interval value');
+    }
+    this.interval = new Interval(this.range, step);
   }
 }
 

@@ -13,22 +13,17 @@ var _ = require('lodash');
  * @param {number} step The difference between numbers in the interval;
  */
 function Interval(range, step) {
-  step = parseInt(step, 10);
-  if (isNaN(step)) {
-    throw new Error('Invalid interval value');
-  }
-  var allValues = [];
+  var values = [];
   _.forEach(range.values, function(value) {
     if (value % step === 0) {
-      allValues.push(value);
+      values.push(value);
     }
   });
-  if (!allValues.length) {
+  if (!values.length) {
     throw new Error('Empty interval value');
   }
-  this.min = range.values[0];
-  this.max = range.values[range.values.length - 1];
-  this.unit = range.unit;
+  range.values = values;
+  this.range = range;
   this.step = step;
 }
 
@@ -39,13 +34,7 @@ function Interval(range, step) {
  * @return {array} The interval as an array.
  */
 Interval.prototype.toArray = function() {
-  var retval = [];
-  for (var i = this.min; i < this.max; i++) {
-    if (i % this.step === 0) {
-      retval.push(i);
-    }
-  }
-  return retval;
+  return this.range.values;
 };
 
 /**
@@ -56,10 +45,18 @@ Interval.prototype.toArray = function() {
  */
 Interval.prototype.toString = function() {
   var step = this.step;
-  if (this.min - step < this.unit.min && this.max + step > this.unit.max) {
+  var unit = this.range.unit;
+  var min = this.range.values[0];
+  var max = this.range.values[this.range.values.length - 1];
+  if (min - step < unit.min && max + step > unit.max) {
     return '*/' + this.step;
   }
-  return this.min + '-' + this.max + '/' + this.step;
+  if (this.range.values.length == 1) {
+    return min;
+  } else if (this.range.values.length == 2) {
+    return min + ',' + max;
+  }
+  return this.range.toString() + '/' + this.step;
 };
 
 module.exports = Interval;
