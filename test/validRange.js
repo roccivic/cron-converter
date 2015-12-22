@@ -79,7 +79,7 @@ describe('Range', function() {
           validRange
         );
         assert.deepEqual(
-            range.values,
+            range.toArray(),
             validRange.arr
         );
         assert.equal(
