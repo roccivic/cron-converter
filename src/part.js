@@ -33,34 +33,51 @@ Part.prototype.parse = function(str) {
   if (rangeString === '*') {
     parsedValues = _.range(unit.min, unit.max + 1);
   } else {
-    var parsed = _.map(rangeString.split(','), function(part) {
-      var subparts = part.split('-');
-      if (subparts.length === 1) {
-        var value = parseInt(subparts[0], 10);
-        if (isNaN(value)) {
-          throw new Error('Invalid value');
-        }
-        return [value];
-      } else if (subparts.length === 2) {
-        var minValue = parseInt(subparts[0], 10);
-        var maxValue = parseInt(subparts[1], 10);
-        if (maxValue <= minValue) {
-          throw new Error(
-            'Part syntax error: max range is less than min range'
-          );
-        }
-        return _.range(minValue, maxValue + 1);
-      } else {
-        throw new Error('Part syntax error');
-      }
-    });
-    parsedValues = _.sortBy(_.union(_.flatten(parsed)));
+    parsedValues = _.sortBy(
+      _.union(
+        _.flatten(
+          _.map(
+            rangeString.split(','),
+            this.parseRange
+          )
+        )
+      )
+    );
     if (!this.inRange(parsedValues)) {
       throw new Error('Value out of range');
     }
   }
   var step = this.parseStep(stringParts[1]);
   return this.applyInterval(parsedValues, step);
+};
+
+/**
+ * Parses a range string
+ *
+ * @this {Part}
+ * @param {string} range The range string.
+ * @return {number} The step value.
+ */
+Part.prototype.parseRange = function(range) {
+  var subparts = range.split('-');
+  if (subparts.length === 1) {
+    var value = parseInt(subparts[0], 10);
+    if (isNaN(value)) {
+      throw new Error('Invalid value');
+    }
+    return [value];
+  } else if (subparts.length === 2) {
+    var minValue = parseInt(subparts[0], 10);
+    var maxValue = parseInt(subparts[1], 10);
+    if (maxValue <= minValue) {
+      throw new Error(
+        'Part syntax error: max range is less than min range'
+      );
+    }
+    return _.range(minValue, maxValue + 1);
+  } else {
+    throw new Error('Part syntax error');
+  }
 };
 
 /**
