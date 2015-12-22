@@ -32,7 +32,7 @@ describe('Interval', function() {
             max: 10
           },
           toString: function() {
-            return '3-6';
+            return '3,6';
           }
         },
         step: 3,
