@@ -54,7 +54,7 @@ function Range(rangeString, unit, step) {
   }
   // Apply interval step
   if (step > 1) {
-    parsedValues = parsedValues.filter(function (value) {
+    parsedValues = parsedValues.filter(function(value) {
       return value % step === 0;
     });
     if (!parsedValues.length) {
@@ -100,7 +100,7 @@ Range.prototype.isFull = function() {
  * @this {Range}
  * @return {boolean} true/false.
  */
-Range.prototype.getStep = function () {
+Range.prototype.getStep = function() {
   if (this.values.length > 2) {
     var step = this.values[1] - this.values[0];
     if (step > 1) {
@@ -116,7 +116,7 @@ Range.prototype.getStep = function () {
  * @return {boolean} true/false.
  */
 Range.prototype.isInterval = function(step) {
-  for (var i=1; i<this.values.length; i++) {
+  for (var i = 1; i < this.values.length; i++) {
     var prev = this.values[i - 1];
     var value = this.values[i];
     if (value - prev !== step) {
@@ -132,7 +132,7 @@ Range.prototype.isInterval = function(step) {
  * @this {Range}
  * @return {boolean} true/false.
  */
-Range.prototype.isFullInterval = function (step) {
+Range.prototype.isFullInterval = function(step) {
   var unit = this.unit;
   var min = this.min();
   var max = this.max();
