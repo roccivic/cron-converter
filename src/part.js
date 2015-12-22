@@ -19,7 +19,7 @@ function Part(str, unit) {
   if (typeof step !== 'undefined') {
     step = parseInt(step, 10);
     if (isNaN(step) || step < 1) {
-      throw new Error('Invalid interval value');
+      throw new Error('Invalid interval step value');
     }
   }
   this.range = new Range(rangeString, unit, step);
