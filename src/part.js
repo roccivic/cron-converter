@@ -13,6 +13,17 @@ var _ = require('lodash');
  */
 function Part(str, unit) {
   this.unit = unit;
+  this.values = this.parse(str);
+}
+
+/**
+ * Parses a string as a range of positive integers.
+ *
+ * @this {Part}
+ * @param {string} str The string to be parsed as a range.
+ */
+Part.prototype.parse = function(str) {
+  var unit = this.unit;
   var stringParts = str.split('/');
   if (stringParts.length > 2) {
     throw new Error('Interval syntax error');
@@ -73,8 +84,8 @@ function Part(str, unit) {
       throw new Error('Empty interval value');
     }
   }
-  this.values = parsedValues;
-}
+  return parsedValues;
+};
 
 /**
  * Returns the smallest value in the range.
