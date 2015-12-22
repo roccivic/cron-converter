@@ -26,7 +26,7 @@ Cron.prototype.parse = function(str) {
         'Invalid cron string'
     );
   }
-  var parts = str.trim().split(' ');
+  var parts = str.replace(/\s+/g, ' ').trim().split(' ');
   if (parts.length === 5) {
     this.parts = _.map(parts, function(str, idx) {
       return new Part(str, idx);

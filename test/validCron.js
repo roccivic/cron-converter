@@ -10,6 +10,10 @@ describe('Cron', function() {
         out: '0 0 1 1 0'
       },
       {
+        in: ' 0  0   1    JAN     SUN ',
+        out: '0 0 1 1 0'
+      },
+      {
         in: '0 0 1 1 0',
         out: '0 0 1 1 0'
       },
