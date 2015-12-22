@@ -67,7 +67,7 @@ Part.prototype.parse = function(str) {
  * Parses the step from a part string
  *
  * @this {Part}
- * @param {string} str The step string.
+ * @param {string} step The step string.
  * @return {number} The step value.
  */
 Part.prototype.parseStep = function(step) {
