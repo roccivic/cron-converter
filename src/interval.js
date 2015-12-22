@@ -48,13 +48,14 @@ Interval.prototype.toString = function() {
   var unit = this.range.unit;
   var min = this.range.values[0];
   var max = this.range.values[this.range.values.length - 1];
-  if (min - step < unit.min && max + step > unit.max) {
-    return '*/' + this.step;
-  }
   if (this.range.values.length == 1) {
     return min;
   } else if (this.range.values.length == 2) {
     return min + ',' + max;
+  }
+  var haveAllValues = this.range.values.length == (max - min) / step + 1;
+  if (min - step < unit.min && max + step > unit.max && haveAllValues) {
+    return '*/' + this.step;
   }
   return this.range.toString() + '/' + this.step;
 };

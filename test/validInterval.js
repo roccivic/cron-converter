@@ -78,7 +78,7 @@ describe('Interval', function() {
         }
       },
       {
-        id: 3,
+        id: 4,
         range: {
           values: [1,2,3,4,5],
           unit: {
@@ -93,6 +93,24 @@ describe('Interval', function() {
         output: {
           str: '3',
           arr: [3]
+        }
+      },
+      {
+        id: 5,
+        range: {
+          values: [1,2,3,4,5,6,12],
+          unit: {
+            min: 1,
+            max: 12
+          },
+          toString: function() {
+            return '1-6,12';
+          }
+        },
+        step: 3,
+        output: {
+          str: '1-6,12/3',
+          arr: [3,6,12]
         }
       }
     ];
