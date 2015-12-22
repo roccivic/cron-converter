@@ -1,8 +1,8 @@
 'use strict';
 
 var assert = require('assert');
-describe('Range', function() {
-  var Range = require('../src/range');
+describe('Part', function() {
+  var Part = require('../src/part');
   describe('Should parse valid strings', function() {
     var validRanges = [
       {
@@ -72,16 +72,14 @@ describe('Range', function() {
         max: 5
       },
       {
-        input: '1-10',
-        step: 5,
+        input: '1-10/5',
         arr: [5,10],
         output: '5,10',
         min: 0,
         max: 59
       },
       {
-        input: '5-30',
-        step: 5,
+        input: '5-30/5',
         arr: [5,10,15,20,25,30],
         output: '5-30/5',
         min: 0,
@@ -95,8 +93,7 @@ describe('Range', function() {
         max: 59
       },
       {
-        input: '5-20,35-45',
-        step: 5,
+        input: '5-20,35-45/5',
         arr: [5,10,15,20,35,40,45],
         output: '5,10,15,20,35,40,45',
         min: 0,
@@ -105,10 +102,9 @@ describe('Range', function() {
     ];
     validRanges.forEach(function(validRange) {
       it('Valid string: "' + validRange.input + '"', function() {
-        var range = new Range(
+        var range = new Part(
           validRange.input,
-          validRange,
-          validRange.step
+          validRange
         );
         assert.deepEqual(
             range.toArray(),

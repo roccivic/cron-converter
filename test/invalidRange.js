@@ -1,8 +1,8 @@
 'use strict';
 
 var assert = require('assert');
-describe('Range', function() {
-  var Range = require('../src/range');
+describe('Part', function() {
+  var Part = require('../src/part');
   describe('Should throw on invalid strings', function() {
     var invalidRanges = [
       {
@@ -35,7 +35,7 @@ describe('Range', function() {
       it('Invalid range "' + invalidRange.input + '"', function() {
         assert.throws(
             function() {
-              new Range(
+              new Part(
                 invalidRange.input,
                 invalidRange
               );
