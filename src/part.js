@@ -158,13 +158,38 @@ Part.prototype.isFullInterval = function(step) {
 };
 
 /**
- * Returns the range as an array of integers.
+ * Returns the range as an array of positive integers.
  *
  * @this {Part}
  * @return {array} The range as an array.
  */
 Part.prototype.toArray = function() {
   return this.values;
+};
+
+/**
+ * Returns the range as an array of ranges
+ * defined as arrays of positive integers.
+ *
+ * @this {Part}
+ * @return {array} The range as a multi-dimentional array.
+ */
+Part.prototype.toRanges = function() {
+  var retval = [];
+  var startPart = null;
+  _.forEach(this.values, function(value, index, self) {
+    if (value !== self[index + 1] - 1) {
+      if (startPart !== null) {
+        retval.push([startPart, value]);
+        startPart = null;
+      } else {
+        retval.push(value);
+      }
+    } else if (startPart === null) {
+      startPart = value;
+    }
+  });
+  return retval;
 };
 
 /**
@@ -185,21 +210,12 @@ Part.prototype.toString = function() {
       return this.min() + '-' + this.max() + '/' + step;
     }
   } else {
-    var retval = [];
-    var startPart = null;
-    _.forEach(this.values, function(value, index, self) {
-      if (value !== self[index + 1] - 1) {
-        if (startPart !== null) {
-          retval.push(startPart + '-' + value);
-          startPart = null;
-        } else {
-          retval.push(value);
-        }
-      } else if (startPart === null) {
-        startPart = value;
+    return this.toRanges().map(function(range) {
+      if (range.length) {
+        return range[0] + '-' + range[1];
       }
-    });
-    return retval.join(',');
+      return range;
+    }).join(',');
   }
 };
 
