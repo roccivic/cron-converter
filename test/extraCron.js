@@ -14,20 +14,20 @@ describe('Cron', function() {
   });
   it('Result of toArray should not affect object', function() {
     var cron = new Cron();
-    cron.parse('1 1 1 1 1');
+    cron.parse('1-10/5 1 1 1 1');
     var arr = cron.toArray();
     assert.deepEqual(
         arr,
-        [[1],[1],[1],[1],[1]]
+        [[5,10],[1],[1],[1],[1]]
     );
     arr[0] = [5];
     assert.deepEqual(
         cron.toArray(),
-        [[1],[1],[1],[1],[1]]
+        [[5,10],[1],[1],[1],[1]]
     );
     assert.equal(
         cron.toString(),
-        '1 1 1 1 1'
+        '5,10 1 1 1 1'
     );
   });
 });
