@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Part = require('./part');
+var units = require('./units');
 
 /**
  * Creates an instance of Cron.
@@ -29,7 +30,7 @@ Cron.prototype.parse = function(str) {
   var parts = str.replace(/\s+/g, ' ').trim().split(' ');
   if (parts.length === 5) {
     this.parts = _.map(parts, function(str, idx) {
-      return new Part(str, idx);
+      return new Part(str, units[idx]);
     });
   } else {
     throw new Error(

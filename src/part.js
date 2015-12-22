@@ -1,8 +1,6 @@
 'use strict';
 
 var Range = require('./range');
-var Interval = require('./interval');
-var units = require('./units');
 
 /**
  * Creates an instance of Part.
@@ -11,22 +9,20 @@ var units = require('./units');
  * @constructor
  * @this {Part}
  */
-function Part(str, index) {
+function Part(str, unit) {
   var stringParts = str.split('/');
   if (stringParts.length > 2) {
     throw new Error('Interval syntax error');
   }
-  this.unit = units[index];
   var rangeString = stringParts[0];
-  var stepString = stringParts[1];
-  this.range = new Range(rangeString, this.unit);
-  if (typeof stepString !== 'undefined') {
-    var step = parseInt(stepString, 10);
-    if (isNaN(step)) {
+  var step = stringParts[1];
+  if (typeof step !== 'undefined') {
+    step = parseInt(step, 10);
+    if (isNaN(step) || step < 1) {
       throw new Error('Invalid interval value');
     }
-    this.interval = new Interval(this.range, step);
   }
+  this.range = new Range(rangeString, unit, step);
 }
 
 /**
@@ -37,9 +33,6 @@ function Part(str, index) {
  * @return {array} The cron schedule part as an array.
  */
 Part.prototype.toArray = function() {
-  if (this.interval) {
-    return this.interval.toArray();
-  }
   return this.range.toArray();
 };
 
@@ -50,9 +43,6 @@ Part.prototype.toArray = function() {
  * @return {string} The cron schedule part as a string.
  */
 Part.prototype.toString = function() {
-  if (this.interval) {
-    return this.interval.toString();
-  }
   return this.range.toString();
 };
 

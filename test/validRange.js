@@ -70,13 +70,45 @@ describe('Range', function() {
         output: '5',
         min: 1,
         max: 5
+      },
+      {
+        input: '1-10',
+        step: 5,
+        arr: [5,10],
+        output: '5,10',
+        min: 0,
+        max: 59
+      },
+      {
+        input: '5-30',
+        step: 5,
+        arr: [5,10,15,20,25,30],
+        output: '5-30/5',
+        min: 0,
+        max: 59
+      },
+      {
+        input: '5,10,15,20,25,30',
+        arr: [5,10,15,20,25,30],
+        output: '5-30/5',
+        min: 0,
+        max: 59
+      },
+      {
+        input: '5-20,35-45',
+        step: 5,
+        arr: [5,10,15,20,35,40,45],
+        output: '5,10,15,20,35,40,45',
+        min: 0,
+        max: 59
       }
     ];
     validRanges.forEach(function(validRange) {
       it('Valid string: "' + validRange.input + '"', function() {
         var range = new Range(
           validRange.input,
-          validRange
+          validRange,
+          validRange.step
         );
         assert.deepEqual(
             range.toArray(),
