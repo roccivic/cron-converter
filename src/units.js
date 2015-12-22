@@ -12,7 +12,7 @@ module.exports = [
     max: 23
   },
   {
-    name: 'dayOfMonth',
+    name: 'day',
     min: 1,
     max: 31
   },
@@ -27,7 +27,7 @@ module.exports = [
     ]
   },
   {
-    name: 'dayOfWeek',
+    name: 'weekday',
     min: 0,
     max: 6,
     alt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
