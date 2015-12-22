@@ -28,21 +28,7 @@ Part.prototype.parse = function(str) {
   if (stringParts.length > 2) {
     throw new Error('Interval syntax error');
   }
-  var rangeString = stringParts[0];
-  var step = stringParts[1];
-  if (typeof step !== 'undefined') {
-    step = parseInt(step, 10);
-    if (isNaN(step) || step < 1) {
-      throw new Error('Invalid interval step value');
-    }
-  }
-  step = step || 1;
-  if (unit.alt) {
-    rangeString = rangeString.toUpperCase();
-    for (var i = 0; i < unit.alt.length; i++) {
-      rangeString = rangeString.replace(unit.alt[i], i + unit.min);
-    }
-  }
+  var rangeString = this.replaceAlternatives(stringParts[0]);
   var parsedValues;
   if (rangeString === '*') {
     parsedValues = _.range(unit.min, unit.max + 1);
@@ -69,22 +55,84 @@ Part.prototype.parse = function(str) {
       }
     });
     parsedValues = _.sortBy(_.union(_.flatten(parsed)));
-    var first = parsedValues[0];
-    var last = parsedValues[parsedValues.length - 1];
-    if (first < unit.min || last > unit.max) {
+    if (!this.inRange(parsedValues)) {
       throw new Error('Value out of range');
     }
   }
-  // Apply interval step
-  if (step > 1) {
-    parsedValues = parsedValues.filter(function(value) {
+  var step = this.parseStep(stringParts[1]);
+  return this.applyInterval(parsedValues, step);
+};
+
+/**
+ * Parses the step from a part string
+ *
+ * @this {Part}
+ * @param {string} str The step string.
+ * @return {number} The step value.
+ */
+Part.prototype.parseStep = function(step) {
+  if (typeof step !== 'undefined') {
+    step = parseInt(step, 10);
+    if (isNaN(step) || step < 1) {
+      throw new Error('Invalid interval step value');
+    }
+  }
+  return step;
+};
+
+/**
+ * Applies an interval step to a collection of values
+ *
+ * @this {Part}
+ * @param {array} values A collection of numbers.
+ * @param {number} step The step value.
+ * @return {array} The resulting collection.
+ */
+Part.prototype.applyInterval = function(values, step) {
+  if (step) {
+    values = values.filter(function(value) {
       return value % step === 0;
     });
-    if (!parsedValues.length) {
+    if (!values.length) {
       throw new Error('Empty interval value');
     }
   }
-  return parsedValues;
+  return values;
+};
+
+/**
+ * Replaces the alternative representations of numbers in a string
+ *
+ * @this {Part}
+ * @param {string} str The string to process.
+ * @return {string} The processed string.
+ */
+Part.prototype.replaceAlternatives = function(str) {
+  var unit = this.unit;
+  if (unit.alt) {
+    str = str.toUpperCase();
+    for (var i = 0; i < unit.alt.length; i++) {
+      str = str.replace(unit.alt[i], i + unit.min);
+    }
+  }
+  return str;
+};
+
+/**
+ * Checks if a sorted array is in the range of this.unit
+ *
+ * @this {Part}
+ * @param {array} values The values to test.
+ * @return {boolean} Whether the provided values were
+ *                   within the range specified by this.unit
+ */
+Part.prototype.inRange = function(values) {
+  var first = values[0];
+  var last = values[values.length - 1];
+  if (first < this.unit.min || last > this.unit.max) {
+    return false;
+  }
+  return true;
 };
 
 /**
@@ -161,7 +209,7 @@ Part.prototype.isFullInterval = function(step) {
   var unit = this.unit;
   var min = this.min();
   var max = this.max();
-  var haveAllValues = this.values.length == (max - min) / step + 1;
+  var haveAllValues = this.values.length === (max - min) / step + 1;
   if (min - step < unit.min && max + step > unit.max && haveAllValues) {
     return true;
   }
