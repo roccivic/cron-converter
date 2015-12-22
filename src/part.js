@@ -56,7 +56,7 @@ Part.prototype.parse = function(str) {
  *
  * @this {Part}
  * @param {string} range The range string.
- * @return {number} The step value.
+ * @return {array} The resulting array.
  */
 Part.prototype.parseRange = function(range) {
   var subparts = range.split('-');
