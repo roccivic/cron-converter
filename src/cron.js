@@ -67,13 +67,13 @@ Cron.prototype.toString = function() {
 };
 
 /**
- * Returns the time the schedule will run next.
+ * Returns the time the schedule would have run previously.
  *
  * @this {Cron}
- * @return {Date} The time the schedule will run next.
+ * @return {Date} The time the schedule would have run previously.
  */
 Cron.prototype.next = function() {
-  var date = moment().seconds(0).milliseconds(0);
+  var date = moment();
   // Check month
   while (!this.parts[3].has(date.month() + 1)) {
     date.add(1, 'months').startOf('month');
@@ -90,7 +90,36 @@ Cron.prototype.next = function() {
   while (!this.parts[0].has(date.minute())) {
     date.add(1, 'minutes').startOf('minute');
   }
-  console.log(date.toObject());
+  date.seconds(0).milliseconds(0);
+  // Return JS Date object
+  return date.toDate();
+};
+
+/**
+ * Returns the time the schedule would run next.
+ *
+ * @this {Cron}
+ * @return {Date} The time the schedule would run next.
+ */
+Cron.prototype.prev = function() {
+  var date = moment();
+  // Check month
+  while (!this.parts[3].has(date.month() + 1)) {
+    date.subtract(1, 'months').endOf('month');
+  }
+  // Check day of month and weekday
+  while (!this.parts[2].has(date.date()) && !this.parts[4].has(date.day())) {
+    date.subtract(1, 'days').endOf('day');
+  }
+  // Check hour
+  while (!this.parts[1].has(date.hour())) {
+    date.subtract(1, 'hours').endOf('hour');
+  }
+  // Check minute
+  while (!this.parts[0].has(date.minute())) {
+    date.subtract(1, 'minutes').endOf('minute');
+  }
+  date.seconds(0).milliseconds(0);
   // Return JS Date object
   return date.toDate();
 };
