@@ -92,7 +92,7 @@ Cron.prototype.next = function(now, reverse) {
     date[operation](1, 'months')[reset]('month');
   }
   // Check day of month and weekday
-  while (!this.parts[2].has(date.date()) && !this.parts[4].has(date.day())) {
+  while (!this.parts[2].has(date.date()) || !this.parts[4].has(date.day())) {
     date[operation](1, 'days')[reset]('day');
   }
   // Check hour
