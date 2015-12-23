@@ -70,25 +70,38 @@ Cron.prototype.toString = function() {
  * Returns the time the schedule would run next.
  *
  * @this {Cron}
+ * @param {mixed} now Any date object that moment.js will accept.
+ *                    undefined works the same as new Date()
  * @return {Date} The time the schedule would run next.
  */
-Cron.prototype.next = function() {
-  var date = moment();
+Cron.prototype.next = function(now, reverse) {
+  var date = moment(now);
+  if (!date.isValid()) {
+    throw new Error('Invalid date provided');
+  }
+  var operation = 'add';
+  var reset = 'startOf';
+  if (reverse) {
+    operation = 'subtract';
+    reset = 'endOf';
+  }
   // Check month
   while (!this.parts[3].has(date.month() + 1)) {
-    date.add(1, 'months').startOf('month');
+    // date.add(1, 'months').startOf('month')
+    // date.subtract(1, 'months').endOf('month')
+    date[operation](1, 'months')[reset]('month');
   }
   // Check day of month and weekday
   while (!this.parts[2].has(date.date()) && !this.parts[4].has(date.day())) {
-    date.add(1, 'days').startOf('day');
+    date[operation](1, 'days')[reset]('day');
   }
   // Check hour
   while (!this.parts[1].has(date.hour())) {
-    date.add(1, 'hours').startOf('hour');
+    date[operation](1, 'hours')[reset]('hour');
   }
   // Check minute
   while (!this.parts[0].has(date.minute())) {
-    date.add(1, 'minutes').startOf('minute');
+    date[operation](1, 'minutes')[reset]('minute');
   }
   date.seconds(0).milliseconds(0);
   // Return JS Date object
@@ -99,29 +112,12 @@ Cron.prototype.next = function() {
  * Returns the time the schedule would have last run at.
  *
  * @this {Cron}
+ * @param {mixed} now Any date object that moment.js will accept.
+ *                    undefined works the same as new Date()
  * @return {Date} The time the schedule would have last run at.
  */
-Cron.prototype.prev = function() {
-  var date = moment();
-  // Check month
-  while (!this.parts[3].has(date.month() + 1)) {
-    date.subtract(1, 'months').endOf('month');
-  }
-  // Check day of month and weekday
-  while (!this.parts[2].has(date.date()) && !this.parts[4].has(date.day())) {
-    date.subtract(1, 'days').endOf('day');
-  }
-  // Check hour
-  while (!this.parts[1].has(date.hour())) {
-    date.subtract(1, 'hours').endOf('hour');
-  }
-  // Check minute
-  while (!this.parts[0].has(date.minute())) {
-    date.subtract(1, 'minutes').endOf('minute');
-  }
-  date.seconds(0).milliseconds(0);
-  // Return JS Date object
-  return date.toDate();
+Cron.prototype.prev = function(now) {
+  return this.next(now, true);
 };
 
 module.exports = Cron;
