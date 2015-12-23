@@ -234,6 +234,16 @@ Part.prototype.isFullInterval = function(step) {
 };
 
 /**
+ * Checks if the range contains the specified value
+ *
+ * @this {Part}
+ * @return {boolean} Whether the value is present in the range.
+ */
+Part.prototype.has = function(value) {
+  return this.values.indexOf(value) > -1;
+};
+
+/**
  * Returns the range as an array of positive integers.
  *
  * @this {Part}

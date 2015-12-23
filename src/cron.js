@@ -72,24 +72,25 @@ Cron.prototype.toString = function() {
  * @this {Cron}
  * @return {Date} The time the schedule will run next.
  */
-Cron.prototype.next = function () {
+Cron.prototype.next = function() {
   var date = moment().seconds(0).milliseconds(0);
   // Check month
-  while (this.parts[3].toArray().indexOf(date.month() + 1) < 0) {
+  while (!this.parts[3].has(date.month() + 1)) {
     date.add(1, 'months').startOf('month');
   }
   // Check day of month and weekday
-  while (this.parts[2].toArray().indexOf(date.date()) < 0 && this.parts[4].toArray().indexOf(date.day()) < 0) {
+  while (!this.parts[2].has(date.date()) && !this.parts[4].has(date.day())) {
     date.add(1, 'days').startOf('day');
   }
   // Check hour
-  while (this.parts[1].toArray().indexOf(date.hour()) < 0) {
+  while (!this.parts[1].has(date.hour())) {
     date.add(1, 'hours').startOf('hour');
   }
   // Check minute
-  while (this.parts[0].toArray().indexOf(date.minute()) < 0) {
+  while (!this.parts[0].has(date.minute())) {
     date.add(1, 'minutes').startOf('minute');
   }
+  console.log(date.toObject());
   // Return JS Date object
   return date.toDate();
 };
