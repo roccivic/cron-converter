@@ -67,10 +67,10 @@ Cron.prototype.toString = function() {
 };
 
 /**
- * Returns the time the schedule would have run previously.
+ * Returns the time the schedule would run next.
  *
  * @this {Cron}
- * @return {Date} The time the schedule would have run previously.
+ * @return {Date} The time the schedule would run next.
  */
 Cron.prototype.next = function() {
   var date = moment();
@@ -96,10 +96,10 @@ Cron.prototype.next = function() {
 };
 
 /**
- * Returns the time the schedule would run next.
+ * Returns the time the schedule would have last run at.
  *
  * @this {Cron}
- * @return {Date} The time the schedule would run next.
+ * @return {Date} The time the schedule would have last run at.
  */
 Cron.prototype.prev = function() {
   var date = moment();
