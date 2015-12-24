@@ -33,7 +33,7 @@ var shiftDay = function(parts, date, operation, reset) {
   return false;
 };
 
-var shiftHour = function (parts, date, operation, reset) {
+var shiftHour = function(parts, date, operation, reset) {
   var currentDay = date.date();
   // Check hour
   while (!parts[1].has(date.hour())) {
@@ -45,7 +45,7 @@ var shiftHour = function (parts, date, operation, reset) {
   return false;
 };
 
-var shiftMinute = function (parts, date, operation, reset) {
+var shiftMinute = function(parts, date, operation, reset) {
   var currentHour = date.hour();
   // Check minute
   while (!parts[0].has(date.minute())) {
@@ -61,7 +61,9 @@ var shiftMinute = function (parts, date, operation, reset) {
  * Returns the time the schedule would run next.
  *
  * @this {Seeker}
- * @param {Date} now A Date object
+ * @param {array} parts The cron schedule parts.
+ * @param {Date} now A Date object.
+ * @param {boolean} reverse Whether to look for the previous exetution time.
  * @return {Date} The time the schedule would run next.
  */
 Seeker.prototype.next = function(parts, now, reverse) {
@@ -78,11 +80,11 @@ Seeker.prototype.next = function(parts, now, reverse) {
   while (true) {
     shiftMonth(parts, date, operation, reset);
     var monthChanged = shiftDay(parts, date, operation, reset);
-    if (! monthChanged) {
+    if (!monthChanged) {
       var dayChanged = shiftHour(parts, date, operation, reset);
-      if (! dayChanged) {
+      if (!dayChanged) {
         var hourChanged = shiftMinute(parts, date, operation, reset);
-        if (! hourChanged) {
+        if (!hourChanged) {
           break;
         }
       }
@@ -93,13 +95,12 @@ Seeker.prototype.next = function(parts, now, reverse) {
   return date.toDate();
 };
 
-
-
 /**
  * Returns the time the schedule would have last run at.
  *
  * @this {Seeker}
- * @param {Date} now A Date object
+ * @param {array} parts The cron schedule parts.
+ * @param {Date} now A Date object.
  * @return {Date} The time the schedule would have last run at.
  */
 Seeker.prototype.prev = function(parts, now) {

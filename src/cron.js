@@ -79,8 +79,6 @@ Cron.prototype.next = function(now) {
   return this.seeker.next(this.parts, now);
 };
 
-
-
 /**
  * Returns the time the schedule would have last run at.
  *
