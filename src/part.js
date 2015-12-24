@@ -264,6 +264,7 @@ Part.prototype.isFullInterval = function(step) {
  * Checks if the range contains the specified value
  *
  * @this {Part}
+ * @param {number} value The value to look for.
  * @return {boolean} Whether the value is present in the range.
  */
 Part.prototype.has = function(value) {
