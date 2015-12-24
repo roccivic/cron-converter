@@ -14,7 +14,7 @@ describe('Cron', function() {
   });
   it('Result of toArray should not affect object', function() {
     var cron = new Cron();
-    cron.parse('1-10/5 1 1 1 1');
+    cron.fromString('1-10/5 1 1 1 1');
     var arr = cron.toArray();
     assert.deepEqual(
         arr,

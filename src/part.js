@@ -8,12 +8,10 @@ var _ = require('lodash');
  *
  * @constructor
  * @this {Part}
- * @param {string} str The string to be parsed as a range.
  * @param {object} unit The unit of measurement of time (see units.js).
  */
-function Part(str, unit) {
+function Part(unit) {
   this.unit = unit;
-  this.values = this.parse(str);
 }
 
 /**
@@ -22,7 +20,7 @@ function Part(str, unit) {
  * @this {Part}
  * @param {string} str The string to be parsed as a range.
  */
-Part.prototype.parse = function(str) {
+Part.prototype.fromString = function(str) {
   var unit = this.unit;
   var stringParts = str.split('/');
   if (stringParts.length > 2) {
@@ -48,7 +46,7 @@ Part.prototype.parse = function(str) {
     }
   }
   var step = this.parseStep(stringParts[1]);
-  return this.applyInterval(parsedValues, step);
+  this.values = this.applyInterval(parsedValues, step);
 };
 
 /**

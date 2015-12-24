@@ -103,9 +103,9 @@ describe('Part', function() {
     validRanges.forEach(function(validRange) {
       it('Valid string: "' + validRange.input + '"', function() {
         var range = new Part(
-          validRange.input,
           validRange
         );
+        range.fromString(validRange.input);
         assert.deepEqual(
             range.toArray(),
             validRange.arr

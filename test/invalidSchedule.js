@@ -10,7 +10,7 @@ describe('Seeker', function() {
   schedules.forEach(function(schedule) {
     it('Should throw on invalid schedule ' + schedule, function() {
       var cron = new Cron();
-      cron.parse(schedule);
+      cron.fromString(schedule);
       assert.throws(
         function() {
           cron.next();

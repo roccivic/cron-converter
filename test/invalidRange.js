@@ -35,10 +35,7 @@ describe('Part', function() {
       it('Invalid range "' + invalidRange.input + '"', function() {
         assert.throws(
             function() {
-              new Part(
-                invalidRange.input,
-                invalidRange
-              );
+              new Part(invalidRange).fromString(invalidRange.input);
             },
             Error
         );

@@ -24,14 +24,16 @@ function Cron() {
  * @this {Cron}
  * @param {string} str The string to parse.
  */
-Cron.prototype.parse = function(str) {
+Cron.prototype.fromString = function(str) {
   if (typeof str !== 'string') {
     throw new Error('Invalid cron string');
   }
   var parts = str.replace(/\s+/g, ' ').trim().split(' ');
   if (parts.length === 5) {
     this.parts = parts.map(function(str, idx) {
-      return new Part(str, units[idx]);
+      var part = new Part(units[idx]);
+      part.fromString(str);
+      return part;
     });
   } else {
     throw new Error('Invalid cron string format');

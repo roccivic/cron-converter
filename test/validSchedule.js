@@ -5,7 +5,7 @@ describe('Seeker', function() {
   var Cron = require('../src/cron');
   it('Should throw on invalid date', function() {
     var cron = new Cron();
-    cron.parse('* * * * *');
+    cron.fromString('* * * * *');
     assert.throws(
       function() {
         cron.next(NaN);
@@ -66,7 +66,7 @@ describe('Seeker', function() {
   schedules.forEach(function(schedule) {
     it('Should output next schedule time for ' + schedule.schedule, function() {
       var cron = new Cron();
-      cron.parse(schedule.schedule);
+      cron.fromString(schedule.schedule);
       assert.equal(
         cron.next(schedule.now).toJSON(),
         schedule.next
@@ -74,7 +74,7 @@ describe('Seeker', function() {
     });
     it('Should output last schedule time for ' + schedule.schedule, function() {
       var cron = new Cron();
-      cron.parse(schedule.schedule);
+      cron.fromString(schedule.schedule);
       assert.equal(
         cron.prev(schedule.now).toJSON(),
         schedule.prev

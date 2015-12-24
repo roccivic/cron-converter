@@ -29,7 +29,7 @@ describe('Cron', function() {
         var cron = new Cron();
         assert.throws(
             function() {
-              cron.parse(invalid);
+              cron.fromString(invalid);
             },
             Error
         );

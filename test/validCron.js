@@ -45,7 +45,7 @@ describe('Cron', function() {
     validCron.forEach(function(valid) {
       it('Valid string "' + valid.in + '"', function() {
         var cron = new Cron();
-        cron.parse(valid.in);
+        cron.fromString(valid.in);
         assert.equal(
             cron.toString(),
             valid.out
