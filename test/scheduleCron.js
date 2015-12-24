@@ -56,6 +56,12 @@ describe('Cron', function() {
       prev: '2013-02-08T01:30:00.000Z',
       now: '2013-02-08T09:32:00.000Z',
       next: '2013-02-11T01:30:00.000Z'
+    },
+    {
+      schedule: '1-30/10 * * * MON-FRI',
+      prev: '2013-02-08T09:30:00.000Z',
+      now: '2013-02-08T09:32:00.000Z',
+      next: '2013-02-08T10:10:00.000Z'
     }
   ];
   schedules.forEach(function(schedule) {
