@@ -15,7 +15,7 @@ var units = require('./units');
  */
 function Cron() {
   this.parts = null;
-  this.seeker = new Seeker();
+  this.seeker = new Seeker(this);
 }
 
 /**
@@ -97,7 +97,7 @@ Cron.prototype.toArray = function() {
  * @return {Date} The time the schedule would run next.
  */
 Cron.prototype.next = function(now) {
-  return this.seeker.next(this.parts, now);
+  return this.seeker.next(now);
 };
 
 /**
@@ -108,7 +108,7 @@ Cron.prototype.next = function(now) {
  * @return {Date} The time the schedule would have last run at.
  */
 Cron.prototype.prev = function(now) {
-  return this.seeker.prev(this.parts, now);
+  return this.seeker.prev(now);
 };
 
 module.exports = Cron;

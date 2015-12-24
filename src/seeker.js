@@ -9,8 +9,31 @@ var moment = require('moment');
  * @constructor
  * @this {Seeker}
  */
-function Seeker() {
+function Seeker(cron) {
+  this.cron = cron;
 }
+
+/**
+ * Returns the time the schedule would run next.
+ *
+ * @this {Seeker}
+ * @param {Date} now A Date object.
+ * @return {Date} The time the schedule would run next.
+ */
+Seeker.prototype.next = function(now) {
+  return findDate(this.cron.parts, now);
+};
+
+/**
+ * Returns the time the schedule would have last run at.
+ *
+ * @this {Seeker}
+ * @param {Date} now A Date object.
+ * @return {Date} The time the schedule would have last run at.
+ */
+Seeker.prototype.prev = function(now) {
+  return findDate(this.cron.parts, now, true);
+};
 
 var shiftMonth = function(parts, date, operation, reset) {
   // Check month
@@ -57,16 +80,7 @@ var shiftMinute = function(parts, date, operation, reset) {
   return false;
 };
 
-/**
- * Returns the time the schedule would run next.
- *
- * @this {Seeker}
- * @param {array} parts The cron schedule parts.
- * @param {Date} now A Date object.
- * @param {boolean} reverse Whether to look for the previous exetution time.
- * @return {Date} The time the schedule would run next.
- */
-Seeker.prototype.next = function(parts, now, reverse) {
+var findDate = function(parts, now, reverse) {
   var date = moment(now);
   if (!date.isValid()) {
     throw new Error('Invalid date provided');
@@ -97,18 +111,6 @@ Seeker.prototype.next = function(parts, now, reverse) {
   date.seconds(0).milliseconds(0);
   // Return JS Date object
   return date.toDate();
-};
-
-/**
- * Returns the time the schedule would have last run at.
- *
- * @this {Seeker}
- * @param {array} parts The cron schedule parts.
- * @param {Date} now A Date object.
- * @return {Date} The time the schedule would have last run at.
- */
-Seeker.prototype.prev = function(parts, now) {
-  return this.next(parts, now, true);
 };
 
 module.exports = Seeker;
