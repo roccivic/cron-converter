@@ -9,7 +9,7 @@ describe('Cron', function() {
     cron.parse('* * * * *');
     assert.throws(
       function() {
-        cron.prev('not a date');
+        cron.next('not a date');
       },
       Error
     );
@@ -44,6 +44,18 @@ describe('Cron', function() {
       prev: '2013-01-01T01:30:00.000Z',
       now: '2013-02-08T09:32:00.000Z',
       next: '2014-01-01T01:30:00.000Z'
+    },
+    {
+      schedule: '30 1 * * SAT',
+      prev: '2013-02-02T01:30:00.000Z',
+      now: '2013-02-08T09:32:00.000Z',
+      next: '2013-02-09T01:30:00.000Z'
+    },
+    {
+      schedule: '30 1 * * MON-FRI',
+      prev: '2013-02-08T01:30:00.000Z',
+      now: '2013-02-08T09:32:00.000Z',
+      next: '2013-02-11T01:30:00.000Z'
     }
   ];
   schedules.forEach(function(schedule) {
@@ -51,7 +63,7 @@ describe('Cron', function() {
       var cron = new Cron();
       cron.parse(schedule.schedule);
       assert.equal(
-        cron.next(moment(schedule.now)).toJSON(),
+        cron.next(schedule.now).toJSON(),
         schedule.next
       );
     });

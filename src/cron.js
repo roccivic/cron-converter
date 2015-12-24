@@ -3,6 +3,7 @@
 var moment = require('moment');
 
 var Part = require('./part');
+var Seeker = require('./seeker');
 var units = require('./units');
 
 /**
@@ -14,6 +15,7 @@ var units = require('./units');
  */
 function Cron() {
   this.parts = null;
+  this.seeker = new Seeker();
 }
 
 /**
@@ -70,54 +72,24 @@ Cron.prototype.toString = function() {
  * Returns the time the schedule would run next.
  *
  * @this {Cron}
- * @param {mixed} now Any date object that moment.js will accept.
- *                    undefined works the same as new Date()
+ * @param {Date} now A Date object
  * @return {Date} The time the schedule would run next.
  */
-Cron.prototype.next = function(now, reverse) {
-  var date = moment(now);
-  if (!date.isValid()) {
-    throw new Error('Invalid date provided');
-  }
-  var operation = 'add';
-  var reset = 'startOf';
-  if (reverse) {
-    operation = 'subtract';
-    reset = 'endOf';
-  }
-  // Check month
-  while (!this.parts[3].has(date.month() + 1)) {
-    // date.add(1, 'months').startOf('month')
-    // date.subtract(1, 'months').endOf('month')
-    date[operation](1, 'months')[reset]('month');
-  }
-  // Check day of month and weekday
-  while (!this.parts[2].has(date.date()) || !this.parts[4].has(date.day())) {
-    date[operation](1, 'days')[reset]('day');
-  }
-  // Check hour
-  while (!this.parts[1].has(date.hour())) {
-    date[operation](1, 'hours')[reset]('hour');
-  }
-  // Check minute
-  while (!this.parts[0].has(date.minute())) {
-    date[operation](1, 'minutes')[reset]('minute');
-  }
-  date.seconds(0).milliseconds(0);
-  // Return JS Date object
-  return date.toDate();
+Cron.prototype.next = function(now) {
+  return this.seeker.next(this.parts, now);
 };
+
+
 
 /**
  * Returns the time the schedule would have last run at.
  *
  * @this {Cron}
- * @param {mixed} now Any date object that moment.js will accept.
- *                    undefined works the same as new Date()
+ * @param {Date} now A Date object
  * @return {Date} The time the schedule would have last run at.
  */
 Cron.prototype.prev = function(now) {
-  return this.next(now, true);
+  return this.seeker.prev(this.parts, now);
 };
 
 module.exports = Cron;
