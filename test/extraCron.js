@@ -11,6 +11,12 @@ describe('Cron', function() {
     assert.throws(function() {
       cron.toArray();
     }, Error);
+    assert.throws(function() {
+      cron.next();
+    }, Error);
+    assert.throws(function() {
+      cron.prev();
+    }, Error);
   });
   it('Result of toArray should not affect object', function() {
     var cron = new Cron();
