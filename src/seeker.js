@@ -77,7 +77,8 @@ Seeker.prototype.next = function(parts, now, reverse) {
     operation = 'subtract';
     reset = 'endOf';
   }
-  while (true) {
+  var retry = 24;
+  while (--retry) {
     shiftMonth(parts, date, operation, reset);
     var monthChanged = shiftDay(parts, date, operation, reset);
     if (!monthChanged) {
@@ -89,6 +90,9 @@ Seeker.prototype.next = function(parts, now, reverse) {
         }
       }
     }
+  }
+  if (!retry) {
+    throw new Error('Unable to find execution time for schedule');
   }
   date.seconds(0).milliseconds(0);
   // Return JS Date object

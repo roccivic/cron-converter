@@ -1,15 +1,14 @@
 'use strict';
 
 var assert = require('assert');
-var moment = require('moment');
-describe('Cron', function() {
+describe('Seeker', function() {
   var Cron = require('../src/cron');
   it('Should throw on invalid date', function() {
     var cron = new Cron();
     cron.parse('* * * * *');
     assert.throws(
       function() {
-        cron.next('not a date');
+        cron.next(NaN);
       },
       Error
     );
@@ -77,7 +76,7 @@ describe('Cron', function() {
       var cron = new Cron();
       cron.parse(schedule.schedule);
       assert.equal(
-        cron.prev(moment(schedule.now)).toJSON(),
+        cron.prev(schedule.now).toJSON(),
         schedule.prev
       );
     });
