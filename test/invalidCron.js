@@ -36,4 +36,23 @@ describe('Cron', function() {
       });
     });
   });
+  describe('Should throw on invalid cron array', function() {
+    var invalidCron = [
+      [],
+      [[], [], [], [], []],
+      [['a'], [1], [1], [1], [1]],
+      [[0], [0], [0], [0], [0]],
+    ];
+    invalidCron.forEach(function(invalid) {
+      it('Invalid array "' + invalid.join(' ') + '"', function() {
+        var cron = new Cron();
+        assert.throws(
+            function() {
+              cron.fromArray(invalid);
+            },
+            Error
+        );
+      });
+    });
+  });
 });

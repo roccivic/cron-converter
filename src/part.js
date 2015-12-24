@@ -15,6 +15,35 @@ function Part(unit) {
 }
 
 /**
+ * Validates a range of positive integers.
+ *
+ * @this {Part}
+ * @param {array} arr An array of positive integers.
+ */
+Part.prototype.fromArray = function(arr) {
+  var values = _.sortBy(
+    _.union(
+      arr.map(
+        function(value) {
+          value = parseInt(value, 10);
+          if (isNaN(value)) {
+            throw new Error('Invalid value');
+          }
+          return value;
+        }
+      )
+    )
+  );
+  if (!values.length) {
+    throw new Error('Empty interval value');
+  }
+  if (!this.inRange(values)) {
+    throw new Error('Value out of range');
+  }
+  this.values = values;
+};
+
+/**
  * Parses a string as a range of positive integers.
  *
  * @this {Part}

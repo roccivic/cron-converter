@@ -42,6 +42,38 @@ Cron.prototype.fromString = function(str) {
 };
 
 /**
+ * Returns the cron schedule as a string.
+ *
+ * @this {Cron}
+ * @return {string} The cron schedule as a string.
+ */
+Cron.prototype.toString = function() {
+  if (this.parts === null) {
+    throw new Error('No schedule found');
+  }
+  return this.parts.join(' ');
+};
+
+/**
+ * Parses a 2-dimentional array of integers as a cron schedule.
+ *
+ * @this {Cron}
+ * @param {array} cronArr The array to parse.
+ */
+Cron.prototype.fromArray = function(cronArr) {
+  if (cronArr.length === 5) {
+    this.parts = cronArr.map(function(partArr, idx) {
+      var part = new Part(units[idx]);
+      part.fromArray(partArr);
+      return part;
+    });
+  } else {
+    throw new Error('Invalid cron array');
+  }
+  return this;
+};
+
+/**
  * Returns the cron schedule as
  * a 2-dimentional array of integers.
  *
@@ -55,19 +87,6 @@ Cron.prototype.toArray = function() {
   return this.parts.map(function(part) {
     return part.toArray();
   });
-};
-
-/**
- * Returns the cron schedule as a string.
- *
- * @this {Cron}
- * @return {string} The cron schedule as a string.
- */
-Cron.prototype.toString = function() {
-  if (this.parts === null) {
-    throw new Error('No schedule found');
-  }
-  return this.parts.join(' ');
 };
 
 /**
