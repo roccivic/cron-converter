@@ -5,8 +5,8 @@ var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
-var mocha = require('gulp-mocha');
 var source = require('vinyl-source-stream');
+var tape = require('gulp-tape');
 var uglify = require('gulp-uglify');
 
 var allJsFiles = [
@@ -23,7 +23,7 @@ gulp.task('pre-test', function() {
 
 gulp.task('test', ['pre-test'], function() {
   return gulp.src('test/*.js')
-    .pipe(mocha())
+    .pipe(tape())
     .pipe(istanbul.writeReports());
 });
 
