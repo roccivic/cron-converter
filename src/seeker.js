@@ -56,6 +56,7 @@ var findDate = function(parts, now, reverse) {
   if (reverse) {
     operation = 'subtract';
     reset = 'endOf';
+    date.subtract(1, 'minute'); // Ensure prev and next cannot be same time
   }
   var retry = 24;
   while (--retry) {
