@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
+var nodemon = require('gulp-nodemon');
 var source = require('vinyl-source-stream');
 var tape = require('gulp-tape');
 var uglify = require('gulp-uglify');
@@ -25,6 +26,14 @@ gulp.task('test', ['pre-test'], function() {
   return gulp.src('test/*.js')
     .pipe(tape())
     .pipe(istanbul.writeReports());
+});
+
+gulp.task('watch', ['test'], function() {
+  return nodemon({
+    watch: ['src', 'test'],
+    tasks: ['test'],
+    verbose: false
+  });
 });
 
 gulp.task('jscs', function() {
