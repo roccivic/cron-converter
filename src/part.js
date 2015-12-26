@@ -178,10 +178,8 @@ Part.prototype.replaceAlternatives = function(str) {
  */
 Part.prototype.replaceOutputAlternatives = function(str) {
   var unit = this.unit;
-  if (unit.alt) {
-    for (var i = 0; i < unit.alt.length; i++) {
-      str = str.replace(i + unit.min, unit.alt[i]);
-    }
+  for (var i = 0; i < unit.alt.length; i++) {
+    str = str.replace(i + unit.min, unit.alt[i]);
   }
   return str;
 };
