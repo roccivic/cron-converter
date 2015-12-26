@@ -43,6 +43,7 @@ Part.prototype.fromArray = function(arr) {
   if (!values.length) {
     throw new Error('Empty interval value');
   }
+  values = this.fixSunday(values);
   if (!this.inRange(values)) {
     throw new Error('Value out of range');
   }
@@ -76,12 +77,33 @@ Part.prototype.fromString = function(str) {
         )
       )
     );
+    parsedValues = this.fixSunday(parsedValues);
     if (!this.inRange(parsedValues)) {
       throw new Error('Value out of range');
     }
   }
   var step = this.parseStep(stringParts[1]);
   this.values = this.applyInterval(parsedValues, step);
+};
+
+/**
+ * Replace all 7 with 0 as Sunday can
+ * be represented by both.
+ *
+ * @this {Part}
+ * @param {array} values The values to process.
+ * @return {array} The resulting array.
+ */
+Part.prototype.fixSunday = function(values) {
+  if (this.unit.name === 'weekday') {
+    values = values.map(function(value) {
+      if (value === 7) {
+        return 0;
+      }
+      return value;
+    });
+  }
+  return values;
 };
 
 /**
