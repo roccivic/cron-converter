@@ -11,9 +11,15 @@ var units = require('./units');
  * Cron objects each represent a cron schedule.
  *
  * @constructor
+ * @param {object} options The options to use
  * @this {Cron}
  */
-function Cron() {
+function Cron(options) {
+  if (options) {
+    this.options = options;
+  } else {
+    this.options = {};
+  }
   this.parts = null;
   this.seeker = new Seeker(this);
 }
@@ -30,8 +36,9 @@ Cron.prototype.fromString = function(str) {
   }
   var parts = str.replace(/\s+/g, ' ').trim().split(' ');
   if (parts.length === 5) {
+    var options = this.options;
     this.parts = parts.map(function(str, idx) {
-      var part = new Part(units[idx]);
+      var part = new Part(units[idx], options);
       part.fromString(str);
       return part;
     });

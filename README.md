@@ -82,6 +82,18 @@ console.log(cronInstance.next(now));
 console.log(cronInstance.prev(now));
 ```
 
+### Constructor options
+```js
+var cronInstance = new Cron({
+  outputWeekdayNames: true,
+  outputMonthNames: true
+});
+cronInstance.fromString('* * * 1-3 1-5');
+
+// Prints: '* * * JAN-MAR MON-FRI'
+console.log(cronInstance.toString());
+```
+
 ## Test and build
 
 ```bash

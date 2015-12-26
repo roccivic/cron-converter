@@ -9,8 +9,14 @@ var _ = require('lodash');
  * @constructor
  * @this {Part}
  * @param {object} unit The unit of measurement of time (see units.js).
+ * @param {object} options The options to use
  */
-function Part(unit) {
+function Part(unit, options) {
+  if (options) {
+    this.options = options;
+  } else {
+    this.options = {};
+  }
   this.unit = unit;
 }
 
@@ -157,6 +163,24 @@ Part.prototype.replaceAlternatives = function(str) {
     str = str.toUpperCase();
     for (var i = 0; i < unit.alt.length; i++) {
       str = str.replace(unit.alt[i], i + unit.min);
+    }
+  }
+  return str;
+};
+
+/**
+ * Replaces the alternative number representations of strings.
+ * Used for weekdays and months.
+ *
+ * @this {Part}
+ * @param {string} str The string to process.
+ * @return {string} The processed string.
+ */
+Part.prototype.replaceOutputAlternatives = function(str) {
+  var unit = this.unit;
+  if (unit.alt) {
+    for (var i = 0; i < unit.alt.length; i++) {
+      str = str.replace(i + unit.min, unit.alt[i]);
     }
   }
   return str;
@@ -313,24 +337,32 @@ Part.prototype.toRanges = function() {
  * @return {string} The range as a string.
  */
 Part.prototype.toString = function() {
+  var retval = "";
   if (this.isFull()) {
-    return '*';
-  }
-  var step = this.getStep();
-  if (step && this.isInterval(step)) {
-    if (this.isFullInterval(step)) {
-      return '*/' + step;
-    } else {
-      return this.min() + '-' + this.max() + '/' + step;
-    }
+    retval = '*';
   } else {
-    return this.toRanges().map(function(range) {
-      if (range.length) {
-        return range[0] + '-' + range[1];
+    var step = this.getStep();
+    if (step && this.isInterval(step)) {
+      if (this.isFullInterval(step)) {
+        retval = '*/' + step;
+      } else {
+        retval = this.min() + '-' + this.max() + '/' + step;
       }
-      return range;
-    }).join(',');
+    } else {
+      retval = this.toRanges().map(function(range) {
+        if (range.length) {
+          return range[0] + '-' + range[1];
+        }
+        return range;
+      }).join(',');
+    }
+    if (this.options.outputWeekdayNames && this.unit.name == 'weekday') {
+      retval = this.replaceOutputAlternatives(retval);
+    } else if (this.options.outputMonthNames && this.unit.name == 'month') {
+      retval = this.replaceOutputAlternatives(retval);
+    }
   }
+  return retval;
 };
 
 module.exports = Part;
