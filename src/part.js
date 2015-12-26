@@ -335,7 +335,7 @@ Part.prototype.toRanges = function() {
  * @return {string} The range as a string.
  */
 Part.prototype.toString = function() {
-  var retval = "";
+  var retval = '';
   if (this.isFull()) {
     retval = '*';
   } else {
