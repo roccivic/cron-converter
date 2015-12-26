@@ -103,3 +103,5 @@ npm install -g gulp
 npm install
 gulp
 ```
+
+Run ```gulp watch``` to continuously run unit tests as you edit the code
