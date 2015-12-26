@@ -29,21 +29,22 @@ function Part(unit, options) {
 Part.prototype.fromArray = function(arr) {
   var values = _.sortBy(
     _.union(
-      arr.map(
-        function(value) {
-          value = parseInt(value, 10);
-          if (isNaN(value)) {
-            throw new Error('Invalid value');
+      this.fixSunday(
+        arr.map(
+          function(value) {
+            value = parseInt(value, 10);
+            if (isNaN(value)) {
+              throw new Error('Invalid value');
+            }
+            return value;
           }
-          return value;
-        }
+        )
       )
     )
   );
   if (!values.length) {
     throw new Error('Empty interval value');
   }
-  values = this.fixSunday(values);
   if (!this.inRange(values)) {
     throw new Error('Value out of range');
   }
@@ -69,15 +70,16 @@ Part.prototype.fromString = function(str) {
   } else {
     parsedValues = _.sortBy(
       _.union(
-        _.flatten(
-          _.map(
-            rangeString.split(','),
-            this.parseRange
+        this.fixSunday(
+          _.flatten(
+            _.map(
+              rangeString.split(','),
+              this.parseRange
+            )
           )
         )
       )
     );
-    parsedValues = this.fixSunday(parsedValues);
     if (!this.inRange(parsedValues)) {
       throw new Error('Value out of range');
     }
