@@ -6,6 +6,7 @@ var istanbul = require('gulp-istanbul');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
+var sloc = require('gulp-sloc');
 var source = require('vinyl-source-stream');
 var tape = require('gulp-tape');
 var uglify = require('gulp-uglify');
@@ -48,6 +49,11 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter());
 });
 
+gulp.task('sloc', function() {
+  return gulp.src(allJsFiles)
+    .pipe(sloc());
+});
+
 gulp.task('coveralls', ['test'], function() {
   return gulp.src('coverage/lcov.info')
     .pipe(coveralls());
@@ -65,7 +71,7 @@ gulp.task('dist', function() {
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('lint', ['jshint', 'jscs']);
+gulp.task('lint', ['sloc', 'jshint', 'jscs']);
 
 gulp.task('default', ['build']);
 
