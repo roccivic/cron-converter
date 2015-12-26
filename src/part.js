@@ -361,14 +361,26 @@ Part.prototype.toRanges = function() {
 Part.prototype.toString = function() {
   var retval = '';
   if (this.isFull()) {
-    retval = '*';
+    if (this.options.outputHashes) {
+      retval = 'H';
+    } else {
+      retval = '*';
+    }
   } else {
     var step = this.getStep();
     if (step && this.isInterval(step)) {
       if (this.isFullInterval(step)) {
-        retval = '*/' + step;
+        if (this.options.outputHashes) {
+          retval = 'H/' + step;
+        } else {
+          retval = '*/' + step;
+        }
       } else {
-        retval = this.min() + '-' + this.max() + '/' + step;
+        if (this.options.outputHashes) {
+          retval = 'H(' + this.min() + '-' + this.max() + ')/' + step;
+        } else {
+          retval = this.min() + '-' + this.max() + '/' + step;
+        }
       }
     } else {
       retval = this.toRanges().map(function(range) {

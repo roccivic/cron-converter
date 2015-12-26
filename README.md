@@ -83,14 +83,16 @@ console.log(cronInstance.prev(now));
 ```
 
 ### Constructor options
+All default to ```false```
 ```js
 var cronInstance = new Cron({
   outputWeekdayNames: true,
-  outputMonthNames: true
+  outputMonthNames: true,
+  outputHashes: true
 });
-cronInstance.fromString('* * * 1-3 1-5');
+cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
 
-// Prints: '* * * JAN-MAR MON-FRI'
+// Prints: 'H/5 H(10-16)/2 H JAN-MAR MON-FRI'
 console.log(cronInstance.toString());
 ```
 
