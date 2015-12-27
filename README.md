@@ -16,12 +16,12 @@ Cron string parser for node and the browser
 
 ## Install
 
+#### Npm
 ```bash
 npm install cron-converter --save
 ```
 
-or
-
+#### Bower
 ```bash
 bower install cron-converter --save
 ```
