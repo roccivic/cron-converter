@@ -167,9 +167,9 @@ Part.prototype.applyInterval = function(values, step) {
     values = values.filter(function(value) {
       return value % step === 0;
     });
-    if (!values.length) {
-      throw new Error('Empty interval value');
-    }
+  }
+  if (!values.length) {
+    throw new Error('Empty interval value');
   }
   return values;
 };

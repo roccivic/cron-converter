@@ -28,6 +28,11 @@ var invalidRanges = [
     input: '**',
     min: 1,
     max: 10
+  },
+  {
+    input: '0-',
+    min: 0,
+    max: 10
   }
 ];
 invalidRanges.forEach(function(invalidRange) {
