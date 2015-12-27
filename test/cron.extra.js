@@ -6,18 +6,46 @@ var Cron = require('../src/cron');
 test('Should throw when uninstanciated', function(t) {
   var cron = new Cron();
   t.plan(4);
-  t.throws(function() {
+  try {
     cron.toString();
-  }, Error);
-  t.throws(function() {
+    t.fail('Missing expected exception');
+  } catch (e) {
+    t.equal(
+      e.message,
+      'No schedule found',
+      'on toString'
+    );
+  }
+  try {
     cron.toArray();
-  }, Error);
-  t.throws(function() {
+    t.fail('Missing expected exception');
+  } catch (e) {
+    t.equal(
+      e.message,
+      'No schedule found',
+      'on toArray'
+    );
+  }
+  try {
     cron.next();
-  }, Error);
-  t.throws(function() {
+    t.fail('Missing expected exception');
+  } catch (e) {
+    t.equal(
+      e.message,
+      'No schedule found',
+      'on next'
+    );
+  }
+  try {
     cron.prev();
-  }, Error);
+    t.fail('Missing expected exception');
+  } catch (e) {
+    t.equal(
+      e.message,
+      'No schedule found',
+      'on prev'
+    );
+  }
 });
 test('Result of toArray should not affect object', function(t) {
   var cron = new Cron();
