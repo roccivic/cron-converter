@@ -1,7 +1,3 @@
 {
-  "node": true,
-  "globals": {
-    "describe": true,
-    "it": true
-  }
+  "node": true
 }
