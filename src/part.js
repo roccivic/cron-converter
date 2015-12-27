@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var util = require('util');
 
 /**
  * Creates an instance of Part.
@@ -193,22 +194,6 @@ Part.prototype.replaceAlternatives = function(str) {
 };
 
 /**
- * Replaces the alternative number representations of strings.
- * Used for weekdays and months.
- *
- * @this {Part}
- * @param {string} str The string to process.
- * @return {string} The processed string.
- */
-Part.prototype.replaceOutputAlternatives = function(str) {
-  var unit = this.unit;
-  for (var i = 0; i < unit.alt.length; i++) {
-    str = str.replace(i + unit.min, unit.alt[i]);
-  }
-  return str;
-};
-
-/**
  * Checks if a sorted array is in the range of this.unit
  *
  * @this {Part}
@@ -368,35 +353,57 @@ Part.prototype.toString = function() {
     }
   } else {
     var step = this.getStep();
+    var format;
     if (step && this.isInterval(step)) {
       if (this.isFullInterval(step)) {
         if (this.options.outputHashes) {
-          retval = 'H/' + step;
+          format = 'H/%d';
         } else {
-          retval = '*/' + step;
+          format = '*/%d';
         }
+        retval = util.format(format, step);
       } else {
         if (this.options.outputHashes) {
-          retval = 'H(' + this.min() + '-' + this.max() + ')/' + step;
+          format = 'H(%s-%s)/%d';
         } else {
-          retval = this.min() + '-' + this.max() + '/' + step;
+          format = '%s-%s/%d';
         }
+        retval = util.format(
+          format,
+          this.formatValue(this.min()),
+          this.formatValue(this.max()),
+          step
+        );
       }
     } else {
       retval = this.toRanges().map(function(range) {
         if (range.length) {
-          return range[0] + '-' + range[1];
+          return util.format(
+            '%s-%s',
+            this.formatValue(range[0]),
+            this.formatValue(range[1])
+          );
         }
-        return range;
-      }).join(',');
-    }
-    if (this.options.outputWeekdayNames && this.unit.name == 'weekday') {
-      retval = this.replaceOutputAlternatives(retval);
-    } else if (this.options.outputMonthNames && this.unit.name == 'month') {
-      retval = this.replaceOutputAlternatives(retval);
+        return this.formatValue(range);
+      }, this).join(',');
     }
   }
   return retval;
+};
+
+/**
+ * Formats weekday and month names as string
+ * when the relevant options are set.
+ *
+ * @param {number} value The value to process.
+ * @return {mixed} The formatted string or number.
+ */
+Part.prototype.formatValue = function(value) {
+  if (this.options.outputWeekdayNames && this.unit.name === 'weekday' ||
+    this.options.outputMonthNames && this.unit.name === 'month') {
+    return this.unit.alt[value - this.unit.min];
+  }
+  return value;
 };
 
 module.exports = Part;
