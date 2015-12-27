@@ -74,10 +74,10 @@ gulp.task('dist', function() {
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('lint', ['sloc', 'jshint', 'jscs']);
+gulp.task('lint', ['jshint', 'jscs']);
 
 gulp.task('default', ['build']);
 
-gulp.task('travis', ['lint', 'coveralls']);
+gulp.task('travis', ['sloc', 'lint', 'coveralls']);
 
 gulp.task('build', ['lint', 'test', 'dist']);
