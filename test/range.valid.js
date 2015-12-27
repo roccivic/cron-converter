@@ -99,20 +99,22 @@ var validRanges = [
     max: 59
   }
 ];
-validRanges.forEach(function(validRange) {
-  test('Should parse valid string: "' + validRange.input + '"', function(t) {
+test('Should parse valid string', function(t) {
+  t.plan(validRanges.length * 2);
+  validRanges.forEach(function(validRange) {
     var range = new Part(
       validRange
     );
-    t.plan(2);
     range.fromString(validRange.input);
     t.deepEqual(
-        range.toArray(),
-        validRange.arr
+      range.toArray(),
+      validRange.arr,
+      validRange.input + ' as array'
     );
     t.equal(
-        range.toString(),
-        validRange.output
+      range.toString(),
+      validRange.output,
+      validRange.input + ' as string'
     );
   });
 });

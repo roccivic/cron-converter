@@ -7,16 +7,17 @@ var Cron = require('../src/cron');
 var schedules = [
   '* * 30 FEB *'
 ];
-schedules.forEach(function(schedule) {
-  test('Should throw on invalid schedule ' + schedule, function(t) {
+test('Should throw on invalid schedule', function(t) {
+  t.plan(schedules.length);
+  schedules.forEach(function(schedule) {
     var cron = new Cron();
-    t.plan(1);
     cron.fromString(schedule);
     t.throws(
       function() {
         cron.next();
       },
-      Error
+      Error,
+      schedule
     );
   });
 });

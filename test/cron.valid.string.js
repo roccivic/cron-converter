@@ -50,14 +50,15 @@ var validCron = [
   }
 ];
 
-validCron.forEach(function(valid) {
-  test('Should parse valid cron string "' + valid.in + '"', function(t) {
+test('Should parse valid cron string', function(t) {
+  t.plan(validCron.length);
+  validCron.forEach(function(valid) {
     var cron = new Cron();
-    t.plan(1);
     cron.fromString(valid.in);
     t.equal(
       cron.toString(),
-      valid.out
+      valid.out,
+      valid.in
     );
   });
 });

@@ -18,17 +18,15 @@ var validCron = [
   }
 ];
 
-validCron.forEach(function(valid) {
-  test(
-    'Should parse valid cron array "' + valid.in.join(' ') + '"',
-    function(t) {
-      var cron = new Cron();
-      t.plan(1);
-      cron.fromArray(valid.in);
-      t.equal(
-        cron.toString(),
-        valid.out
-      );
-    }
-  );
+test('Should parse valid cron array', function(t) {
+  t.plan(validCron.length);
+  validCron.forEach(function(valid) {
+    var cron = new Cron();
+    cron.fromArray(valid.in);
+    t.equal(
+      cron.toString(),
+      valid.out,
+      valid.in.join(' ')
+    );
+  });
 });

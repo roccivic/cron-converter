@@ -65,23 +65,20 @@ var schedules = [
     next: '2013-02-08T09:30:00.000Z'
   }
 ];
-schedules.forEach(function(s) {
-  test('Should output next schedule time for ' + s.schedule, function(t) {
+test('Should output execution time for valid schedule', function(t) {
+  t.plan(schedules.length * 2);
+  schedules.forEach(function(s) {
     var cron = new Cron();
-    t.plan(1);
     cron.fromString(s.schedule);
     t.equal(
       cron.next(s.now).toJSON(),
-      s.next
+      s.next,
+      'Next for ' + s.schedule
     );
-  });
-  test('Should output last schedule time for ' + s.schedule, function(t) {
-    var cron = new Cron();
-    t.plan(1);
-    cron.fromString(s.schedule);
     t.equal(
       cron.prev(s.now).toJSON(),
-      s.prev
+      s.prev,
+      'Prev for ' + s.schedule
     );
   });
 });

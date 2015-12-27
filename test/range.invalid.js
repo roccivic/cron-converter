@@ -35,17 +35,15 @@ var invalidRanges = [
     max: 10
   }
 ];
-invalidRanges.forEach(function(invalidRange) {
-  test(
-    'Should throw on invalid range string "' + invalidRange.input + '"',
-    function(t) {
-      t.plan(1);
-      t.throws(
-          function() {
-            new Part(invalidRange).fromString(invalidRange.input);
-          },
-          Error
-      );
-    }
-  );
+test('Should throw on invalid range string', function(t) {
+  t.plan(invalidRanges.length);
+  invalidRanges.forEach(function(invalidRange) {
+    t.throws(
+      function() {
+        new Part(invalidRange).fromString(invalidRange.input);
+      },
+      Error,
+      invalidRange.input
+    );
+  });
 });

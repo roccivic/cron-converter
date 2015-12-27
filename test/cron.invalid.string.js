@@ -24,15 +24,16 @@ var invalidCron = [
   '5/ * * * *'
 ];
 
-invalidCron.forEach(function(invalid) {
-  test('Should throw on invalid cron string "' + invalid + '"', function(t) {
+test('Should throw on invalid cron string', function(t) {
+  t.plan(invalidCron.length);
+  invalidCron.forEach(function(invalid) {
     var cron = new Cron();
-    t.plan(1);
     t.throws(
       function() {
         cron.fromString(invalid);
       },
-      Error
+      Error,
+      invalid
     );
   });
 });
