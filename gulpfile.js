@@ -8,6 +8,7 @@ var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var sloc = require('gulp-sloc');
 var source = require('vinyl-source-stream');
+var spec = require('tap-spec');
 var tape = require('gulp-tape');
 var uglify = require('gulp-uglify');
 
@@ -25,7 +26,9 @@ gulp.task('pre-test', function() {
 
 gulp.task('test', ['pre-test'], function() {
   return gulp.src('test/*.js')
-    .pipe(tape())
+    .pipe(tape({
+      reporter: spec()
+    }))
     .pipe(istanbul.writeReports());
 });
 
