@@ -21,7 +21,6 @@ function Cron(options) {
     this.options = {};
   }
   this.parts = null;
-  this.seeker = new Seeker(this);
 }
 
 /**
@@ -101,21 +100,10 @@ Cron.prototype.toArray = function() {
  *
  * @this {Cron}
  * @param {Date} now A Date object
- * @return {Date} The time the schedule would run next.
+ * @return {object} A schedule iterator.
  */
-Cron.prototype.next = function(now) {
-  return this.seeker.next(now);
-};
-
-/**
- * Returns the time the schedule would have last run at.
- *
- * @this {Cron}
- * @param {Date} now A Date object
- * @return {Date} The time the schedule would have last run at.
- */
-Cron.prototype.prev = function(now) {
-  return this.seeker.prev(now);
+Cron.prototype.schedule = function(now) {
+  return new Seeker(this, now);
 };
 
 module.exports = Cron;

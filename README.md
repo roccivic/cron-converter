@@ -57,29 +57,31 @@ cronInstance.fromArray([[0], [1], [1], [5], [0,2,4,6]]);
 console.log(cronInstance.toString());
 ```
 
-### Get next and last execution times
-Assuming now it is 09:32:00 on 08 Feb 2013
+### Get the schedule execution times
 ```js
+// Parse a string to init a schedule
 cronInstance.fromString('*/5 * * * *');
+
+// Get the iterator, initialised to now
+var schedule = cronInstance.schedule();
+
+// Optionally, you can pass in a reference date
+schedule = cronInstance.schedule(
+  new Date(2013, 2, 8, 9, 32)
+);
 
 // Prints: 'Fri Feb 08 2013 09:35:00 GMT+0000 (GMT Standard Time)'
-console.log(cronInstance.next());
+console.log(schedule.next());
+// Prints: 'Fri Feb 08 2013 09:40:00 GMT+0000 (GMT Standard Time)'
+console.log(schedule.next());
+
+// Reset
+schedule.reset();
 
 // Prints: 'Fri Feb 08 2013 09:30:00 GMT+0000 (GMT Standard Time)'
-console.log(cronInstance.prev());
-```
-Pass a reference Date
-```js
-cronInstance.fromString('*/5 * * * *');
-
-// Create a reference Date object
-var now = new Date(2015, 6, 7, 15, 23);
-
-// Prints: 'Tue Jul 07 2015 15:25:00 GMT+0100 (GMT Daylight Time)'
-console.log(cronInstance.next(now));
-
-// Prints: 'Tue Jul 07 2015 15:20:00 GMT+0100 (GMT Daylight Time)'
-console.log(cronInstance.prev(now));
+console.log(schedule.prev());
+// Prints: 'Fri Feb 08 2013 09:25:00 GMT+0000 (GMT Standard Time)'
+console.log(schedule.prev());
 ```
 
 ### Constructor options

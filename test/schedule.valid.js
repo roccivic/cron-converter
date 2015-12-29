@@ -70,13 +70,15 @@ test('Should output execution time for valid schedule', function(t) {
   schedules.forEach(function(s) {
     var cron = new Cron();
     cron.fromString(s.schedule);
+    var schedule = cron.schedule(s.now);
     t.equal(
-      cron.next(s.now).toJSON(),
+      schedule.next().toJSON(),
       s.next,
       'Next for ' + s.schedule
     );
+    schedule.reset();
     t.equal(
-      cron.prev(s.now).toJSON(),
+      schedule.prev().toJSON(),
       s.prev,
       'Prev for ' + s.schedule
     );

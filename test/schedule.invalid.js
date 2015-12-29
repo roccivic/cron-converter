@@ -16,7 +16,7 @@ test('Should throw on invalid schedule', function(t) {
     var cron = new Cron();
     cron.fromString(schedule.string);
     try {
-      cron.next();
+      cron.schedule().next();
       t.fail('Missing expected exception');
     } catch (e) {
       t.equal(
@@ -33,7 +33,7 @@ test('Should throw on invalid date', function(t) {
   t.plan(1);
   cron.fromString('* * * * *');
   try {
-    cron.next(NaN);
+    cron.schedule(NaN);
     t.fail('Missing expected exception');
   } catch (e) {
     t.equal(

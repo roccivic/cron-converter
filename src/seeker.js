@@ -9,48 +9,65 @@ var moment = require('moment');
  * @constructor
  * @this {Seeker}
  */
-function Seeker(cron) {
-  this.cron = cron;
-}
-
-/**
- * Returns the time the schedule would run next.
- *
- * @this {Seeker}
- * @param {Date} now A Date object.
- * @return {Date} The time the schedule would run next.
- */
-Seeker.prototype.next = function(now) {
-  return findDate(this.cron.parts, now);
-};
-
-/**
- * Returns the time the schedule would have last run at.
- *
- * @this {Seeker}
- * @param {Date} now A Date object.
- * @return {Date} The time the schedule would have last run at.
- */
-Seeker.prototype.prev = function(now) {
-  return findDate(this.cron.parts, now, true);
-};
-
-/**
- * Returns the time the schedule would run next.
- *
- * @param {array} parts An array of Cron parts.
- * @param {Date} now The reference date.
- * @param {boolean} reverse Whether to find the previous value instead of next.
- * @return {Date} The date the schedule would have executed at.
- */
-var findDate = function(parts, now, reverse) {
-  if (parts === null) {
+function Seeker(cron, now) {
+  if (cron.parts === null) {
     throw new Error('No schedule found');
   }
   var date = moment(now);
   if (!date.isValid()) {
     throw new Error('Invalid date provided');
   }
+  this.cron = cron;
+  this.now = now;
+  this.date = date;
+  this.pristine = true;
+}
+
+/**
+ * Resets the iterator.
+ *
+ * @this {Seeker}
+ */
+Seeker.prototype.reset = function() {
+  this.pristine = true;
+  this.date = moment(this.now);
+};
+
+/**
+ * Returns the time the schedule would run next.
+ *
+ * @this {Seeker}
+ * @return {Date} The time the schedule would run next.
+ */
+Seeker.prototype.next = function() {
+  if (this.pristine) {
+    this.pristine = false;
+  } else {
+    this.date.add(1, 'minute');
+  }
+  return findDate(this.cron.parts, this.date);
+};
+
+/**
+ * Returns the time the schedule would have last run at.
+ *
+ * @this {Seeker}
+ * @return {Date} The time the schedule would have last run at.
+ */
+Seeker.prototype.prev = function() {
+  this.pristine = false;
+  return findDate(this.cron.parts, this.date, true);
+};
+
+/**
+ * Returns the time the schedule would run next.
+ *
+ * @param {array} parts An array of Cron parts.
+ * @param {Date} date The reference date.
+ * @param {boolean} reverse Whether to find the previous value instead of next.
+ * @return {Date} The date the schedule would have executed at.
+ */
+var findDate = function(parts, date, reverse) {
   var operation = 'add';
   var reset = 'startOf';
   if (reverse) {

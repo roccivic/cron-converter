@@ -5,7 +5,7 @@ var Cron = require('../src/cron');
 
 test('Should throw when uninstanciated', function(t) {
   var cron = new Cron();
-  t.plan(4);
+  t.plan(3);
   try {
     cron.toString();
     t.fail('Missing expected exception');
@@ -27,23 +27,13 @@ test('Should throw when uninstanciated', function(t) {
     );
   }
   try {
-    cron.next();
+    cron.schedule();
     t.fail('Missing expected exception');
   } catch (e) {
     t.equal(
       e.message,
       'No schedule found',
-      'on next'
-    );
-  }
-  try {
-    cron.prev();
-    t.fail('Missing expected exception');
-  } catch (e) {
-    t.equal(
-      e.message,
-      'No schedule found',
-      'on prev'
+      'on schedule'
     );
   }
 });
