@@ -40,16 +40,24 @@ var cronInstance = new Cron();
 
 ### Parse a cron string
 ```js
-cronInstance.fromString('1 1 1 1 1');
+// Every 10 mins between 9am and 5pm on the 1st of every month
+cronInstance.fromString('*/10 9-17 1 * *');
 
-// Prints: [ [1], [1], [1], [1], [1] ]
-console.log(cronInstance.toArray());
-
-// Prints: '1 1 1 1 1'
+// Prints: '*/10 9-17 1 * *'
 console.log(cronInstance.toString());
+
+// Prints:
+// [
+//   [ 0, 10, 20, 30, 40, 50 ],
+//   [ 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
+//   [ 1 ],
+//   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
+//   [ 0, 1, 2, 3, 4, 5, 6 ]
+// ]
+console.log(cronInstance.toArray());
 ```
 
-### Validate an Array
+### Parse an Array
 ```js
 cronInstance.fromArray([[0], [1], [1], [5], [0,2,4,6]]);
 
