@@ -17,8 +17,12 @@ function Seeker(cron, now) {
   if (!date.isValid()) {
     throw new Error('Invalid date provided');
   }
+  if (date.seconds() > 0) {
+    // Add a minute to the date to prevent returning dates in the past
+    date.add(1, 'minute');
+  }
   this.cron = cron;
-  this.now = now;
+  this.now = date;
   this.date = date;
   this.pristine = true;
 }
