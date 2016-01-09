@@ -73,10 +73,14 @@ cronInstance.fromString('*/5 * * * *');
 // Get the iterator, initialised to now
 var schedule = cronInstance.schedule();
 
-// Optionally, you can pass in a reference date
-schedule = cronInstance.schedule(
-  new Date(2013, 2, 8, 9, 32)
-);
+// Optionally, use a reference Date or moment object
+var reference = new Date(2013, 2, 8, 9, 32);
+// or
+reference = moment([2013, 2, 8, 9, 32]);
+// or, if you need to support timezones (requires moment-timezone)
+reference = moment([2013, 2, 8, 9, 32]).tz("Europe/London");
+// And pass the reference to .schedule()
+schedule = cronInstance.schedule(reference);
 
 // Prints: 'Fri Feb 08 2013 09:35:00 GMT+0000 (GMT Standard Time)'
 console.log(schedule.next());
