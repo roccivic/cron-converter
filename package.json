@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "lodash": "~3",
-    "moment": "~2"
+    "moment": "~2",
+    "sprintf-js": "~1"
   },
   "browserify": {
     "transform": [

@@ -26,55 +26,55 @@ var invalidCron = [
   },
   {
     string: '0 0 0 0 0',
-    error: 'Value out of range for day'
+    error: 'Value "0" out of range for day'
   },
   {
     string: '0 0 0 1 0',
-    error: 'Value out of range for day'
+    error: 'Value "0" out of range for day'
   },
   {
     string: '0 0 1 0 0',
-    error: 'Value out of range for month'
+    error: 'Value "0" out of range for month'
   },
   {
     string: '/ / / / /',
-    error: 'Invalid value for minute'
+    error: 'Invalid value "/" for minute'
   },
   {
     string: '60 5 5 5 5',
-    error: 'Value out of range for minute'
+    error: 'Value "60" out of range for minute'
   },
   {
     string: '/5 5 5 5 5',
-    error: 'Invalid value for minute'
+    error: 'Invalid value "/5" for minute'
   },
   {
     string: '10-5/5 5 5 5 5',
-    error: 'Part syntax error: max range is less than min range for minute'
+    error: 'Max range is less than min range in "10-5" for minute'
   },
   {
     string: '* * 0 * *',
-    error: 'Value out of range for day'
+    error: 'Value "0" out of range for day'
   },
   {
     string: '* * * 0 *',
-    error: 'Value out of range for month'
+    error: 'Value "0" out of range for month'
   },
   {
     string: '0/5/5 * * 0 *',
-    error: 'Interval syntax error for minute'
+    error: 'Invalid value "0/5/5" for minute'
   },
   {
     string: '1-6/10 * * * *',
-    error: 'Empty interval value for minute'
+    error: 'Empty interval value "1-6/10" for minute'
   },
   {
     string: '5/a * * * *',
-    error: 'Invalid interval step value for minute'
+    error: 'Invalid interval step value "a" for minute'
   },
   {
     string: '5/ * * * *',
-    error: 'Invalid interval step value for minute'
+    error: 'Invalid interval step value "" for minute'
   }
 ];
 

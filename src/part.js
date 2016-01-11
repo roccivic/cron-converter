@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var util = require('util');
+var sprintf = require('sprintf-js').sprintf;
 
 /**
  * Creates an instance of Part.
@@ -27,18 +27,16 @@ function Part(unit, options) {
  *
  * @this {Part}
  * @param {string} format A format string to use for the message.
- * @param {array} params The parameters to interpolate into the format string.
+ * @param {array} param The parameter to interpolate into the format string.
  */
-Part.prototype.throw = function(format, params) {
-  var message = format;
-  if (params) {
-    message = util.format.apply(arguments);
-  }
+Part.prototype.throw = function(format, param) {
   throw new Error(
-    util.format(
-      '%s for %s',
-      message,
-      this.unit.name
+    sprintf(
+      '%(error)s for %(unitName)s',
+      {
+        error: sprintf(format, param),
+        unitName: this.unit.name
+      }
     )
   );
 };
@@ -55,21 +53,23 @@ Part.prototype.fromArray = function(arr) {
       this.fixSunday(
         arr.map(
           function(value) {
-            value = parseInt(value, 10);
-            if (isNaN(value)) {
-              this.throw('Invalid value');
+            var parsedValue = parseInt(value, 10);
+            if (isNaN(parsedValue)) {
+              this.throw('Invalid value "%s"', value);
             }
-            return value;
-          }
-        , this)
+            return parsedValue;
+          },
+          this
+        )
       )
     )
   );
   if (!values.length) {
     this.throw('Empty interval value');
   }
-  if (!this.inRange(values)) {
-    this.throw('Value out of range');
+  var value = this.outOfRange(values);
+  if (typeof value !== 'undefined') {
+    this.throw('Value "%s" out of range', value);
   }
   this.values = values;
 };
@@ -84,7 +84,7 @@ Part.prototype.fromString = function(str) {
   var unit = this.unit;
   var stringParts = str.split('/');
   if (stringParts.length > 2) {
-    this.throw('Interval syntax error');
+    this.throw('Invalid value "%s"', str);
   }
   var rangeString = this.replaceAlternatives(stringParts[0]);
   var parsedValues;
@@ -97,18 +97,26 @@ Part.prototype.fromString = function(str) {
           _.flatten(
             _.map(
               rangeString.split(','),
-              this.parseRange
-            , this)
+              function(range) {
+                return this.parseRange(range, str);
+              },
+              this
+            )
           )
         )
       )
     );
-    if (!this.inRange(parsedValues)) {
-      this.throw('Value out of range');
+    var value = this.outOfRange(parsedValues);
+    if (typeof value !== 'undefined') {
+      this.throw('Value "%s" out of range', value);
     }
   }
   var step = this.parseStep(stringParts[1]);
-  this.values = this.applyInterval(parsedValues, step);
+  var intervalValues = this.applyInterval(parsedValues, step);
+  if (!intervalValues.length) {
+    this.throw('Empty interval value "%s"', str);
+  }
+  this.values = intervalValues;
 };
 
 /**
@@ -136,14 +144,15 @@ Part.prototype.fixSunday = function(values) {
  *
  * @this {Part}
  * @param {string} range The range string.
+ * @param {string} context The operation context string.
  * @return {array} The resulting array.
  */
-Part.prototype.parseRange = function(range) {
+Part.prototype.parseRange = function(range, context) {
   var subparts = range.split('-');
   if (subparts.length === 1) {
     var value = parseInt(subparts[0], 10);
     if (isNaN(value)) {
-      this.throw('Invalid value');
+      this.throw('Invalid value "%s"', context);
     }
     return [value];
   } else if (subparts.length === 2) {
@@ -151,12 +160,16 @@ Part.prototype.parseRange = function(range) {
     var maxValue = parseInt(subparts[1], 10);
     if (maxValue <= minValue) {
       this.throw(
-        'Part syntax error: max range is less than min range'
+        'Max range is less than min range in "%s"',
+        range
       );
     }
     return _.range(minValue, maxValue + 1);
   } else {
-    this.throw('Part syntax error');
+    this.throw(
+      'Invalid value "%s"',
+      range
+    );
   }
 };
 
@@ -169,12 +182,12 @@ Part.prototype.parseRange = function(range) {
  */
 Part.prototype.parseStep = function(step) {
   if (typeof step !== 'undefined') {
-    step = parseInt(step, 10);
-    if (isNaN(step) || step < 1) {
-      this.throw('Invalid interval step value');
+    var parsedStep = parseInt(step, 10);
+    if (isNaN(parsedStep) || parsedStep < 1) {
+      this.throw('Invalid interval step value "%s"', step);
     }
+    return parsedStep;
   }
-  return step;
 };
 
 /**
@@ -190,9 +203,6 @@ Part.prototype.applyInterval = function(values, step) {
     values = values.filter(function(value) {
       return value % step === 0;
     });
-  }
-  if (!values.length) {
-    this.throw('Empty interval value');
   }
   return values;
 };
@@ -216,20 +226,21 @@ Part.prototype.replaceAlternatives = function(str) {
 };
 
 /**
- * Checks if a sorted array is in the range of this.unit
+ * Finds an element from values that is outside of the range of this.unit
  *
  * @this {Part}
  * @param {array} values The values to test.
- * @return {boolean} Whether the provided values were
- *                   within the range specified by this.unit
+ * @return {mixed} An integer is a value out of range was found,
+  *                otherwise undefined.
  */
-Part.prototype.inRange = function(values) {
+Part.prototype.outOfRange = function(values) {
   var first = values[0];
   var last = values[values.length - 1];
-  if (first < this.unit.min || last > this.unit.max) {
-    return false;
+  if (first < this.unit.min) {
+    return first;
+  } else if (last > this.unit.max) {
+    return last;
   }
-  return true;
 };
 
 /**
@@ -383,14 +394,14 @@ Part.prototype.toString = function() {
         } else {
           format = '*/%d';
         }
-        retval = util.format(format, step);
+        retval = sprintf(format, step);
       } else {
         if (this.options.outputHashes) {
           format = 'H(%s-%s)/%d';
         } else {
           format = '%s-%s/%d';
         }
-        retval = util.format(
+        retval = sprintf(
           format,
           this.formatValue(this.min()),
           this.formatValue(this.max()),
@@ -400,7 +411,7 @@ Part.prototype.toString = function() {
     } else {
       retval = this.toRanges().map(function(range) {
         if (range.length) {
-          return util.format(
+          return sprintf(
             '%s-%s',
             this.formatValue(range[0]),
             this.formatValue(range[1])

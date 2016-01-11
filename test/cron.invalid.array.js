@@ -14,11 +14,11 @@ var invalidCron = [
   },
   {
     array: [['a'], [1], [1], [1], [1]],
-    error: 'Invalid value for minute'
+    error: 'Invalid value "a" for minute'
   },
   {
     array: [[0], [0], [0], [0], [0]],
-    error: 'Value out of range for day'
+    error: 'Value "0" out of range for day'
   }
 ];
 
