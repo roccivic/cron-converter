@@ -10,15 +10,15 @@ var invalidCron = [
   },
   {
     array: [[], [], [], [], []],
-    error: 'Empty interval value'
+    error: 'Empty interval value for minute'
   },
   {
     array: [['a'], [1], [1], [1], [1]],
-    error: 'Invalid value'
+    error: 'Invalid value for minute'
   },
   {
     array: [[0], [0], [0], [0], [0]],
-    error: 'Value out of range'
+    error: 'Value out of range for day'
   }
 ];
 

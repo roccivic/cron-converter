@@ -22,6 +22,28 @@ function Part(unit, options) {
 }
 
 /**
+ * Throws an exception.
+ * Appends the unit name to the message.
+ *
+ * @this {Part}
+ * @param {string} format A format string to use for the message.
+ * @param {array} params The parameters to interpolate into the format string.
+ */
+Part.prototype.throw = function(format, params) {
+  var message = format;
+  if (params) {
+    message = util.format.apply(arguments);
+  }
+  throw new Error(
+    util.format(
+      '%s for %s',
+      message,
+      this.unit.name
+    )
+  );
+};
+
+/**
  * Validates a range of positive integers.
  *
  * @this {Part}
@@ -35,19 +57,19 @@ Part.prototype.fromArray = function(arr) {
           function(value) {
             value = parseInt(value, 10);
             if (isNaN(value)) {
-              throw new Error('Invalid value');
+              this.throw('Invalid value');
             }
             return value;
           }
-        )
+        , this)
       )
     )
   );
   if (!values.length) {
-    throw new Error('Empty interval value');
+    this.throw('Empty interval value');
   }
   if (!this.inRange(values)) {
-    throw new Error('Value out of range');
+    this.throw('Value out of range');
   }
   this.values = values;
 };
@@ -62,7 +84,7 @@ Part.prototype.fromString = function(str) {
   var unit = this.unit;
   var stringParts = str.split('/');
   if (stringParts.length > 2) {
-    throw new Error('Interval syntax error');
+    this.throw('Interval syntax error');
   }
   var rangeString = this.replaceAlternatives(stringParts[0]);
   var parsedValues;
@@ -76,13 +98,13 @@ Part.prototype.fromString = function(str) {
             _.map(
               rangeString.split(','),
               this.parseRange
-            )
+            , this)
           )
         )
       )
     );
     if (!this.inRange(parsedValues)) {
-      throw new Error('Value out of range');
+      this.throw('Value out of range');
     }
   }
   var step = this.parseStep(stringParts[1]);
@@ -121,20 +143,20 @@ Part.prototype.parseRange = function(range) {
   if (subparts.length === 1) {
     var value = parseInt(subparts[0], 10);
     if (isNaN(value)) {
-      throw new Error('Invalid value');
+      this.throw('Invalid value');
     }
     return [value];
   } else if (subparts.length === 2) {
     var minValue = parseInt(subparts[0], 10);
     var maxValue = parseInt(subparts[1], 10);
     if (maxValue <= minValue) {
-      throw new Error(
+      this.throw(
         'Part syntax error: max range is less than min range'
       );
     }
     return _.range(minValue, maxValue + 1);
   } else {
-    throw new Error('Part syntax error');
+    this.throw('Part syntax error');
   }
 };
 
@@ -149,7 +171,7 @@ Part.prototype.parseStep = function(step) {
   if (typeof step !== 'undefined') {
     step = parseInt(step, 10);
     if (isNaN(step) || step < 1) {
-      throw new Error('Invalid interval step value');
+      this.throw('Invalid interval step value');
     }
   }
   return step;
@@ -170,7 +192,7 @@ Part.prototype.applyInterval = function(values, step) {
     });
   }
   if (!values.length) {
-    throw new Error('Empty interval value');
+    this.throw('Empty interval value');
   }
   return values;
 };

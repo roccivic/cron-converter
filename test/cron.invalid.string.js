@@ -26,55 +26,55 @@ var invalidCron = [
   },
   {
     string: '0 0 0 0 0',
-    error: 'Value out of range'
+    error: 'Value out of range for day'
   },
   {
     string: '0 0 0 1 0',
-    error: 'Value out of range'
+    error: 'Value out of range for day'
   },
   {
     string: '0 0 1 0 0',
-    error: 'Value out of range'
+    error: 'Value out of range for month'
   },
   {
     string: '/ / / / /',
-    error: 'Invalid value'
+    error: 'Invalid value for minute'
   },
   {
     string: '60 5 5 5 5',
-    error: 'Value out of range'
+    error: 'Value out of range for minute'
   },
   {
     string: '/5 5 5 5 5',
-    error: 'Invalid value'
+    error: 'Invalid value for minute'
   },
   {
     string: '10-5/5 5 5 5 5',
-    error: 'Part syntax error: max range is less than min range'
+    error: 'Part syntax error: max range is less than min range for minute'
   },
   {
     string: '* * 0 * *',
-    error: 'Value out of range'
+    error: 'Value out of range for day'
   },
   {
     string: '* * * 0 *',
-    error: 'Value out of range'
+    error: 'Value out of range for month'
   },
   {
     string: '0/5/5 * * 0 *',
-    error: 'Interval syntax error'
+    error: 'Interval syntax error for minute'
   },
   {
     string: '1-6/10 * * * *',
-    error: 'Empty interval value'
+    error: 'Empty interval value for minute'
   },
   {
     string: '5/a * * * *',
-    error: 'Invalid interval step value'
+    error: 'Invalid interval step value for minute'
   },
   {
     string: '5/ * * * *',
-    error: 'Invalid interval step value'
+    error: 'Invalid interval step value for minute'
   }
 ];
 
