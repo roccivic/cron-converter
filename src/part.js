@@ -1,6 +1,9 @@
 'use strict';
 
-var sprintf = require('sprintf-js').sprintf;
+var sprintf = require('sprintf-js');
+if (typeof sprintf.sprintf === 'function') { // For node.js
+  sprintf = sprintf.sprintf;
+}
 var util = require('./util');
 
 /**

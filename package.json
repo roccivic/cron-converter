@@ -44,6 +44,7 @@
     ]
   },
   "browserify-shim": {
-    "moment": "global:moment"
+    "moment": "global:moment",
+    "sprintf-js": "global:sprintf"
   }
 }

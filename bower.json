@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "moment": "~2"
+    "moment": "~2",
+    "sprintf": "~1"
   }
 }
