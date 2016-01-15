@@ -97,6 +97,13 @@ var validRanges = [
     output: '5,10,15,20,35,40,45',
     min: 0,
     max: 59
+  },
+  {
+    input: '5,5,6,6,7,7',
+    arr: [5,6,7],
+    output: '5-7',
+    min: 0,
+    max: 59
   }
 ];
 test('Should parse valid string', function(t) {

@@ -21,7 +21,6 @@
     "tests"
   ],
   "dependencies": {
-    "lodash": "~3",
     "moment": "~2"
   }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
-var _ = require('lodash');
 var sprintf = require('sprintf-js').sprintf;
+var util = require('./util');
 
 /**
  * Creates an instance of Part.
@@ -48,8 +48,8 @@ Part.prototype.throw = function(format, param) {
  * @param {array} arr An array of positive integers.
  */
 Part.prototype.fromArray = function(arr) {
-  var values = _.sortBy(
-    _.union(
+  var values = util.sort(
+    util.dedup(
       this.fixSunday(
         arr.map(
           function(value) {
@@ -89,14 +89,13 @@ Part.prototype.fromString = function(str) {
   var rangeString = this.replaceAlternatives(stringParts[0]);
   var parsedValues;
   if (rangeString === '*') {
-    parsedValues = _.range(unit.min, unit.max + 1);
+    parsedValues = util.range(unit.min, unit.max);
   } else {
-    parsedValues = _.sortBy(
-      _.union(
+    parsedValues = util.sort(
+      util.dedup(
         this.fixSunday(
-          _.flatten(
-            _.map(
-              rangeString.split(','),
+          util.flatten(
+            rangeString.split(',').map(
               function(range) {
                 return this.parseRange(range, str);
               },
@@ -164,7 +163,7 @@ Part.prototype.parseRange = function(range, context) {
         range
       );
     }
-    return _.range(minValue, maxValue + 1);
+    return util.range(minValue, maxValue);
   } else {
     this.throw(
       'Invalid value "%s"',
@@ -355,7 +354,7 @@ Part.prototype.toArray = function() {
 Part.prototype.toRanges = function() {
   var retval = [];
   var startPart = null;
-  _.forEach(this.values, function(value, index, self) {
+  this.values.forEach(function(value, index, self) {
     if (value !== self[index + 1] - 1) {
       if (startPart !== null) {
         retval.push([startPart, value]);
