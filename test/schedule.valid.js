@@ -96,3 +96,20 @@ test('Should output execution time for valid schedule', function(t) {
     );
   });
 });
+
+test('Should output execution time for valid schedule twice', function(t) {
+  t.plan(2);
+  var cron = new Cron();
+  cron.fromString('*/5 * * * *');
+  var schedule = cron.schedule('2013-02-08T09:32:15.000Z');
+  t.equal(
+    schedule.next().toJSON(),
+    '2013-02-08T09:35:00.000Z',
+    'Next first time'
+  );
+  t.equal(
+    schedule.next().toJSON(),
+    '2013-02-08T09:40:00.000Z',
+    'Next second time'
+  );
+});
