@@ -6,7 +6,7 @@ Cron string parser for node and the browser
 ![](http://img.shields.io/badge/stability-experimental-orange.svg?style=flat)
 [![npm](https://img.shields.io/npm/v/cron-converter.svg)](https://www.npmjs.com/package/cron-converter)
 ![Bower](https://img.shields.io/bower/v/cron-converter.svg)
-[![Build Status](https://travis-ci.org/roccivic/cron-converter.svg)](https://travis-ci.org/roccivic/cron-converter)
+[![Build Status](https://travis-ci.org/roccivic/cron-converter.svg?branch=master)](https://travis-ci.org/roccivic/cron-converter)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
 
 
