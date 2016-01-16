@@ -39,11 +39,6 @@
     "moment-timezone": "~0.5",
     "sprintf-js": "~1"
   },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
   "browserify-shim": {
     "moment": "global:moment",
     "sprintf-js": "global:sprintf"

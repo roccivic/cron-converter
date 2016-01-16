@@ -65,7 +65,10 @@ gulp.task('coveralls', ['test'], function() {
 gulp.task('dist', function() {
   return browserify({
       entries: 'src/cron.js',
-      standalone: 'Cron'
+      standalone: 'Cron',
+      transform: [
+        "browserify-shim"
+      ]
     })
     .bundle()
     .pipe(source('cron.min.js'))
