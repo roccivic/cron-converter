@@ -12,7 +12,10 @@ Cron string parser for node and the browser
 [![Dependency Status](https://david-dm.org/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
 [![devDependency Status](https://david-dm.org/roccivic/cron-converter/dev-status.svg)](https://david-dm.org/roccivic/cron-converter#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/roccivic/cron-converter/badges/gpa.svg)](https://codeclimate.com/github/roccivic/cron-converter)
+
+
 [![Inline docs](http://inch-ci.org/github/roccivic/cron-converter.svg?branch=master)](http://inch-ci.org/github/roccivic/cron-converter)
+[![todofy badge](https://todofy.org/b/roccivic/cron-converter)](https://todofy.org/r/roccivic/cron-converter)
 
 ## Install
 
