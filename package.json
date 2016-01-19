@@ -35,7 +35,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "moment": "~2",
+    "moment-timezone": "~0.5",
     "sprintf-js": "~1"
   },
   "browserify": {

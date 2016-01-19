@@ -80,7 +80,9 @@ var schedules = [
 test('Should output execution time for valid schedule', function(t) {
   t.plan(schedules.length * 2);
   schedules.forEach(function(s) {
-    var cron = new Cron();
+    var cron = new Cron({
+      timezone: 'Europe/London'
+    });
     cron.fromString(s.schedule);
     var schedule = cron.schedule(s.now);
     t.equal(

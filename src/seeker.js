@@ -1,6 +1,6 @@
 'use strict';
 
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 /**
  * Creates an instance of Seeker.
@@ -13,7 +13,12 @@ function Seeker(cron, now) {
   if (cron.parts === null) {
     throw new Error('No schedule found');
   }
-  var date = moment(now);
+  var date;
+  if (cron.options.timezone) {
+    date = moment.tz(now, cron.options.timezone);
+  } else {
+    date = moment(now);
+  }
   if (!date.isValid()) {
     throw new Error('Invalid date provided');
   }

@@ -81,7 +81,8 @@ reference = moment([2013, 2, 8, 9, 32]);
 // And pass the reference to .schedule()
 schedule = cronInstance.schedule(reference);
 
-// Calls to ```.next()``` and ```.prev()``` return a Moment.js object
+// Calls to ```.next()``` and ```.prev()```
+// return a Moment.js object
 
 // Prints: '2013-03-08T09:35:00+00:00''
 console.log(schedule.next().format());
@@ -98,17 +99,39 @@ console.log(schedule.prev().format());
 ```
 
 ### Constructor options
-All default to ```false```
+
+#### outputWeekdayNames and outputMonthNames
+Default: false
 ```js
 var cronInstance = new Cron({
   outputWeekdayNames: true,
-  outputMonthNames: true,
+  outputMonthNames: true
+});
+cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
+// Prints: '*/5 *(10-16)/2 * JAN-MAR MON-FRI'
+console.log(cronInstance.toString());
+```
+
+#### outputHashes
+Default: false
+```js
+var cronInstance = new Cron({
   outputHashes: true
 });
 cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
-
-// Prints: 'H/5 H(10-16)/2 H JAN-MAR MON-FRI'
+// Prints: 'H/5 H(10-16)/2 H 1-3 1-5'
 console.log(cronInstance.toString());
+```
+
+#### timezone
+Default: Local timezone
+```js
+var cronInstance = new Cron({
+  timezone: "Europe/London"
+});
+cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
+// Finds the next execution time in the London timezone
+console.log(cronInstance.schedule().next());
 ```
 
 ## Test and build
