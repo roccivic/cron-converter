@@ -1,7 +1,5 @@
 'use strict';
 
-var moment = require('moment');
-
 var Part = require('./part');
 var Seeker = require('./seeker');
 var units = require('./units');
