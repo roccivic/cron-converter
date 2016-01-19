@@ -77,25 +77,24 @@ var schedule = cronInstance.schedule();
 
 // Optionally, use a reference Date or moment object
 var reference = new Date(2013, 2, 8, 9, 32);
-// or
 reference = moment([2013, 2, 8, 9, 32]);
-// or, if you need to support timezones (requires moment-timezone)
-reference = moment([2013, 2, 8, 9, 32]).tz("Europe/London");
 // And pass the reference to .schedule()
 schedule = cronInstance.schedule(reference);
 
-// Prints: 'Fri Feb 08 2013 09:35:00 GMT+0000 (GMT Standard Time)'
-console.log(schedule.next());
-// Prints: 'Fri Feb 08 2013 09:40:00 GMT+0000 (GMT Standard Time)'
-console.log(schedule.next());
+// Calls to ```.next()``` and ```.prev()``` return a Moment.js object
+
+// Prints: '2013-03-08T09:35:00+00:00''
+console.log(schedule.next().format());
+// Prints: '2013-03-08T09:40:00+00:00''
+console.log(schedule.next().format());
 
 // Reset
 schedule.reset();
 
-// Prints: 'Fri Feb 08 2013 09:30:00 GMT+0000 (GMT Standard Time)'
-console.log(schedule.prev());
-// Prints: 'Fri Feb 08 2013 09:25:00 GMT+0000 (GMT Standard Time)'
-console.log(schedule.prev());
+// Prints: '2013-03-08T09:30:00+00:00''
+console.log(schedule.prev().format());
+// Prints: '2013-03-08T09:25:00+00:00''
+console.log(schedule.prev().format());
 ```
 
 ### Constructor options
