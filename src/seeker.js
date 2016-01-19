@@ -69,7 +69,7 @@ Seeker.prototype.prev = function() {
  * @param {array} parts An array of Cron parts.
  * @param {Date} date The reference date.
  * @param {boolean} reverse Whether to find the previous value instead of next.
- * @return {Date} The date the schedule would have executed at.
+ * @return {Moment} The date the schedule would have executed at.
  */
 var findDate = function(parts, date, reverse) {
   var operation = 'add';
@@ -97,8 +97,8 @@ var findDate = function(parts, date, reverse) {
     throw new Error('Unable to find execution time for schedule');
   }
   date.seconds(0).milliseconds(0);
-  // Return JS Date object
-  return date.toDate();
+  // Return new moment object
+  return moment(date);
 };
 
 /**
