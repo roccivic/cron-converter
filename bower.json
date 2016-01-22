@@ -11,7 +11,8 @@
   ],
   "homepage": "https://github.com/roccivic/cron-converter",
   "moduleType": [
-    "globals"
+    "globals",
+    "amd"
   ],
   "ignore": [
     "**/.*",
