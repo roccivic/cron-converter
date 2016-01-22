@@ -3,6 +3,9 @@ browsers:
   - name: android
     version: latest
 
+  - name: android
+    version: 4.0
+
   - name: iphone
     version: latest
 
@@ -41,3 +44,7 @@ browsers:
   - name: firefox
     platform: windows 10
     version: 4
+
+  - name: opera
+    platform: linux
+    version: latest
