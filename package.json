@@ -8,9 +8,17 @@
     "preversion": "gulp && git add --force dist/cron.min.js && git commit -m \"Updated cron.min.js\""
   },
   "keywords": [
-    "cron"
+    "cron",
+    "cronjob",
+    "crontab",
+    "schedule",
+    "parser"
   ],
   "author": "Rouslan Placella <rouslan@placella.com> (https://github.com/roccivic)",
+  "bugs": {
+    "url": "https://github.com/roccivic/cron-converter/issues"
+  },
+  "homepage": "https://github.com/roccivic/cron-converter#readme",
   "license": "MIT",
   "repository": {
     "type": "git",
