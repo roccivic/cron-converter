@@ -202,8 +202,9 @@ Part.prototype.parseStep = function(step) {
  */
 Part.prototype.applyInterval = function(values, step) {
   if (step) {
+    var minVal = values[0]
     values = values.filter(function(value) {
-      return value % step === 0;
+      return value % step === minVal;
     });
   }
   return values;
@@ -320,7 +321,7 @@ Part.prototype.isFullInterval = function(step) {
   var min = this.min();
   var max = this.max();
   var haveAllValues = this.values.length === (max - min) / step + 1;
-  if (min - step < unit.min && max + step > unit.max && haveAllValues) {
+  if (min === unit.min && max === unit.max && haveAllValues) {
     return true;
   }
   return false;
