@@ -67,7 +67,7 @@ gulp.task('dist', function() {
       entries: 'src/cron.js',
       standalone: 'Cron',
       transform: [
-        "browserify-shim"
+        'browserify-shim'
       ]
     })
     .bundle()
