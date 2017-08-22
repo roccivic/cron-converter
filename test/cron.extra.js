@@ -44,15 +44,15 @@ test('Result of toArray should not affect object', function(t) {
   var arr = cron.toArray();
   t.deepEqual(
       arr,
-      [[5,10],[1],[1],[1],[1]]
+      [[1,6],[1],[1],[1],[1]]
   );
   arr[0] = [5];
   t.deepEqual(
       cron.toArray(),
-      [[5,10],[1],[1],[1],[1]]
+      [[1,6],[1],[1],[1],[1]]
   );
   t.equal(
       cron.toString(),
-      '5,10 1 1 1 1'
+      '1,6 1 1 1 1'
   );
 });
