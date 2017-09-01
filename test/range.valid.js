@@ -72,8 +72,8 @@ var validRanges = [
   },
   {
     input: '1-10/5',
-    arr: [5,10],
-    output: '5,10',
+    arr: [1,6],
+    output: '1,6',
     min: 0,
     max: 59
   },

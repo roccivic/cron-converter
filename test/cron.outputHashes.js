@@ -17,7 +17,7 @@ test('Should output hashes', function(t) {
   cron.fromString('*/5 1-20/5 3,6,9/3 1-3 1-5');
   t.equal(
     cron.toString(),
-    'H/5 H(5-20)/5 H(3-9)/3 1-3 1-5',
+    'H/5 H(1-16)/5 H(3-9)/3 1-3 1-5',
     'for full intervals and range intervals'
   );
 });
@@ -32,6 +32,6 @@ test('Should output hashes for readme', function(t) {
   cron.fromString('*/5 9-17/2 * 1-3 1-5');
   t.equal(
     cron.toString(),
-    'H/5 H(10-16)/2 H JAN-MAR MON-FRI'
+    'H/5 H(9-17)/2 H JAN-MAR MON-FRI'
   );
 });

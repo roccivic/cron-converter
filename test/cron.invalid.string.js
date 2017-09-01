@@ -65,10 +65,6 @@ var invalidCron = [
     error: 'Invalid value "0/5/5" for minute'
   },
   {
-    string: '1-6/10 * * * *',
-    error: 'Empty interval value "1-6/10" for minute'
-  },
-  {
     string: '5/a * * * *',
     error: 'Invalid interval step value "a" for minute'
   },
