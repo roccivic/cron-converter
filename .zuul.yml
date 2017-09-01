@@ -1,50 +1,14 @@
 ui: tape
 browsers:
-  - name: android
+
+  - name: internet explorer
     version: latest
-
-  - name: android
-    version: 4.0
-
-  - name: iphone
-    version: latest
-
-  - name: internet explorer
-    version: 9
-
-  - name: internet explorer
-    version: 10
-
-  - name: internet explorer
-    version: 11
 
   - name: microsoftedge
     version: latest
 
   - name: chrome
-    platform: linux
-    version: latest
-
-  - name: chrome
-    platform: windows 10
-    version: latest
-
-  - name: chrome
-    platform: windows 10
-    version: 26
-
-  - name: firefox
-    platform: linux
     version: latest
 
   - name: firefox
-    platform: windows 10
-    version: latest
-
-  - name: firefox
-    platform: windows 10
-    version: 4
-
-  - name: opera
-    platform: linux
     version: latest
