@@ -93,6 +93,8 @@ Part.prototype.fromString = function(str) {
   var parsedValues;
   if (rangeString === '*') {
     parsedValues = util.range(unit.min, unit.max);
+  } else if (stringParts[1] && this.isStartingDate(rangeString)) {
+    parsedValues = util.range(parseInt(rangeString, 10), unit.max);
   } else {
     parsedValues = util.sort(
       util.dedup(
@@ -440,6 +442,10 @@ Part.prototype.formatValue = function(value) {
     return this.unit.alt[value - this.unit.min];
   }
   return value;
+};
+
+Part.prototype.isStartingDate = function(value) {
+  return value.length > 0 && value.indexOf(',') < 0 && value.indexOf('-') < 0;
 };
 
 module.exports = Part;
