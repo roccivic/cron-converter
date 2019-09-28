@@ -24,21 +24,21 @@ gulp.task('pre-test', function() {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['pre-test'], function() {
+gulp.task('test', gulp.series('pre-test', function() {
   return gulp.src('test/*.js')
     .pipe(tape({
       reporter: spec()
     }))
     .pipe(istanbul.writeReports());
-});
+}));
 
-gulp.task('watch', ['test'], function() {
+gulp.task('watch', gulp.series('test', function() {
   return nodemon({
     watch: ['src', 'test'],
     tasks: ['test'],
     verbose: false
   });
-});
+}));
 
 gulp.task('jscs', function() {
   return gulp.src(allJsFiles)
@@ -57,10 +57,10 @@ gulp.task('sloc', function() {
     .pipe(sloc());
 });
 
-gulp.task('coveralls', ['test'], function() {
+gulp.task('coveralls', gulp.series('test', function() {
   return gulp.src('coverage/lcov.info')
     .pipe(coveralls());
-});
+}));
 
 gulp.task('dist', function() {
   return browserify({
@@ -77,10 +77,11 @@ gulp.task('dist', function() {
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('lint', ['jshint', 'jscs']);
+gulp.task('lint', gulp.series('jshint', 'jscs'));
 
-gulp.task('default', ['build']);
+gulp.task('build', gulp.series('lint', 'test', 'dist'));
 
-gulp.task('travis', ['sloc', 'lint', 'coveralls']);
+gulp.task('default', gulp.series('build'));
 
-gulp.task('build', ['lint', 'test', 'dist']);
+gulp.task('travis', gulp.series('sloc', 'lint', 'coveralls'));
+
