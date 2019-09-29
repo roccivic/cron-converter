@@ -4,7 +4,7 @@ node_js:
 script:
   - yarn build
   - yarn coveralls
-  - node node_modules/zuul/bin/zuul -- test/*.js
+  - yarn zuul
 env:
   global:
   - secure: JvK4pMk+2FsNiwmzSEGIBvfs+J+cz8Qun6HlhRXelFWVWZJV5K1j0hRowpeQsm2yKBlQAi23VDp05UJR9ggT3L/Hx8pak6aM3Vnj4eja3WGBWHvTgZcVZouAZp9Di1VKm+oeD6SknMm8T8qYkltD7gggDdxH0AVuKIHHGne0NF8SmVto4diZxONVUtKM5HYcpLs67okTYJm+IQqN5j9JXuvln9ohrFuoJETAEgiEAbD1G6eIjc3xGr93hM8gutoxOTvM19TxrYxqyoFtrDP2K+hmAGa+bMSj2RFZ6YRCeTEWslKUBwTHDVivrAB59U74r0FeGOfXtyFPSE+DRrkeXFoQikySM8DPs+0mNdQMRUWP1aP51T0ukmoRqPX/Ei4G4nTEP/QecFQTh+A13CuIIGmW4egO3ubVZovfjsNxsQ1FLnDZtcwVe9VCzdVq0StsORhlIX2RU1xRBdhG8LvJsiVL2fU5a0MjVf9vXYQ5fSpNzp/+uD2sLwTs1pVMKRvetrG1o60eCdnW7rUslHiQteap1EhohHzgaF7dootheA3v1yGr5t3GM4xSXib7sDH0tZZ2ybs7ZuEdAqoJTkE6jWbKhS7FIa78Ia5lW8Cv4hJ2L8TagACVxD9XOCyHGxAc7Au9EgAmjHafPoiiv5zhe3kk/3CgqsnMB0I1vQDUNWI=
