@@ -7,7 +7,7 @@
     "lint": "yarn jshint && yarn jscs",
     "jshint": "jshint -c .jshintrc src test",
     "jscs": "jscs -c .jscsrc src test",
-    "build": "yarn lint && yarn test && yarn dist",
+    "build": "yarn lint && yarn coverage && yarn dist",
     "test": "tape test/*",
     "coverage": "nyc --reporter lcov tape test/*",
     "browserify": "browserify -s Cron -e src/cron.js -o temp/cron.bundle.js",
