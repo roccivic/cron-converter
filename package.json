@@ -40,6 +40,7 @@
     "browserify-shim": "^3.8.14",
     "coveralls": "^3.0.6",
     "isparta": "^4.1.1",
+    "jscs": "^3.0.7",
     "jshint": "~2",
     "nyc": "^14.1.1",
     "tape": "^4.11.0",
@@ -47,7 +48,6 @@
     "zuul": "^3.12.0"
   },
   "dependencies": {
-    "jscs": "^3.0.7",
     "moment-timezone": "~0.5",
     "sprintf-js": "~1"
   },
