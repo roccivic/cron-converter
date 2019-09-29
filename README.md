@@ -132,9 +132,8 @@ console.log(cronInstance.schedule().next());
 ```bash
 git clone https://github.com/roccivic/cron-converter
 cd cron-converter
-npm install -g gulp
-npm install
-gulp
+yarn install
+yarn build
 ```
 
-Run ```gulp watch``` to continuously run unit tests as you edit the code
+Run ```yarn watch``` to continuously run unit tests as you edit the code

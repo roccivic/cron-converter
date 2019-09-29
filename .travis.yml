@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - '12.10'
 script:
-  - gulp travis
+  - yarn build
+  - yarn coveralls
   - node node_modules/zuul/bin/zuul -- test/*.js
 env:
   global:

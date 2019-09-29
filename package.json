@@ -4,8 +4,19 @@
   "description": "Cron string converter",
   "main": "src/cron.js",
   "scripts": {
-    "test": "gulp test",
-    "preversion": "gulp && git add --force dist/cron.min.js && git commit -m \"Updated cron.min.js\""
+    "lint": "yarn jshint && yarn jscs",
+    "jshint": "jshint -c .jshintrc src test",
+    "jscs": "jscs -c .jscsrc src test",
+    "build": "yarn lint && yarn test && yarn dist",
+    "test": "tape test/*",
+    "coverage": "nyc --reporter lcov tape test/*",
+    "browserify": "browserify -s Cron -e src/cron.js -o temp/cron.bundle.js",
+    "uglify": "uglifyjs -o dist/cron.min.js temp/cron.bundle.js",
+    "dist": "yarn browserify && yarn uglify && yarn clean-temp",
+    "clean-temp": "rm -rf temp",
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "watch": "nodemon -w src -w test -x yarn test",
+    "preversion": "yarn build && git add --force dist/cron.min.js && git commit -m \"Updated cron.min.js\""
   },
   "keywords": [
     "cron",
@@ -27,25 +38,17 @@
   "devDependencies": {
     "browserify": "~16",
     "browserify-shim": "^3.8.14",
-    "gulp": "^4.0.2",
-    "gulp-coveralls": "^0.1.4",
-    "gulp-istanbul": "^1.1.3",
-    "gulp-jscs": "^4.1.0",
-    "gulp-jshint": "~2",
-    "gulp-nodemon": "^2.4.2",
-    "gulp-sloc": "^1.0.4",
-    "gulp-tape": "1.0.0",
-    "gulp-uglify": "^3.0.2",
+    "isparta": "^4.1.1",
     "jshint": "~2",
-    "tap-spec": "^5.0.0",
     "tape": "^4.11.0",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
     "zuul": "^3.12.0"
   },
   "dependencies": {
+    "jscs": "^3.0.7",
     "moment-timezone": "~0.5",
-    "sprintf-js": "~1"
+    "nyc": "^14.1.1",
+    "sprintf-js": "~1",
+    "uglify-js": "^3.6.0"
   },
   "browserify-shim": {
     "moment": "global:moment",
