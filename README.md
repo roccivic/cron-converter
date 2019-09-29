@@ -13,6 +13,10 @@ Cron string parser for node and the browser
 
 #### Npm
 ```bash
+yarn add cron-converter
+```
+or
+```bash
 npm install cron-converter --save
 ```
 
