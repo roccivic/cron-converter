@@ -160,7 +160,7 @@ Part.prototype.parseRange = function(range, context) {
   } else if (subparts.length === 2) {
     var minValue = parseInt(subparts[0], 10);
     var maxValue = parseInt(subparts[1], 10);
-    if (maxValue <= minValue) {
+    if (maxValue < minValue) {
       this.throw(
         'Max range is less than min range in "%s"',
         range

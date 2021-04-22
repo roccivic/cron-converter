@@ -37,3 +37,12 @@ test('Should not output month names in step', function(t) {
   t.plan(1);
   t.equal(cron.toString(), '* * * */2 1-5');
 });
+test('Should output correct string when min and max range values are the same',
+  function(t) {
+    var cron = new Cron({
+      outputWeekdayNames: true
+    });
+    t.plan(1);
+    cron.fromString('* * * * 1-1');
+    t.equal(cron.toString(), '* * * * MON');
+  });
