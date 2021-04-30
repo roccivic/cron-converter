@@ -2,16 +2,16 @@
 
 Cron string parser for node and the browser
 
-[![MIT License Badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/roccivic/cron-converter/blob/master/LICENCE.txt)
-[![npm](https://img.shields.io/npm/v/cron-converter.svg)](https://www.npmjs.com/package/cron-converter)
-![Bower](https://img.shields.io/bower/v/cron-converter.svg)
-[![Build Status](https://travis-ci.org/roccivic/cron-converter.svg?branch=master)](https://travis-ci.org/roccivic/cron-converter)
+[![npm version](https://badge.fury.io/js/cron-converter.svg)](https://badge.fury.io/js/cron-converter)
+[![Bower version](https://badge.fury.io/bo/cron-converter.svg)](https://badge.fury.io/bo/cron-converter)
+
+[![Build status](https://github.com/roccivic/cron-converter/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/roccivic/cron-converter/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
-[![Dependency Status](https://david-dm.org/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
+[![dependencies Status](https://status.david-dm.org/gh/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
 
 ## Install
 
-#### Npm
+### Npm
 ```bash
 yarn add cron-converter
 ```
@@ -20,7 +20,7 @@ or
 npm install cron-converter --save
 ```
 
-#### Bower
+### Bower
 ```bash
 bower install cron-converter --save
 ```

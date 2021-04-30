@@ -14,7 +14,6 @@
     "uglify": "uglifyjs -o dist/cron.min.js temp/cron.bundle.js",
     "dist": "yarn browserify && yarn uglify && yarn clean-temp",
     "clean-temp": "rm -rf temp",
-    "coveralls": "cat coverage/lcov.info | coveralls",
     "watch": "nodemon -w src -w test -x yarn test",
     "zuul": "zuul -- test/*.js",
     "preversion": "yarn build && git add --force dist/cron.min.js && git commit -m \"Updated cron.min.js\""
@@ -39,7 +38,6 @@
   "devDependencies": {
     "browserify": "~16",
     "browserify-shim": "^3.8.14",
-    "coveralls": "^3.0.6",
     "isparta": "^4.1.1",
     "jscs": "^3.0.7",
     "jshint": "~2",
