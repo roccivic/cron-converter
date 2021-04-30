@@ -75,6 +75,12 @@ var schedules = [
     prev: '2013-02-08T09:20:00.000Z',
     now: '2013-02-08T09:30:00.000Z',
     next: '2013-02-08T09:30:00.000Z'
+  },
+  {
+    schedule: '* 6 * * 1-1',
+    prev: '2013-02-04T06:59:00.000Z',
+    now: '2013-02-08T09:32:15.000Z',
+    next: '2013-02-11T06:00:00.000Z'
   }
 ];
 test('Should output execution time for valid schedule', function(t) {

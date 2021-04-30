@@ -104,7 +104,14 @@ var validRanges = [
     output: '5-7',
     min: 0,
     max: 59
-  }
+  },
+  {
+    input: '1-1',
+    arr: [1],
+    output: '1',
+    min: 1,
+    max: 5
+  },
 ];
 test('Should parse valid string', function(t) {
   t.plan(validRanges.length * 2);
