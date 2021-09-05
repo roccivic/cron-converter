@@ -19,6 +19,7 @@ jobs:
 
     - run: yarn --pure-lockfile
     - run: yarn build
+    - run: yarn coverage
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
