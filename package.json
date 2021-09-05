@@ -4,19 +4,8 @@
   "description": "Cron string converter",
   "main": "src/cron.js",
   "scripts": {
-    "lint": "yarn jshint && yarn jscs",
-    "jshint": "jshint -c .jshintrc src test",
-    "jscs": "jscs -c .jscsrc src test",
-    "build": "yarn lint && yarn coverage && yarn dist",
-    "test": "tape test/*",
-    "coverage": "nyc --reporter lcov tape test/*",
-    "browserify": "browserify -s Cron -e src/cron.js -o temp/cron.bundle.js",
-    "uglify": "uglifyjs -o dist/cron.min.js temp/cron.bundle.js",
-    "dist": "yarn browserify && yarn uglify && yarn clean-temp",
-    "clean-temp": "rm -rf temp",
-    "watch": "nodemon -w src -w test -x yarn test",
-    "zuul": "zuul -- test/*.js",
-    "preversion": "yarn build && git add --force dist/cron.min.js && git commit -m \"Updated cron.min.js\""
+    "test": "mocha --extension ts --require ts-node/register test",
+    "coverage": "nyc -r lcov -e .ts -x 'test/**/*' npm run test"
   },
   "keywords": [
     "cron",
@@ -36,22 +25,16 @@
     "url": "https://github.com/roccivic/cron-converter.git"
   },
   "devDependencies": {
-    "browserify": "~16",
-    "browserify-shim": "^3.8.14",
-    "isparta": "^4.1.1",
-    "jscs": "^3.0.7",
-    "jshint": "~2",
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "mocha": "^9.1.1",
     "nyc": "~15",
-    "tape": "~5",
-    "uglify-js": "^3.6.0",
-    "zuul": "^3.12.0"
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
   },
   "dependencies": {
     "moment-timezone": "~0.5",
     "sprintf-js": "~1"
-  },
-  "browserify-shim": {
-    "moment": "global:moment",
-    "sprintf-js": "global:sprintf"
   }
 }
