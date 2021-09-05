@@ -3,11 +3,10 @@
 Cron string parser for node and the browser
 
 [![npm version](https://badge.fury.io/js/cron-converter.svg)](https://badge.fury.io/js/cron-converter)
-[![Bower version](https://badge.fury.io/bo/cron-converter.svg)](https://badge.fury.io/bo/cron-converter)
+[![dependencies Status](https://status.david-dm.org/gh/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
 
 [![Build status](https://github.com/roccivic/cron-converter/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/roccivic/cron-converter/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
-[![dependencies Status](https://status.david-dm.org/gh/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
 
 ## Install
 
@@ -20,25 +19,18 @@ or
 npm install cron-converter --save
 ```
 
-### Bower
-```bash
-bower install cron-converter --save
-```
-
 ## Use
-This step is for usage from node,
-the bower build exposes a global
-```js
-var Cron = require('cron-converter');
+```ts
+import Cron from 'cron-converter';
 ```
 
 ### Create a new instance
-```js
+```ts
 var cronInstance = new Cron();
 ```
 
 ### Parse a cron string
-```js
+```ts
 // Every 10 mins between 9am and 5pm on the 1st of every month
 cronInstance.fromString('*/10 9-17 1 * *');
 
@@ -57,7 +49,7 @@ console.log(cronInstance.toArray());
 ```
 
 ### Parse an Array
-```js
+```ts
 cronInstance.fromArray([[0], [1], [1], [5], [0,2,4,6]]);
 
 // Prints: '0 1 1 5 */2'
@@ -65,7 +57,7 @@ console.log(cronInstance.toString());
 ```
 
 ### Get the schedule execution times
-```js
+```ts
 // Parse a string to init a schedule
 cronInstance.fromString('*/5 * * * *');
 
@@ -99,7 +91,7 @@ console.log(schedule.prev().format());
 
 #### outputWeekdayNames and outputMonthNames
 Default: false
-```js
+```ts
 var cronInstance = new Cron({
   outputWeekdayNames: true,
   outputMonthNames: true
@@ -111,7 +103,7 @@ console.log(cronInstance.toString());
 
 #### outputHashes
 Default: false
-```js
+```ts
 var cronInstance = new Cron({
   outputHashes: true
 });
@@ -122,7 +114,7 @@ console.log(cronInstance.toString());
 
 #### timezone
 Default: Local timezone
-```js
+```ts
 var cronInstance = new Cron({
   timezone: "Europe/London"
 });
@@ -136,8 +128,7 @@ console.log(cronInstance.schedule().next());
 ```bash
 git clone https://github.com/roccivic/cron-converter
 cd cron-converter
-yarn install
+yarn
 yarn build
+yarn test
 ```
-
-Run ```yarn watch``` to continuously run unit tests as you edit the code

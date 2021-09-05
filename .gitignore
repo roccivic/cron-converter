@@ -1,10 +1,7 @@
 node_modules
-bower_components
 coverage
 dist
-temp
 npm-debug.log
 .zuulrc
 .nyc_output
 .DS_Store
-.idea
