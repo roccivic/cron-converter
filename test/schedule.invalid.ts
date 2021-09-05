@@ -9,7 +9,7 @@ const schedules = [
 ];
 describe("Should throw", function () {
   schedules.forEach(function (schedule) {
-    it('on invalid schedule ' + schedule.string, function () {
+    it("on invalid schedule " + schedule.string, function () {
       const cron = new Cron();
       cron.fromString(schedule.string);
       expect(() => cron.schedule().next()).to.throw(schedule.error);
