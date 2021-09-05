@@ -11,28 +11,34 @@ Cron string parser for node and the browser
 ## Install
 
 ### Npm
+
 ```bash
 yarn add cron-converter
 ```
+
 or
+
 ```bash
 npm install cron-converter --save
 ```
 
 ## Use
+
 ```ts
-import Cron from 'cron-converter';
+import Cron from "cron-converter";
 ```
 
 ### Create a new instance
+
 ```ts
 var cronInstance = new Cron();
 ```
 
 ### Parse a cron string
+
 ```ts
 // Every 10 mins between 9am and 5pm on the 1st of every month
-cronInstance.fromString('*/10 9-17 1 * *');
+cronInstance.fromString("*/10 9-17 1 * *");
 
 // Prints: '*/10 9-17 1 * *'
 console.log(cronInstance.toString());
@@ -49,17 +55,19 @@ console.log(cronInstance.toArray());
 ```
 
 ### Parse an Array
+
 ```ts
-cronInstance.fromArray([[0], [1], [1], [5], [0,2,4,6]]);
+cronInstance.fromArray([[0], [1], [1], [5], [0, 2, 4, 6]]);
 
 // Prints: '0 1 1 5 */2'
 console.log(cronInstance.toString());
 ```
 
 ### Get the schedule execution times
-```ts
+
+````ts
 // Parse a string to init a schedule
-cronInstance.fromString('*/5 * * * *');
+cronInstance.fromString("*/5 * * * *");
 
 // Get the iterator, initialised to now
 var schedule = cronInstance.schedule();
@@ -85,40 +93,46 @@ schedule.reset();
 console.log(schedule.prev().format());
 // Prints: '2013-03-08T09:25:00+00:00''
 console.log(schedule.prev().format());
-```
+````
 
 ### Constructor options
 
 #### outputWeekdayNames and outputMonthNames
+
 Default: false
+
 ```ts
 var cronInstance = new Cron({
   outputWeekdayNames: true,
-  outputMonthNames: true
+  outputMonthNames: true,
 });
-cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
+cronInstance.fromString("*/5 9-17/2 * 1-3 1-5");
 // Prints: '*/5 *(10-16)/2 * JAN-MAR MON-FRI'
 console.log(cronInstance.toString());
 ```
 
 #### outputHashes
+
 Default: false
+
 ```ts
 var cronInstance = new Cron({
-  outputHashes: true
+  outputHashes: true,
 });
-cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
+cronInstance.fromString("*/5 9-17/2 * 1-3 1-5");
 // Prints: 'H/5 H(10-16)/2 H 1-3 1-5'
 console.log(cronInstance.toString());
 ```
 
 #### timezone
+
 Default: Local timezone
+
 ```ts
 var cronInstance = new Cron({
-  timezone: "Europe/London"
+  timezone: "Europe/London",
 });
-cronInstance.fromString('*/5 9-17/2 * 1-3 1-5');
+cronInstance.fromString("*/5 9-17/2 * 1-3 1-5");
 // Finds the next execution time in the London timezone
 console.log(cronInstance.schedule().next());
 ```
