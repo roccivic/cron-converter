@@ -84,41 +84,41 @@ Part.prototype.fromArray = function(arr) {
  * @param {string} str The string to be parsed as a range.
  */
 Part.prototype.fromString = function(str) {
-  var unit = this.unit;
-  var stringParts = str.split('/');
-  if (stringParts.length > 2) {
-    this.throw('Invalid value "%s"', str);
-  }
-  var rangeString = this.replaceAlternatives(stringParts[0]);
-  var parsedValues;
-  if (rangeString === '*') {
-    parsedValues = util.range(unit.min, unit.max);
-  } else {
-    parsedValues = util.sort(
-      util.dedup(
-        this.fixSunday(
-          util.flatten(
-            rangeString.split(',').map(
-              function(range) {
-                return this.parseRange(range, str);
-              },
-              this
-            )
-          )
+  var values = util.sort(
+    util.dedup(
+      this.fixSunday(
+        util.flatten(
+          this.replaceAlternatives(str)
+            .split(',')
+            .map(function(value) {
+              var valueParts = value.split('/');
+              if (valueParts.length > 2) {
+                this.throw('Invalid value "%s"', str);
+              }
+              var parsedValues;
+              var left = valueParts[0];
+              var right = valueParts[1];
+              if (left === '*') {
+                parsedValues = util.range(this.unit.min, this.unit.max);
+              } else {
+                parsedValues = this.parseRange(left, str);
+              }
+              var step = this.parseStep(right);
+              var intervalValues = this.applyInterval(parsedValues, step);
+              if (!intervalValues.length) {
+                this.throw('Empty interval value "%s"', str);
+              }
+              return intervalValues;
+            }, this)
         )
       )
-    );
-    var value = this.outOfRange(parsedValues);
-    if (typeof value !== 'undefined') {
-      this.throw('Value "%s" out of range', value);
-    }
+    )
+  );
+  var value = this.outOfRange(values);
+  if (typeof value !== 'undefined') {
+    this.throw('Value "%s" out of range', value);
   }
-  var step = this.parseStep(stringParts[1]);
-  var intervalValues = this.applyInterval(parsedValues, step);
-  if (!intervalValues.length) {
-    this.throw('Empty interval value "%s"', str);
-  }
-  this.values = intervalValues;
+  this.values = values;
 };
 
 /**
