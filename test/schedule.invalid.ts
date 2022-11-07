@@ -1,4 +1,4 @@
-import Cron from "../src/cron";
+import { Cron } from "../src/cron";
 import { expect } from "chai";
 
 const schedules = [
@@ -12,13 +12,13 @@ describe("Should throw", function () {
     it("on invalid schedule " + schedule.string, function () {
       const cron = new Cron();
       cron.fromString(schedule.string);
-      expect(() => cron.schedule().next()).to.throw(schedule.error);
+      expect(() => cron.schedule(undefined as any).next()).to.throw(schedule.error);
     });
   });
 
   it("on invalid date", function () {
     const cron = new Cron();
     cron.fromString("* * * * *");
-    expect(() => cron.schedule(NaN)).to.throw("Invalid date provided");
+    expect(() => cron.schedule(NaN as any)).to.throw("Invalid date provided");
   });
 });

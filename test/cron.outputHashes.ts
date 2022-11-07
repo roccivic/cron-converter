@@ -1,4 +1,4 @@
-import Cron from "../src/cron";
+import { Cron } from "../src/cron";
 import { expect } from "chai";
 
 describe("Should output hashes", function () {
