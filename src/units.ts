@@ -1,6 +1,6 @@
-'use strict';
+import { Unit } from "./types";
 
-module.exports = [
+export const units : Unit[] = [
   {
     name: 'minute',
     min: 0,

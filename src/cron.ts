@@ -1,8 +1,16 @@
-'use strict';
+"use strict";
 
-var Part = require('./part');
-var Seeker = require('./seeker');
-var units = require('./units');
+import { Part } from "./part";
+import Seeker from "./seeker";
+import { Options } from "./types";
+import { units } from "./units";
+
+const defaultOptions = {
+  outputHashes: false,
+  outputMonthNames: false,
+  outputWeekdayNames: false,
+  timezone: "",
+};
 
 /**
  * Creates an instance of Cron.
@@ -12,7 +20,7 @@ var units = require('./units');
  * @param {object} options The options to use
  * @this {Cron}
  */
-function Cron(options) {
+function Cron(options?: Partial<Options>) {
   if (options) {
     this.options = options;
   } else {
@@ -27,20 +35,20 @@ function Cron(options) {
  * @this {Cron}
  * @param {string} str The string to parse.
  */
-Cron.prototype.fromString = function(str) {
-  if (typeof str !== 'string') {
-    throw new Error('Invalid cron string');
+Cron.prototype.fromString = function (str) {
+  if (typeof str !== "string") {
+    throw new Error("Invalid cron string");
   }
-  var parts = str.replace(/\s+/g, ' ').trim().split(' ');
+  var parts = str.replace(/\s+/g, " ").trim().split(" ");
   if (parts.length === 5) {
     var options = this.options;
-    this.parts = parts.map(function(str, idx) {
+    this.parts = parts.map(function (str, idx) {
       var part = new Part(units[idx], options);
       part.fromString(str);
       return part;
     });
   } else {
-    throw new Error('Invalid cron string format');
+    throw new Error("Invalid cron string format");
   }
   return this;
 };
@@ -51,11 +59,11 @@ Cron.prototype.fromString = function(str) {
  * @this {Cron}
  * @return {string} The cron schedule as a string.
  */
-Cron.prototype.toString = function() {
+Cron.prototype.toString = function () {
   if (this.parts === null) {
-    throw new Error('No schedule found');
+    throw new Error("No schedule found");
   }
-  return this.parts.join(' ');
+  return this.parts.join(" ");
 };
 
 /**
@@ -64,15 +72,15 @@ Cron.prototype.toString = function() {
  * @this {Cron}
  * @param {array} cronArr The array to parse.
  */
-Cron.prototype.fromArray = function(cronArr) {
+Cron.prototype.fromArray = function (cronArr) {
   if (cronArr.length === 5) {
-    this.parts = cronArr.map(function(partArr, idx) {
+    this.parts = cronArr.map(function (partArr, idx) {
       var part = new Part(units[idx]);
       part.fromArray(partArr);
       return part;
     });
   } else {
-    throw new Error('Invalid cron array');
+    throw new Error("Invalid cron array");
   }
   return this;
 };
@@ -84,11 +92,11 @@ Cron.prototype.fromArray = function(cronArr) {
  * @this {Cron}
  * @return {array} The cron schedule as an array.
  */
-Cron.prototype.toArray = function() {
+Cron.prototype.toArray = function () {
   if (this.parts === null) {
-    throw new Error('No schedule found');
+    throw new Error("No schedule found");
   }
-  return this.parts.map(function(part) {
+  return this.parts.map(function (part) {
     return part.toArray();
   });
 };
@@ -100,8 +108,8 @@ Cron.prototype.toArray = function() {
  * @param {Date} now A Date object
  * @return {object} A schedule iterator.
  */
-Cron.prototype.schedule = function(now) {
+Cron.prototype.schedule = function (now) {
   return new Seeker(this, now);
 };
 
-module.exports = Cron;
+export default Cron;

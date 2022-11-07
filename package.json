@@ -4,6 +4,7 @@
   "description": "Cron string converter",
   "main": "src/cron.js",
   "scripts": {
+    "build": "tsc",
     "test": "mocha --extension ts --require ts-node/register test",
     "coverage": "nyc -r lcov -e .ts -x 'test/**/*' npm run test"
   },
