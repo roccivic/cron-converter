@@ -1,26 +1,24 @@
-import { Cron, getSchedule } from "../src/cron";
+import { fromString, getSchedule, toArray, toString } from "../src/cron";
 import { expect } from "chai";
 
 describe("Should throw when uninstanciated", function () {
-  const cron = new Cron();
   it("on toString", function () {
-    expect(() => cron.toString()).to.throw("No schedule found");
+    expect(() => toString(undefined as any)).to.throw("No schedule found");
   });
   it("on toArray", function () {
-    expect(() => cron.toArray()).to.throw("No schedule found");
+    expect(() => toArray(undefined as any)).to.throw("No schedule found");
   });
   it("on schedule", function () {
-    expect(() => getSchedule(cron)).to.throw("No schedule found");
+    expect(() => getSchedule(undefined as any)).to.throw("No schedule found");
   });
 });
 describe("Result of toArray should not affect object", function () {
   it("on change", function () {
-    const cron = new Cron();
-    cron.fromString("1-10/5 1 1 1 1");
-    const arr = cron.toArray();
+    const parts = fromString("1-10/5 1 1 1 1");
+    const arr = toArray(parts);
     expect(arr).to.eql([[1, 6], [1], [1], [1], [1]]);
     arr[0] = [5];
-    expect(cron.toArray()).to.eql([[1, 6], [1], [1], [1], [1]]);
-    expect(cron.toString()).to.equal("1,6 1 1 1 1");
+    expect(toArray(parts)).to.eql([[1, 6], [1], [1], [1], [1]]);
+    expect(toString(parts)).to.equal("1,6 1 1 1 1");
   });
 });

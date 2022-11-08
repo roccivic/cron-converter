@@ -1,4 +1,4 @@
-import { Cron, getSchedule } from "../src/cron";
+import { fromString, getSchedule } from "../src/cron";
 import { expect } from "chai";
 
 const schedules = [
@@ -83,11 +83,8 @@ const schedules = [
 ];
 describe("Should output execution time for valid schedule", function () {
   schedules.forEach(function (s) {
-    const cron = new Cron({
-      timezone: "Europe/London",
-    });
-    cron.fromString(s.schedule);
-    const schedule = getSchedule(cron, s.now);
+    const parts = fromString(s.schedule);
+    const schedule = getSchedule(parts, s.now, "Europe/London");
     it("should find next schedule for " + s.schedule, function () {
       expect(schedule.next().toJSON()).to.equal(s.next);
       schedule.reset();
@@ -99,9 +96,8 @@ describe("Should output execution time for valid schedule", function () {
 });
 
 describe("Should output execution time for valid schedule twice", function () {
-  const cron = new Cron();
-  cron.fromString("*/5 * * * *");
-  const schedule = getSchedule(cron, "2013-02-08T09:32:15.000Z");
+  const parts = fromString("*/5 * * * *");
+  const schedule = getSchedule(parts, "2013-02-08T09:32:15.000Z");
   it("should find schedule for " + schedule, function () {
     expect(schedule.next().toJSON()).to.equal("2013-02-08T09:35:00.000Z");
     expect(schedule.next().toJSON()).to.equal("2013-02-08T09:40:00.000Z");

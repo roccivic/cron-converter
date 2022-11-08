@@ -1,7 +1,6 @@
 "use strict";
 
 import moment, { tz, Moment } from "moment-timezone";
-import { Cron } from "./cron";
 import { Part } from "./part";
 
 /**
@@ -14,13 +13,13 @@ export class Seeker {
   date: Moment;
   pristine: boolean;
 
-  constructor(cron: Cron, now: Date | string | undefined) {
-    if (cron.parts === undefined) {
+  constructor(parts: Part[], now?: Date | string, timezone?: string) {
+    if (parts === undefined) {
       throw new Error("No schedule found");
     }
     let date: Moment;
-    if (cron.options.timezone) {
-      date = tz(now, cron.options.timezone);
+    if (timezone) {
+      date = tz(now, timezone);
     } else {
       date = moment(now);
     }
@@ -31,7 +30,7 @@ export class Seeker {
       // Add a minute to the date to prevent returning dates in the past
       date.add(1, "minute");
     }
-    this.parts = cron.parts;
+    this.parts = parts;
     this.now = date;
     this.date = date;
     this.pristine = true;

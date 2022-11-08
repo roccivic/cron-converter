@@ -24,7 +24,6 @@ export class Part {
         outputHashes: false,
         outputMonthNames: false,
         outputWeekdayNames: false,
-        timezone: "",
       };
     }
     this.unit = unit;

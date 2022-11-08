@@ -1,5 +1,5 @@
-import { Cron } from "../src/cron";
 import { expect } from "chai";
+import { fromArray } from "../src/cron";
 
 const invalidCron = [
   {
@@ -23,8 +23,7 @@ const invalidCron = [
 describe("Should throw on invalid cron array", function () {
   invalidCron.forEach(function (invalid) {
     it(invalid.array.toString(), function () {
-      const cron = new Cron();
-      expect(() => cron.fromArray(invalid.array)).to.throw(invalid.error);
+      expect(() => fromArray(invalid.array)).to.throw(invalid.error);
     });
   });
 });
