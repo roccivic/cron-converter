@@ -305,16 +305,6 @@ export class Part {
   }
 
   /**
-   * Checks if the range contains the specified value
-   *
-   * @param value The value to look for.
-   * @return Whether the value is present in the range.
-   */
-  has(value: number) {
-    return this.values.indexOf(value) > -1;
-  }
-
-  /**
    * Returns the range as an array of positive integers.
    *
    * @return The range as an array.
