@@ -2,15 +2,21 @@ import moment, { tz, Moment } from "moment-timezone";
 import { assertValidArray } from "./util";
 
 /**
- * Creates an instance of Seeker.
- * Seeker objects search for execution times of a cron schedule.
+ * `Schedule` objects search for execution times of a cron schedule
  */
-export class Seeker {
+export class Schedule {
   arr: number[][];
   now: Moment;
   date: Moment;
   pristine: boolean;
 
+  /**
+   * Default constructor
+   *
+ * @param arr The cron schedule as an array
+ * @param now An optional reference `Date`
+ * @param timezone An optional timezone string
+   */
   constructor(arr: number[][], now?: Date | string, timezone?: string) {
     assertValidArray(arr);
     let date: Moment;
@@ -33,7 +39,7 @@ export class Seeker {
   }
 
   /**
-   * Resets the iterator.
+   * Resets the iterator
    */
   reset() {
     this.pristine = true;
@@ -41,9 +47,9 @@ export class Seeker {
   }
 
   /**
-   * Returns the time the schedule would run next.
+   * Returns the time the schedule would run next
    *
-   * @return The time the schedule would run next.
+   * @return The time the schedule would run next
    */
   next() {
     if (this.pristine) {
@@ -55,9 +61,9 @@ export class Seeker {
   }
 
   /**
-   * Returns the time the schedule would have last run at.
+   * Returns the time the schedule would have last run at
    *
-   * @return The time the schedule would have last run at.
+   * @return The time the schedule would have last run at
    */
   prev() {
     this.pristine = false;
@@ -66,14 +72,14 @@ export class Seeker {
 }
 
 /**
- * Returns the time the schedule would run next.
+ * Returns the time the schedule would run next
  *
- * @param parts The cron schedule as an array.
- * @param date The reference date.
- * @param reverse Whether to find the previous value instead of next.
- * @return The date the schedule would have executed at.
+ * @param arr The cron schedule as an array
+ * @param date The reference date
+ * @param reverse Whether to find the previous value instead of next
+ * @return The date the schedule would have executed at
  */
-const findDate = (parts: number[][], date: Moment, reverse: boolean) => {
+const findDate = (arr: number[][], date: Moment, reverse: boolean) => {
   const operation = reverse ? "subtract" : "add";
   const reset = reverse ? "endOf" : "startOf";
   if (reverse) {
@@ -81,12 +87,12 @@ const findDate = (parts: number[][], date: Moment, reverse: boolean) => {
   }
   let retry = 24;
   while (--retry) {
-    shiftMonth(parts, date, operation, reset);
-    let monthChanged = shiftDay(parts, date, operation, reset);
+    shiftMonth(arr, date, operation, reset);
+    let monthChanged = shiftDay(arr, date, operation, reset);
     if (!monthChanged) {
-      let dayChanged = shiftHour(parts, date, operation, reset);
+      let dayChanged = shiftHour(arr, date, operation, reset);
       if (!dayChanged) {
-        let hourChanged = shiftMinute(parts, date, operation, reset);
+        let hourChanged = shiftMinute(arr, date, operation, reset);
         if (!hourChanged) {
           break;
         }
@@ -105,18 +111,18 @@ const findDate = (parts: number[][], date: Moment, reverse: boolean) => {
  * Increments/decrements the month value of a date,
  * until a month that matches the schedule is found
  *
- * @param parts The cron schedule as an array.
- * @param date The date to shift.
+ * @param arr The cron schedule as an array
+ * @param date The date to shift
  * @param operation The function to call on date: 'add' or 'subtract'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  */
 const shiftMonth = (
-  parts: number[][],
+  arr: number[][],
   date: Moment,
   operation: "add" | "subtract",
   reset: "startOf" | "endOf"
 ) => {
-  while (parts[3].indexOf(date.month() + 1) === -1) {
+  while (arr[3].indexOf(date.month() + 1) === -1) {
     date[operation](1, "months")[reset]("month");
   }
 };
@@ -125,22 +131,22 @@ const shiftMonth = (
  * Increments/decrements the day value of a date,
  * until a day that matches the schedule is found
  *
- * @param parts The cron schedule as an array.
- * @param date The date to shift.
+ * @param arr The cron schedule as an array
+ * @param date The date to shift
  * @param operation The function to call on date: 'add' or 'subtract'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  * @return Whether the month of the date was changed
  */
 const shiftDay = (
-  parts: number[][],
+  arr: number[][],
   date: Moment,
   operation: "add" | "subtract",
   reset: "startOf" | "endOf"
 ) => {
   const currentMonth = date.month();
   while (
-    parts[2].indexOf(date.date()) === -1 ||
-    parts[4].indexOf(date.day()) === -1
+    arr[2].indexOf(date.date()) === -1 ||
+    arr[4].indexOf(date.day()) === -1
   ) {
     date[operation](1, "days")[reset]("day");
     if (currentMonth !== date.month()) {
@@ -154,20 +160,20 @@ const shiftDay = (
  * Increments/decrements the hour value of a date,
  * until an hour that matches the schedule is found
  *
- * @param parts The cron schedule as an array.
- * @param date The date to shift.
+ * @param arr The cron schedule as an array
+ * @param date The date to shift
  * @param operation The function to call on date: 'add' or 'subtract'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  * @return Whether the hour of the date was changed
  */
 const shiftHour = (
-  parts: number[][],
+  arr: number[][],
   date: Moment,
   operation: "add" | "subtract",
   reset: "startOf" | "endOf"
 ) => {
   const currentDay = date.date();
-  while (parts[1].indexOf(date.hour()) === -1) {
+  while (arr[1].indexOf(date.hour()) === -1) {
     date[operation](1, "hours")[reset]("hour");
     if (currentDay !== date.date()) {
       return true;
@@ -180,20 +186,20 @@ const shiftHour = (
  * Increments/decrements the minute value of a date,
  * until an minute that matches the schedule is found
  *
- * @param parts The cron schedule as an array.
+ * @param arr The cron schedule as an array.
  * @param date The date to shift.
  * @param operation The function to call on date: 'add' or 'subtract'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  * @return Whether the minute of the date was changed
  */
 const shiftMinute = (
-  parts: number[][],
+  arr: number[][],
   date: Moment,
   operation: "add" | "subtract",
   reset: "startOf" | "endOf"
 ) => {
   const currentHour = date.hour();
-  while (parts[0].indexOf(date.minute()) === -1) {
+  while (arr[0].indexOf(date.minute()) === -1) {
     date[operation](1, "minutes")[reset]("minute");
     if (currentHour !== date.hour()) {
       return true;

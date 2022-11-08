@@ -2,9 +2,12 @@ import { Options, Unit } from "./types";
 import { dedup, flatten, range, sort } from "./util";
 
 /**
- * Validates a range of positive integers.
+ * Converts an array of numbers to a part of a cron string
  *
- * @param arr An array of positive integers.
+ * @param arr An array of numbers to convert
+ * @param unit The unit for the part
+ * @param options The formatting options to use
+ * @return The part of a cron string
  */
 export const arrayToStringPart = (arr: number[], unit: Unit, options: Options) => {
   const values = sort(
@@ -29,9 +32,11 @@ export const arrayToStringPart = (arr: number[], unit: Unit, options: Options) =
 };
 
 /**
- * Parses a string as a range of positive integers.
+ * Converts a part of a cron string to an array of numbers
  *
- * @param str The string to be parsed as a range.
+ * @param str The part of a cron string to convert
+ * @param unit The unit for the part
+ * @return An array of numbers
  */
 export const stringToArrayPart = (str: string, unit: Unit) => {
   const values = sort(
@@ -67,9 +72,10 @@ export const stringToArrayPart = (str: string, unit: Unit) => {
 
 /**
  * Returns the range as an array of ranges
- * defined as arrays of positive integers.
+ * defined as arrays of positive integers
  *
- * @return The range as a multi-dimentional array.
+ * @param values An array of numbers
+ * @return The range as a multi-dimentional array
  */
 const toRanges = (values: number[]) => {
   const retval: number[][] = [];
@@ -90,9 +96,12 @@ const toRanges = (values: number[]) => {
 };
 
 /**
- * Returns the range as a string.
+ * Converts an array of numbers to a part of a cron string
  *
- * @return The range as a string.
+ * @param values An array of numbers
+ * @param unit The unit for the part
+ * @param options The formatting options to use
+ * @return The part of a cron string
  */
 const toString = (values: number[], unit: Unit, options: Options) => {
   let retval = "";
@@ -145,10 +154,12 @@ const toString = (values: number[], unit: Unit, options: Options) => {
 
 /**
  * Formats weekday and month names as string
- * when the relevant options are set.
+ * when the relevant options are set
  *
- * @param value The value to process.
- * @return The formatted string or number.
+ * @param value The value to format
+ * @param unit The unit for the part
+ * @param options The formatting options to use
+ * @return The formatted string or number
  */
 const formatValue = (value: number, unit: Unit, options: Options) => {
   if (
@@ -163,11 +174,11 @@ const formatValue = (value: number, unit: Unit, options: Options) => {
 };
 
 /**
- * Creates an error.
- * Appends the unit name to the message.
+ * Creates an `Error`, appends the unit name to the message
  *
- * @param error The error message.
- * @param unit The current unit
+ * @param error The error message
+ * @param unit The unit for the part
+ * @return The `Error`
  */
 const getError = (error: string, unit: Unit) =>
   new Error(`${error} for ${unit.name}`);
@@ -175,10 +186,10 @@ const getError = (error: string, unit: Unit) =>
 /**
  * Parses a range string
  *
- * @param range The range string.
- * @param context The operation context string.
- * @param unit The current unit
- * @return The resulting array.
+ * @param range The range string
+ * @param context The operation context string
+ * @param unit The unit for the part
+ * @return The resulting array
  */
 const parseRange = (rangeString: string, context: string, unit: Unit) => {
   const subparts = rangeString.split("-");
@@ -215,8 +226,8 @@ const parseRange = (rangeString: string, context: string, unit: Unit) => {
  * Parses the step from a part string
  *
  * @param step The step string
- * @param unit The current unit
- * @return The step value.
+ * @param unit The unit for the part
+ * @return The step value
  */
 const parseStep = (step: string, unit: Unit) => {
   if (step !== undefined) {
@@ -232,9 +243,9 @@ const parseStep = (step: string, unit: Unit) => {
 /**
  * Applies an interval step to a collection of values
  *
- * @param values A collection of numbers.
- * @param step The step value.
- * @return The resulting collection.
+ * @param values An array of numbers
+ * @param step The step value
+ * @return The resulting array
  */
 const applyInterval = (values: number[], step: number) => {
   if (step) {
@@ -247,11 +258,11 @@ const applyInterval = (values: number[], step: number) => {
 };
 
 /**
- * Replace all `7` with `0` as Sunday can be represented by both.
+ * Replace all `7` with `0` as Sunday can be represented by both
  *
- * @param values The values to process.
- * @param unit The current unit.
- * @return The resulting array.
+ * @param values An array of numbers
+ * @param unit The unit for the part
+ * @return The resulting array
  */
 const fixSunday = (values: number[], unit: Unit) => {
   if (unit.name === "weekday") {
@@ -268,8 +279,9 @@ const fixSunday = (values: number[], unit: Unit) => {
 /**
  * Replaces the alternative representations of numbers in a string
  *
- * @param str The string to process.
- * @return The processed string.
+ * @param str The string to process
+ * @param unit The unit for the part
+ * @return The resulting string
  */
 const replaceAlternatives = (str: string, unit: Unit) => {
   if (unit.alt) {
@@ -284,8 +296,8 @@ const replaceAlternatives = (str: string, unit: Unit) => {
 /**
  * Asserts that all `values` are in range for `unit`
  *
- * @param values The values to test.
- * @param unit The current unit
+ * @param values The values to test
+ * @param unit The unit for the part
  */
 const assertInRange = (values: number[], unit: Unit) => {
   const first = values[0];
@@ -298,11 +310,11 @@ const assertInRange = (values: number[], unit: Unit) => {
 };
 
 /**
- * Returns `true` if the range can be represented as an interval.
+ * Returns `true` if the range can be represented as an interval
  *
- * @param values The values to check.
- * @param step The difference between numbers in the interval.
- * @return true/false.
+ * @param values An array of numbers
+ * @param step The difference between numbers in the interval
+ * @return `true` or `false`
  */
 const isInterval = (values: number[], step: number) => {
   for (let i = 1; i < values.length; i++) {
@@ -316,12 +328,12 @@ const isInterval = (values: number[], step: number) => {
 };
 
 /**
- * Returns true if the range contains all the interval values.
+ * Returns `true` if the range contains all the interval values
  *
- * @param values The values to check.
- * @param unit The current unit
- * @param step The difference between numbers in the interval.
- * @return true/false.
+ * @param values An array of numbers
+ * @param unit The unit for the part
+ * @param step The difference between numbers in the interval
+ * @return `true` or `false`
  */
 const isFullInterval = (values: number[], unit: Unit, step: number) => {
   const min = values[0];
@@ -334,10 +346,10 @@ const isFullInterval = (values: number[], unit: Unit, step: number) => {
 };
 
 /**
- * Returns the difference between first and second elements in the range.
+ * Returns the difference between first and second elements in the range
  *
- * @param values The values to check.
- * @return The size of the step.
+ * @param values An array of numbers
+ * @return The size of the step
  */
 const getStep = (values: number[]) => {
   if (values.length > 2) {
@@ -350,11 +362,11 @@ const getStep = (values: number[]) => {
 };
 
 /**
- * Returns true if range has all the values of the unit.
+ * Returns true if range has all the values of the unit
  *
- * @param values The values to check.
- * @param unit The current unit
- * @return true/false.
+ * @param values An array of numbers
+ * @param unit The unit for the part
+ * @return `true` or `false`
  */
 const isFull = (values: number[], unit: Unit) => {
   return values.length === unit.max - unit.min + 1;
