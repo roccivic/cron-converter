@@ -17,6 +17,6 @@ describe("Should throw", function () {
 
   it("on invalid date", function () {
     const parts = stringToArray("* * * * *");
-    expect(() => getSchedule(parts, NaN as any)).to.throw("Invalid date provided");
+    expect(() => getSchedule(parts, NaN as any)).to.throw("Invalid reference date provided");
   });
 });

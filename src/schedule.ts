@@ -26,7 +26,7 @@ export class Schedule {
       date = moment(now);
     }
     if (!date.isValid()) {
-      throw new Error("Invalid date provided");
+      throw new Error("Invalid reference date provided");
     }
     if (date.seconds() > 0) {
       // Add a minute to the date to prevent returning dates in the past
