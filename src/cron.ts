@@ -1,23 +1,15 @@
 "use strict";
 
-import { Part } from "./part";
-import { Seeker } from "./seeker";
-import { Options } from "./types";
-import { units } from "./units";
+import { arrayToStringPart, stringToArrayPart } from "./part";
 import { assertValidArray } from "./util";
+import { Options } from "./types";
+import { Seeker } from "./seeker";
+import { units } from "./units";
 
 const defaultOptions: Options = {
   outputHashes: false,
   outputMonthNames: false,
   outputWeekdayNames: false,
-};
-
-const getOptions = (options?: Partial<Options>) => {
-  if (options) {
-    return { ...defaultOptions, ...options };
-  } else {
-    return defaultOptions;
-  }
 };
 
 /**
@@ -33,12 +25,7 @@ export const stringToArray = (str: string) => {
   if (parts.length !== 5) {
     throw new Error("Invalid cron string format");
   } else {
-    const parsed = parts.map((str, idx) => {
-      const part = new Part(units[idx]);
-      part.fromString(str);
-      return part;
-    });
-    return parsed.map((part) => part.toArray());
+    return parts.map((str, idx) => stringToArrayPart(str, units[idx]));
   }
 };
 
@@ -50,11 +37,9 @@ export const stringToArray = (str: string) => {
  */
 export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
   assertValidArray(arr);
-  const parts = arr.map((partArr, idx) => {
-    const part = new Part(units[idx], getOptions(options));
-    part.fromArray(partArr);
-    return part;
-  });
+  const parts = arr.map((part, idx) =>
+    arrayToStringPart(part, units[idx], { ...defaultOptions, ...options })
+  );
   return parts.join(" ");
 };
 
