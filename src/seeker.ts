@@ -14,7 +14,7 @@ export class Seeker {
   date: Moment;
   pristine: boolean;
 
-  constructor(cron: Cron, now: Date | string) {
+  constructor(cron: Cron, now: Date | string | undefined) {
     if (cron.parts === undefined) {
       throw new Error("No schedule found");
     }

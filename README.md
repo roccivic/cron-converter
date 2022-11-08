@@ -3,8 +3,6 @@
 Cron string parser for node and the browser
 
 [![npm version](https://badge.fury.io/js/cron-converter.svg)](https://badge.fury.io/js/cron-converter)
-[![dependencies Status](https://status.david-dm.org/gh/roccivic/cron-converter.svg)](https://david-dm.org/roccivic/cron-converter)
-
 [![Build status](https://github.com/roccivic/cron-converter/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/roccivic/cron-converter/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
 
@@ -25,7 +23,7 @@ npm install cron-converter --save
 ## Use
 
 ```ts
-import Cron from "cron-converter";
+import Cron, { getSchedule } from "cron-converter";
 ```
 
 ### Create a new instance
@@ -70,13 +68,13 @@ console.log(cronInstance.toString());
 cronInstance.fromString("*/5 * * * *");
 
 // Get the iterator, initialised to now
-var schedule = cronInstance.schedule();
+var schedule = getSchedule(cronInstance);
 
 // Optionally, use a reference Date or moment object
 var reference = new Date(2013, 2, 8, 9, 32);
 reference = moment([2013, 2, 8, 9, 32]);
 // And pass the reference to .schedule()
-schedule = cronInstance.schedule(reference);
+schedule = getSchedule(cronInstance, reference);
 
 // Calls to ```.next()``` and ```.prev()```
 // return a Moment.js object

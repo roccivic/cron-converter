@@ -1,4 +1,4 @@
-import { Cron } from "../src/cron";
+import { Cron, getSchedule } from "../src/cron";
 import { expect } from "chai";
 
 describe("Should throw when uninstanciated", function () {
@@ -10,7 +10,7 @@ describe("Should throw when uninstanciated", function () {
     expect(() => cron.toArray()).to.throw("No schedule found");
   });
   it("on schedule", function () {
-    expect(() => cron.schedule(undefined as any)).to.throw("No schedule found");
+    expect(() => getSchedule(cron)).to.throw("No schedule found");
   });
 });
 describe("Result of toArray should not affect object", function () {

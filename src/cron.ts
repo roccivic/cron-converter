@@ -93,14 +93,14 @@ export class Cron {
     }
     return this.parts.map((part) => part.toArray());
   }
-
-  /**
-   * Returns the time the schedule would run next.
-   *
-   * @param now A Date object
-   * @return A schedule iterator.
-   */
-  schedule(now: Date | string) {
-    return new Seeker(this, now);
-  }
 }
+
+/**
+ * Returns the schedule iterator.
+ *
+ * @param now A Date object
+ * @return A schedule iterator.
+ */
+export const getSchedule = (cron: Cron, now?: Date | string | undefined) => {
+  return new Seeker(cron, now);
+};
