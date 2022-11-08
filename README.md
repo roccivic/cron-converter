@@ -18,6 +18,11 @@ or
 npm install cron-converter --save
 ```
 
+# Compatibility
+
+- The API of versions `2.x.x` is not backwards compatible with versions `1.x.x`
+- As of version `2.0.0` the type definitions are bundled and you should not install `@types/cron-converter`
+
 # Import
 
 `cron-converter` provides 3 functions that can be imported into your project.
@@ -124,7 +129,7 @@ console.log(arrayToString(arr, { outputHashes: true }));
 
 ## Get the schedule execution times
 
-````ts
+```ts
 // Convert a string to an array
 const arr = stringToArray("*/5 * * * *");
 
@@ -153,7 +158,7 @@ schedule.reset();
 console.log(schedule.prev().format());
 // Prints: '2013-03-08T09:25:00+00:00''
 console.log(schedule.prev().format());
-````
+```
 
 ## Test and build
 
