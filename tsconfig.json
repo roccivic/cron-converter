@@ -4,7 +4,7 @@
   "exclude": ["./test/*.ts"],
   "compilerOptions": {
     "outDir": "dist",
-    "strict": false,
+    "strict": true,
     "esModuleInterop": true,
     "lib": ["es2015"],
     "declaration": true,

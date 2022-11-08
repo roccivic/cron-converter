@@ -14,7 +14,7 @@ const defaultOptions: Options = {
 
 export class Cron {
   options: Options;
-  parts: Part[];
+  parts?: Part[];
   /**
    * Creates an instance of Cron.
    * Cron objects each represent a cron schedule.
@@ -27,7 +27,7 @@ export class Cron {
     } else {
       this.options = defaultOptions;
     }
-    this.parts = null;
+    this.parts = undefined;
   }
 
   /**
@@ -57,7 +57,7 @@ export class Cron {
    * @return The cron schedule as a string.
    */
   toString() {
-    if (this.parts === null) {
+    if (this.parts === undefined) {
       throw new Error("No schedule found");
     }
     return this.parts.join(" ");
@@ -88,7 +88,7 @@ export class Cron {
    * @return The cron schedule as an array.
    */
   toArray() {
-    if (this.parts === null) {
+    if (this.parts === undefined) {
       throw new Error("No schedule found");
     }
     return this.parts.map((part) => part.toArray());

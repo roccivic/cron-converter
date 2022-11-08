@@ -9,13 +9,13 @@ import { Part } from "./part";
  * Seeker objects search for execution times of a cron schedule.
  */
 export class Seeker {
-  cron: Cron;
+  parts: Part[];
   now: Moment;
   date: Moment;
   pristine: boolean;
 
   constructor(cron: Cron, now: Date | string) {
-    if (cron.parts === null) {
+    if (cron.parts === undefined) {
       throw new Error("No schedule found");
     }
     let date: Moment;
@@ -31,7 +31,7 @@ export class Seeker {
       // Add a minute to the date to prevent returning dates in the past
       date.add(1, "minute");
     }
-    this.cron = cron;
+    this.parts = cron.parts;
     this.now = date;
     this.date = date;
     this.pristine = true;
@@ -56,7 +56,7 @@ export class Seeker {
     } else {
       this.date.add(1, "minute");
     }
-    return this.findDate(this.cron.parts, this.date, false);
+    return this.findDate(this.parts, this.date, false);
   }
 
   /**
@@ -66,7 +66,7 @@ export class Seeker {
    */
   prev() {
     this.pristine = false;
-    return this.findDate(this.cron.parts, this.date, true);
+    return this.findDate(this.parts, this.date, true);
   }
 
   /**

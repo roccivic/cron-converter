@@ -28,6 +28,7 @@ export class Part {
       };
     }
     this.unit = unit;
+    this.values = [];
   }
 
   /**
@@ -330,17 +331,17 @@ export class Part {
    * @return The range as a multi-dimentional array.
    */
   toRanges() {
-    const retval = [];
-    let startPart = null;
-    this.values.forEach((value, index, self) => {
+    const retval: number[][] = [];
+    let startPart: number | undefined = undefined;
+    this.values.forEach(function (value, index, self) {
       if (value !== self[index + 1] - 1) {
-        if (startPart !== null) {
+        if (startPart !== undefined) {
           retval.push([startPart, value]);
-          startPart = null;
+          startPart = undefined;
         } else {
-          retval.push(value);
+          retval.push([value]);
         }
-      } else if (startPart === null) {
+      } else if (startPart === undefined) {
         startPart = value;
       }
     });
@@ -381,12 +382,13 @@ export class Part {
       } else {
         retval = this.toRanges()
           .map((range) => {
-            if (range.length) {
+            if (range.length === 1) {
+              return this.formatValue(range[0]);
+            } else {
               return (
                 this.formatValue(range[0]) + "-" + this.formatValue(range[1])
               );
             }
-            return this.formatValue(range);
           })
           .join(",");
       }
@@ -406,7 +408,9 @@ export class Part {
       (this.options.outputWeekdayNames && this.unit.name === "weekday") ||
       (this.options.outputMonthNames && this.unit.name === "month")
     ) {
-      return this.unit.alt[value - this.unit.min];
+      if (this.unit.alt) {
+        return this.unit.alt[value - this.unit.min];
+      }
     }
     return value;
   }

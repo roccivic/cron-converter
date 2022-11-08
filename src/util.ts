@@ -27,7 +27,8 @@ export const sort = (array: number[]) => [...array].sort((a, b) => a - b);
  * @param arrays A 2-dimensional array
  * @return The flattened array
  */
-export const flatten = (arrays: number[][]) => [].concat.apply([], arrays);
+export const flatten = (arrays: number[][]) =>
+  ([] as number[]).concat.apply([], arrays);
 
 /**
  * Removes duplicate entries from an array
@@ -36,7 +37,7 @@ export const flatten = (arrays: number[][]) => [].concat.apply([], arrays);
  * @return The de-duplicated array
  */
 export const dedup = (array: number[]) => {
-  const result = [];
+  const result: number[] = [];
   array.forEach((i) => {
     if (result.indexOf(i) < 0) {
       result.push(i);
