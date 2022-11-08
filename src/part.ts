@@ -45,13 +45,13 @@ export class Part {
    *
    * @param arr An array of positive integers.
    */
-  fromArray(arr: string[]) {
+  fromArray(arr: number[]) {
     var values = sort(
       dedup(
         this.fixSunday(
           arr.map((value) => {
-            var parsedValue = parseInt(value, 10);
-            if (isNaN(parsedValue)) {
+            var parsedValue = Number(value);
+            if (isNaN(parsedValue) || !isFinite(parsedValue)) {
               throw this.error(`Invalid value "${value}"`);
             }
             return parsedValue;

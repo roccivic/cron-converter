@@ -1,17 +1,17 @@
-import Cron from "../src/cron";
+import { Cron } from "../src/cron";
 import { expect } from "chai";
 
 const invalidCron = [
   {
-    string: undefined,
+    string: undefined as any,
     error: "Invalid cron string",
   },
   {
-    string: null,
+    string: null as any,
     error: "Invalid cron string",
   },
   {
-    string: NaN,
+    string: NaN as any,
     error: "Invalid cron string",
   },
   {

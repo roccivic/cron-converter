@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.21",
     "@types/mocha": "^9.0.0",
+    "@types/node": "*",
     "chai": "^4.3.4",
     "husky": "^7.0.2",
     "mocha": "^9.1.1",
@@ -38,8 +39,7 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "moment-timezone": "~0.5",
-    "sprintf-js": "~1"
+    "moment-timezone": "~0.5"
   },
   "husky": {
     "hooks": {

@@ -1,4 +1,4 @@
-import Cron from "../src/cron";
+import { Cron } from "../src/cron";
 import { expect } from "chai";
 
 const invalidCron = [
@@ -11,7 +11,7 @@ const invalidCron = [
     error: "Empty interval value for minute",
   },
   {
-    array: [["a"], [1], [1], [1], [1]],
+    array: [["a"], [1], [1], [1], [1]] as number[][],
     error: 'Invalid value "a" for minute',
   },
   {
