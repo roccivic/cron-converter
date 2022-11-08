@@ -1,5 +1,3 @@
-"use strict";
-
 import moment, { tz, Moment } from "moment-timezone";
 import { assertValidArray } from "./util";
 

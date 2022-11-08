@@ -1,5 +1,3 @@
-"use strict";
-
 import { Options, Unit } from "./types";
 import { dedup, flatten, range, sort } from "./util";
 

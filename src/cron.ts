@@ -1,5 +1,3 @@
-"use strict";
-
 import { arrayToStringPart, stringToArrayPart } from "./part";
 import { assertValidArray } from "./util";
 import { Options } from "./types";
