@@ -38,11 +38,10 @@ export class Cron {
     if (typeof str !== "string") {
       throw new Error("Invalid cron string");
     }
-    var parts = str.replace(/\s+/g, " ").trim().split(" ");
+    const parts = str.replace(/\s+/g, " ").trim().split(" ");
     if (parts.length === 5) {
-      var options = this.options;
-      this.parts = parts.map(function (str, idx) {
-        var part = new Part(units[idx], options);
+      this.parts = parts.map((str, idx) => {
+        const part = new Part(units[idx], this.options);
         part.fromString(str);
         return part;
       });
@@ -72,7 +71,7 @@ export class Cron {
   fromArray(cronArr: number[][]) {
     if (cronArr.length === 5) {
       this.parts = cronArr.map((partArr, idx) => {
-        var part = new Part(units[idx]);
+        const part = new Part(units[idx]);
         part.fromArray(partArr);
         return part;
       });
@@ -92,9 +91,7 @@ export class Cron {
     if (this.parts === null) {
       throw new Error("No schedule found");
     }
-    return this.parts.map(function (part) {
-      return part.toArray();
-    });
+    return this.parts.map((part) => part.toArray());
   }
 
   /**

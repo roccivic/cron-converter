@@ -5,9 +5,9 @@
  * @param end The last number in the range
  * @return The range, as an array of integers
  */
-export const range = (start: number, end: number) : number[] => {
-  var array = [];
-  for (var i = start; i <= end; i++) {
+export const range = (start: number, end: number): number[] => {
+  const array = [];
+  for (let i = start; i <= end; i++) {
     array.push(i);
   }
   return array;
@@ -36,8 +36,8 @@ export const flatten = (arrays: number[][]) => [].concat.apply([], arrays);
  * @return The de-duplicated array
  */
 export const dedup = (array: number[]) => {
-  var result = [];
-  array.forEach(function (i) {
+  const result = [];
+  array.forEach((i) => {
     if (result.indexOf(i) < 0) {
       result.push(i);
     }

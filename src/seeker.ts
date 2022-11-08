@@ -18,7 +18,7 @@ export class Seeker {
     if (cron.parts === null) {
       throw new Error("No schedule found");
     }
-    var date: Moment;
+    let date: Moment;
     if (cron.options.timezone) {
       date = tz(now, cron.options.timezone);
     } else {

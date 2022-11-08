@@ -46,11 +46,11 @@ export class Part {
    * @param arr An array of positive integers.
    */
   fromArray(arr: number[]) {
-    var values = sort(
+    const values = sort(
       dedup(
         this.fixSunday(
           arr.map((value) => {
-            var parsedValue = Number(value);
+            const parsedValue = Number(value);
             if (isNaN(parsedValue) || !isFinite(parsedValue)) {
               throw this.error(`Invalid value "${value}"`);
             }
@@ -62,7 +62,7 @@ export class Part {
     if (!values.length) {
       throw this.error("Empty interval value");
     }
-    var value = this.outOfRange(values);
+    const value = this.outOfRange(values);
     if (typeof value !== "undefined") {
       throw this.error(`Value "${value}" out of range`);
     }
@@ -75,27 +75,27 @@ export class Part {
    * @param str The string to be parsed as a range.
    */
   fromString(str: string) {
-    var values = sort(
+    const values = sort(
       dedup(
         this.fixSunday(
           flatten(
             this.replaceAlternatives(str)
               .split(",")
               .map((value: string) => {
-                var valueParts = value.split("/");
+                const valueParts = value.split("/");
                 if (valueParts.length > 2) {
                   throw this.error(`Invalid value "${str}"`);
                 }
-                var parsedValues: number[];
-                var left = valueParts[0];
-                var right = valueParts[1];
+                let parsedValues: number[];
+                const left = valueParts[0];
+                const right = valueParts[1];
                 if (left === "*") {
                   parsedValues = range(this.unit.min, this.unit.max);
                 } else {
                   parsedValues = this.parseRange(left, str);
                 }
-                var step = this.parseStep(right);
-                var intervalValues = this.applyInterval(parsedValues, step);
+                const step = this.parseStep(right);
+                const intervalValues = this.applyInterval(parsedValues, step);
                 if (!intervalValues.length) {
                   throw this.error(`Empty interval value "${str}"`);
                 }
@@ -105,7 +105,7 @@ export class Part {
         )
       )
     );
-    var value = this.outOfRange(values);
+    const value = this.outOfRange(values);
     if (typeof value !== "undefined") {
       throw this.error(`Value "${value}" out of range`);
     }
@@ -121,7 +121,7 @@ export class Part {
    */
   fixSunday(values: number[]) {
     if (this.unit.name === "weekday") {
-      values = values.map(function (value) {
+      values = values.map((value) => {
         if (value === 7) {
           return 0;
         }
@@ -139,16 +139,16 @@ export class Part {
    * @return The resulting array.
    */
   parseRange(rangeString: string, context: string) {
-    var subparts = rangeString.split("-");
+    const subparts = rangeString.split("-");
     if (subparts.length === 1) {
-      var value = parseInt(subparts[0], 10);
+      const value = parseInt(subparts[0], 10);
       if (isNaN(value)) {
         throw this.error(`Invalid value "${context}"`);
       }
       return [value];
     } else if (subparts.length === 2) {
-      var minValue = parseInt(subparts[0], 10);
-      var maxValue = parseInt(subparts[1], 10);
+      const minValue = parseInt(subparts[0], 10);
+      const maxValue = parseInt(subparts[1], 10);
       if (maxValue < minValue) {
         throw this.error(
           `Max range is less than min range in "${rangeString}"`
@@ -168,7 +168,7 @@ export class Part {
    */
   parseStep(step: string) {
     if (typeof step !== "undefined") {
-      var parsedStep = parseInt(step, 10);
+      const parsedStep = parseInt(step, 10);
       if (isNaN(parsedStep) || parsedStep < 1) {
         throw this.error(`Invalid interval step value "${step}"`);
       }
@@ -186,10 +186,10 @@ export class Part {
    */
   applyInterval(values: number[], step: number) {
     if (step) {
-      var minVal = values[0];
-      values = values.filter(function (value) {
-        return value % step === minVal % step || value === minVal;
-      });
+      const minVal = values[0];
+      values = values.filter(
+        (value) => value % step === minVal % step || value === minVal
+      );
     }
     return values;
   }
@@ -200,16 +200,15 @@ export class Part {
    * @param str The string to process.
    * @return The processed string.
    */
-  replaceAlternatives = function (str: string) {
-    var unit = this.unit;
-    if (unit.alt) {
+  replaceAlternatives(str: string) {
+    if (this.unit.alt) {
       str = str.toUpperCase();
-      for (var i = 0; i < unit.alt.length; i++) {
-        str = str.replace(unit.alt[i], i + unit.min);
+      for (let i = 0; i < this.unit.alt.length; i++) {
+        str = str.replace(this.unit.alt[i], String(i + this.unit.min));
       }
     }
     return str;
-  };
+  }
 
   /**
    * Finds an element from values that is outside of the range of this.unit
@@ -219,8 +218,8 @@ export class Part {
    *                otherwise undefined.
    */
   outOfRange(values: number[]) {
-    var first = values[0];
-    var last = values[values.length - 1];
+    const first = values[0];
+    const last = values[values.length - 1];
     if (first < this.unit.min) {
       return first;
     } else if (last > this.unit.max) {
@@ -263,7 +262,7 @@ export class Part {
    */
   getStep() {
     if (this.values.length > 2) {
-      var step = this.values[1] - this.values[0];
+      const step = this.values[1] - this.values[0];
       if (step > 1) {
         return step;
       }
@@ -278,9 +277,9 @@ export class Part {
    * @return true/false.
    */
   isInterval(step: number) {
-    for (var i = 1; i < this.values.length; i++) {
-      var prev = this.values[i - 1];
-      var value = this.values[i];
+    for (let i = 1; i < this.values.length; i++) {
+      const prev = this.values[i - 1];
+      const value = this.values[i];
       if (value - prev !== step) {
         return false;
       }
@@ -295,10 +294,10 @@ export class Part {
    * @return true/false.
    */
   isFullInterval(step: number) {
-    var unit = this.unit;
-    var min = this.min();
-    var max = this.max();
-    var haveAllValues = this.values.length === (max - min) / step + 1;
+    const unit = this.unit;
+    const min = this.min();
+    const max = this.max();
+    const haveAllValues = this.values.length === (max - min) / step + 1;
     if (min === unit.min && max + step > unit.max && haveAllValues) {
       return true;
     }
@@ -331,9 +330,9 @@ export class Part {
    * @return The range as a multi-dimentional array.
    */
   toRanges() {
-    var retval = [];
-    var startPart = null;
-    this.values.forEach(function (value, index, self) {
+    const retval = [];
+    let startPart = null;
+    this.values.forEach((value, index, self) => {
       if (value !== self[index + 1] - 1) {
         if (startPart !== null) {
           retval.push([startPart, value]);
@@ -354,7 +353,7 @@ export class Part {
    * @return The range as a string.
    */
   toString() {
-    var retval = "";
+    let retval = "";
     if (this.isFull()) {
       if (this.options.outputHashes) {
         retval = "H";
@@ -362,7 +361,7 @@ export class Part {
         retval = "*";
       }
     } else {
-      var step = this.getStep();
+      const step = this.getStep();
       if (step && this.isInterval(step)) {
         if (this.isFullInterval(step)) {
           if (this.options.outputHashes) {
@@ -381,14 +380,14 @@ export class Part {
         }
       } else {
         retval = this.toRanges()
-          .map(function (range) {
+          .map((range) => {
             if (range.length) {
               return (
                 this.formatValue(range[0]) + "-" + this.formatValue(range[1])
               );
             }
             return this.formatValue(range);
-          }, this)
+          })
           .join(",");
       }
     }
