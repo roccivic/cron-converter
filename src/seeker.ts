@@ -1,21 +1,20 @@
 "use strict";
 
 import moment, { tz, Moment } from "moment-timezone";
+import { assertValidArray } from "./util";
 
 /**
  * Creates an instance of Seeker.
  * Seeker objects search for execution times of a cron schedule.
  */
 export class Seeker {
-  parts: number[][];
+  arr: number[][];
   now: Moment;
   date: Moment;
   pristine: boolean;
 
-  constructor(parts: number[][], now?: Date | string, timezone?: string) {
-    if (parts === undefined || !Array.isArray(parts) || parts.length !== 5) {
-      throw new Error("Invalid cron array");
-    }
+  constructor(arr: number[][], now?: Date | string, timezone?: string) {
+    assertValidArray(arr);
     let date: Moment;
     if (timezone) {
       date = tz(now, timezone);
@@ -29,7 +28,7 @@ export class Seeker {
       // Add a minute to the date to prevent returning dates in the past
       date.add(1, "minute");
     }
-    this.parts = parts;
+    this.arr = arr;
     this.now = date;
     this.date = date;
     this.pristine = true;
@@ -54,7 +53,7 @@ export class Seeker {
     } else {
       this.date.add(1, "minute");
     }
-    return this.findDate(this.parts, this.date, false);
+    return this.findDate(this.arr, this.date, false);
   }
 
   /**
@@ -64,7 +63,7 @@ export class Seeker {
    */
   prev() {
     this.pristine = false;
-    return this.findDate(this.parts, this.date, true);
+    return this.findDate(this.arr, this.date, true);
   }
 
   /**

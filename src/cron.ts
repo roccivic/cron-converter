@@ -4,6 +4,7 @@ import { Part } from "./part";
 import { Seeker } from "./seeker";
 import { Options } from "./types";
 import { units } from "./units";
+import { assertValidArray } from "./util";
 
 const defaultOptions: Options = {
   outputHashes: false,
@@ -48,9 +49,7 @@ export const stringToArray = (str: string) => {
  * @return The cron schedule as a string.
  */
 export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
-  if (arr === undefined || !Array.isArray(arr) || arr.length !== 5) {
-    throw new Error("Invalid cron array");
-  }
+  assertValidArray(arr);
   const parts = arr.map((partArr, idx) => {
     const part = new Part(units[idx], getOptions(options));
     part.fromArray(partArr);
