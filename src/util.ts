@@ -15,7 +15,7 @@ export const assertValidArray = (arr: unknown) => {
 };
 
 /**
- * Creates an array of integers from start to end, inclusive.
+ * Creates an array of integers from start to end, inclusive
  *
  * @param start The first number in the range
  * @param end The last number in the range
@@ -30,7 +30,7 @@ export const range = (start: number, end: number): number[] => {
 };
 
 /**
- * Sorts an array of numbers.
+ * Sorts an array of numbers
  *
  * @param array The array to sort
  * @return The sorted array

@@ -1,7 +1,7 @@
 import { arrayToStringPart, stringToArrayPart } from "./part";
 import { assertValidArray } from "./util";
 import { Options } from "./types";
-import { Seeker } from "./seeker";
+import { Schedule } from "./schedule";
 import { units } from "./units";
 
 const defaultOptions: Options = {
@@ -11,9 +11,10 @@ const defaultOptions: Options = {
 };
 
 /**
- * Parses a cron string.
- * @param str The string to parse.
- * @return The cron schedule as an array.
+ * Parses a cron string
+ *
+ * @param str The string to parse
+ * @return The cron schedule as an array
  */
 export const stringToArray = (str: string) => {
   if (typeof str !== "string") {
@@ -28,10 +29,10 @@ export const stringToArray = (str: string) => {
 };
 
 /**
- * Parses a 2-dimentional array of integers and serializes it to a string.
+ * Parses a 2-dimentional array of integers and serializes it to a string
  *
- * @param arr The array to parse.
- * @return The cron schedule as a string.
+ * @param arr The array to parse
+ * @return The cron schedule as a string
  */
 export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
   assertValidArray(arr);
@@ -44,13 +45,13 @@ export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
 /**
  * Returns the schedule iterator
  *
- * @param parts The cron schedule as an array
+ * @param arr The cron schedule as an array
  * @param now An optional reference `Date`
  * @param timezone An optional timezone string
  * @return A schedule iterator
  */
 export const getSchedule = (
-  parts: number[][],
+  arr: number[][],
   now?: Date | string,
   timezone?: string
-) => new Seeker(parts, now, timezone);
+) => new Schedule(arr, now, timezone);
