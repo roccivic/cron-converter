@@ -22,75 +22,53 @@ const getOptions = (options?: Partial<Options>) => {
 /**
  * Parses a cron string.
  * @param str The string to parse.
+ * @return The cron schedule as an array.
  */
-export const fromString = (str: string, options?: Partial<Options>) => {
+export const stringToArray = (str: string) => {
   if (typeof str !== "string") {
     throw new Error("Invalid cron string");
   }
   const parts = str.replace(/\s+/g, " ").trim().split(" ");
-  if (parts.length === 5) {
-    return parts.map((str, idx) => {
-      const part = new Part(units[idx], getOptions(options));
+  if (parts.length !== 5) {
+    throw new Error("Invalid cron string format");
+  } else {
+    const parsed = parts.map((str, idx) => {
+      const part = new Part(units[idx]);
       part.fromString(str);
       return part;
     });
-  } else {
-    throw new Error("Invalid cron string format");
+    return parsed.map((part) => part.toArray());
   }
 };
 
 /**
- * Returns the cron schedule as a string.
+ * Parses a 2-dimentional array of integers and serializes it to a string.
  *
+ * @param arr The array to parse.
  * @return The cron schedule as a string.
  */
-export const toString = (parts: Part[]) => {
-  if (parts === undefined) {
-    throw new Error("No schedule found");
+export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
+  if (arr === undefined || !Array.isArray(arr) || arr.length !== 5) {
+    throw new Error("Invalid cron array");
   }
+  const parts = arr.map((partArr, idx) => {
+    const part = new Part(units[idx], getOptions(options));
+    part.fromArray(partArr);
+    return part;
+  });
   return parts.join(" ");
 };
 
 /**
- * Parses a 2-dimentional array of integers as a cron schedule.
+ * Returns the schedule iterator
  *
- * @param cronArr The array to parse.
- */
-export const fromArray = (cronArr: number[][], options?: Partial<Options>) => {
-  if (cronArr.length === 5) {
-    return cronArr.map((partArr, idx) => {
-      const part = new Part(units[idx], getOptions(options));
-      part.fromArray(partArr);
-      return part;
-    });
-  } else {
-    throw new Error("Invalid cron array");
-  }
-};
-
-/**
- * Returns the cron schedule as
- * a 2-dimentional array of integers.
- *
- * @return The cron schedule as an array.
- */
-export const toArray = (parts: Part[]) => {
-  if (parts === undefined) {
-    throw new Error("No schedule found");
-  }
-  return parts.map((part) => part.toArray());
-};
-
-/**
- * Returns the schedule iterator.
- *
- * @param now A Date object
- * @return A schedule iterator.
+ * @param parts The cron schedule as an array
+ * @param now An optional reference `Date`
+ * @param timezone An optional timezone string
+ * @return A schedule iterator
  */
 export const getSchedule = (
-  cron: Part[],
+  parts: number[][],
   now?: Date | string,
   timezone?: string
-) => {
-  return new Seeker(cron, now, timezone);
-};
+) => new Seeker(parts, now, timezone);

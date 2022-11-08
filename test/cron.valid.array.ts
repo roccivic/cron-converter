@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { fromArray, toString } from "../src/cron";
+import { arrayToString } from "../src/cron";
 
 const validCron = [
   {
@@ -19,7 +19,7 @@ const validCron = [
 describe("Should parse valid cron array", function () {
   validCron.forEach(function (valid) {
     it(valid.in.toString(), function () {
-      expect(toString(fromArray(valid.in))).to.equal(valid.out);
+      expect(arrayToString(valid.in)).to.equal(valid.out);
     });
   });
 });

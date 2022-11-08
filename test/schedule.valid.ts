@@ -1,4 +1,4 @@
-import { fromString, getSchedule } from "../src/cron";
+import { getSchedule, stringToArray } from "../src/cron";
 import { expect } from "chai";
 
 const schedules = [
@@ -83,7 +83,7 @@ const schedules = [
 ];
 describe("Should output execution time for valid schedule", function () {
   schedules.forEach(function (s) {
-    const parts = fromString(s.schedule);
+    const parts = stringToArray(s.schedule);
     const schedule = getSchedule(parts, s.now, "Europe/London");
     it("should find next schedule for " + s.schedule, function () {
       expect(schedule.next().toJSON()).to.equal(s.next);
@@ -96,7 +96,7 @@ describe("Should output execution time for valid schedule", function () {
 });
 
 describe("Should output execution time for valid schedule twice", function () {
-  const parts = fromString("*/5 * * * *");
+  const parts = stringToArray("*/5 * * * *");
   const schedule = getSchedule(parts, "2013-02-08T09:32:15.000Z");
   it("should find schedule for " + schedule, function () {
     expect(schedule.next().toJSON()).to.equal("2013-02-08T09:35:00.000Z");
