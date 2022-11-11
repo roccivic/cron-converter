@@ -1,4 +1,4 @@
-import { Part } from "../src/part";
+import { arrayToStringPart, stringToArrayPart } from "../src/part";
 import { expect } from "chai";
 import { units } from "../src/units";
 
@@ -98,13 +98,18 @@ const validRanges = [
 ];
 describe("Should parse valid string", function () {
   validRanges.forEach(function (validRange) {
-    const range = new Part(validRange.unit);
-    range.fromString(validRange.input);
+    const range = stringToArrayPart(validRange.input, validRange.unit);
     it(validRange.input + " as array", function () {
-      expect(range.toArray()).to.eql(validRange.arr);
+      expect(range).to.eql(validRange.arr);
     });
     it(validRange.input + " as string", function () {
-      expect(range.toString()).to.equal(validRange.output);
+      expect(
+        arrayToStringPart(range, validRange.unit, {
+          outputHashes: false,
+          outputMonthNames: false,
+          outputWeekdayNames: false,
+        })
+      ).to.equal(validRange.output);
     });
   });
 });

@@ -1,4 +1,20 @@
 /**
+ * Assert that a value is a valid cron array
+ *
+ * @param arr The array to check
+ */
+export const assertValidArray = (arr: unknown) => {
+  if (
+    arr === undefined ||
+    !Array.isArray(arr) ||
+    arr.length !== 5 ||
+    arr.some((element) => !Array.isArray(element))
+  ) {
+    throw new Error("Invalid cron array");
+  }
+};
+
+/**
  * Creates an array of integers from start to end, inclusive.
  *
  * @param start The first number in the range

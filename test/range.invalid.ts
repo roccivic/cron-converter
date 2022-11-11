@@ -1,4 +1,4 @@
-import { Part } from "../src/part";
+import { stringToArrayPart } from "../src/part";
 import { expect } from "chai";
 import { units } from "../src/units";
 
@@ -31,14 +31,14 @@ const invalidRanges = [
   {
     unit: units[3],
     input: "0-",
-    error: 'Empty interval value "0-" for month',
+    error: 'Invalid value "0-" for month',
   },
 ];
 describe("Should throw on invalid range string", function () {
   invalidRanges.forEach(function (invalidRange) {
     it(invalidRange.input, function () {
       expect(() =>
-        new Part(invalidRange.unit).fromString(invalidRange.input)
+        stringToArrayPart(invalidRange.input, invalidRange.unit)
       ).to.throw(invalidRange.error);
     });
   });

@@ -1,5 +1,5 @@
-import { Cron } from "../src/cron";
 import { expect } from "chai";
+import { arrayToString } from "../src/cron";
 
 const invalidCron = [
   {
@@ -9,6 +9,10 @@ const invalidCron = [
   {
     array: [[], [], [], [], []],
     error: "Empty interval value for minute",
+  },
+  {
+    array: [0, [], [], [], []] as number[][],
+    error: "Invalid cron array",
   },
   {
     array: [["a"], [1], [1], [1], [1]] as number[][],
@@ -23,8 +27,7 @@ const invalidCron = [
 describe("Should throw on invalid cron array", function () {
   invalidCron.forEach(function (invalid) {
     it(invalid.array.toString(), function () {
-      const cron = new Cron();
-      expect(() => cron.fromArray(invalid.array)).to.throw(invalid.error);
+      expect(() => arrayToString(invalid.array)).to.throw(invalid.error);
     });
   });
 });

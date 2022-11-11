@@ -1,5 +1,5 @@
-import { Cron } from "../src/cron";
 import { expect } from "chai";
+import { stringToArray } from "../src/cron";
 
 const invalidCron = [
   {
@@ -74,9 +74,8 @@ const invalidCron = [
 
 describe("Should throw on invalid cron string", function () {
   invalidCron.forEach(function (invalid) {
-    const cron = new Cron();
     it(`${invalid.string}`, function () {
-      expect(() => cron.fromString(invalid.string)).to.throw(invalid.error);
+      expect(() => stringToArray(invalid.string)).to.throw(invalid.error);
     });
   });
 });
