@@ -1,6 +1,6 @@
 import { Unit } from "./types";
 
-export const units : Unit[] = [
+export const units : ReadonlyArray<Unit> = Object.freeze([
   {
     name: 'minute',
     min: 0,
@@ -32,4 +32,4 @@ export const units : Unit[] = [
     max: 6,
     alt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
   }
-];
+]);
