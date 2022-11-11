@@ -1,36 +1,44 @@
-import moment, { tz, Moment } from "moment-timezone";
 import { assertValidArray } from "./util";
+import { DateTime } from "luxon";
 
 /**
  * `Schedule` objects search for execution times of a cron schedule
  */
 export class Schedule {
-  arr: number[][];
-  now: Moment;
-  date: Moment;
+  readonly arr: number[][];
+  readonly now: DateTime;
+  date: DateTime;
   pristine: boolean;
 
   /**
    * Default constructor
    *
- * @param arr The cron schedule as an array
- * @param now An optional reference `Date`
- * @param timezone An optional timezone string
+   * @param arr The cron schedule as an array
+   * @param now An optional reference date
+   * @param timezone An optional timezone string
    */
   constructor(arr: number[][], now?: Date | string, timezone?: string) {
     assertValidArray(arr);
-    let date: Moment;
-    if (timezone) {
-      date = tz(now, timezone);
+    let date: DateTime;
+    if (now === undefined) {
+      date = DateTime.now();
+    } else if (typeof now === "string") {
+      date = DateTime.fromISO(now);
     } else {
-      date = moment(now);
+      date = DateTime.fromJSDate(now);
     }
-    if (!date.isValid()) {
+    if (!date.isValid) {
       throw new Error("Invalid reference date provided");
     }
-    if (date.seconds() > 0) {
-      // Add a minute to the date to prevent returning dates in the past
-      date.add(1, "minute");
+    if (timezone) {
+      date = date.setZone(timezone);
+    }
+    if (!date.isValid) {
+      throw new Error("Invalid timezone provided");
+    }
+    if (date.second > 0) {
+      // plus a minute to the date to prevent returning dates in the past
+      date = date.plus({ minute: 1 });
     }
     this.arr = arr;
     this.now = date;
@@ -43,7 +51,7 @@ export class Schedule {
    */
   reset() {
     this.pristine = true;
-    this.date = moment(this.now);
+    this.date = this.now.plus(0);
   }
 
   /**
@@ -55,9 +63,10 @@ export class Schedule {
     if (this.pristine) {
       this.pristine = false;
     } else {
-      this.date.add(1, "minute");
+      this.date = this.date.plus({ minute: 1 });
     }
-    return findDate(this.arr, this.date, false);
+    this.date = findDate(this.arr, this.date, false);
+    return this.date;
   }
 
   /**
@@ -67,7 +76,8 @@ export class Schedule {
    */
   prev() {
     this.pristine = false;
-    return findDate(this.arr, this.date, true);
+    this.date = findDate(this.arr, this.date, true);
+    return this.date;
   }
 }
 
@@ -79,20 +89,23 @@ export class Schedule {
  * @param reverse Whether to find the previous value instead of next
  * @return The date the schedule would have executed at
  */
-const findDate = (arr: number[][], date: Moment, reverse: boolean) => {
-  const operation = reverse ? "subtract" : "add";
+const findDate = (arr: number[][], date: DateTime, reverse: boolean) => {
+  const operation = reverse ? "minus" : "plus";
   const reset = reverse ? "endOf" : "startOf";
   if (reverse) {
-    date.subtract(1, "minute"); // Ensure prev and next cannot be same time
+    date = date.minus({ minute: 1 }); // Ensure prev and next cannot be same time
   }
   let retry = 24;
+  let monthChanged: boolean;
+  let dayChanged: boolean;
+  let hourChanged: boolean;
   while (--retry) {
-    shiftMonth(arr, date, operation, reset);
-    let monthChanged = shiftDay(arr, date, operation, reset);
+    date = shiftMonth(arr, date, operation, reset);
+    [date, monthChanged] = shiftDay(arr, date, operation, reset);
     if (!monthChanged) {
-      let dayChanged = shiftHour(arr, date, operation, reset);
+      [date, dayChanged] = shiftHour(arr, date, operation, reset);
       if (!dayChanged) {
-        let hourChanged = shiftMinute(arr, date, operation, reset);
+        [date, hourChanged] = shiftMinute(arr, date, operation, reset);
         if (!hourChanged) {
           break;
         }
@@ -102,9 +115,7 @@ const findDate = (arr: number[][], date: Moment, reverse: boolean) => {
   if (!retry) {
     throw new Error("Unable to find execution time for schedule");
   }
-  date.seconds(0).milliseconds(0);
-  // Return new moment object
-  return moment(date);
+  return date.set({ second: 0, millisecond: 0 });
 };
 
 /**
@@ -113,18 +124,19 @@ const findDate = (arr: number[][], date: Moment, reverse: boolean) => {
  *
  * @param arr The cron schedule as an array
  * @param date The date to shift
- * @param operation The function to call on date: 'add' or 'subtract'
+ * @param operation The function to call on date: 'plus' or 'minus'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  */
 const shiftMonth = (
   arr: number[][],
-  date: Moment,
-  operation: "add" | "subtract",
+  date: DateTime,
+  operation: "plus" | "minus",
   reset: "startOf" | "endOf"
 ) => {
-  while (arr[3].indexOf(date.month() + 1) === -1) {
-    date[operation](1, "months")[reset]("month");
+  while (arr[3].indexOf(date.month) === -1) {
+    date = date[operation]({ months: 1 })[reset]("month");
   }
+  return date;
 };
 
 /**
@@ -133,27 +145,28 @@ const shiftMonth = (
  *
  * @param arr The cron schedule as an array
  * @param date The date to shift
- * @param operation The function to call on date: 'add' or 'subtract'
+ * @param operation The function to call on date: 'plus' or 'minus'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  * @return Whether the month of the date was changed
  */
 const shiftDay = (
   arr: number[][],
-  date: Moment,
-  operation: "add" | "subtract",
+  date: DateTime,
+  operation: "plus" | "minus",
   reset: "startOf" | "endOf"
-) => {
-  const currentMonth = date.month();
+): [DateTime, boolean] => {
+  const currentMonth = date.month;
   while (
-    arr[2].indexOf(date.date()) === -1 ||
-    arr[4].indexOf(date.day()) === -1
+    arr[2].indexOf(date.day) === -1 ||
+    // luxon uses 1-7 for weekdays, but we use 0-6
+    arr[4].indexOf(date.weekday === 7 ? 0 : date.weekday) === -1
   ) {
-    date[operation](1, "days")[reset]("day");
-    if (currentMonth !== date.month()) {
-      return true;
+    date = date[operation]({ days: 1 })[reset]("day");
+    if (currentMonth !== date.month) {
+      return [date, true];
     }
   }
-  return false;
+  return [date, false];
 };
 
 /**
@@ -162,24 +175,24 @@ const shiftDay = (
  *
  * @param arr The cron schedule as an array
  * @param date The date to shift
- * @param operation The function to call on date: 'add' or 'subtract'
+ * @param operation The function to call on date: 'plus' or 'minus'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  * @return Whether the hour of the date was changed
  */
 const shiftHour = (
   arr: number[][],
-  date: Moment,
-  operation: "add" | "subtract",
+  date: DateTime,
+  operation: "plus" | "minus",
   reset: "startOf" | "endOf"
-) => {
-  const currentDay = date.date();
-  while (arr[1].indexOf(date.hour()) === -1) {
-    date[operation](1, "hours")[reset]("hour");
-    if (currentDay !== date.date()) {
-      return true;
+): [DateTime, boolean] => {
+  const currentDay = date.day;
+  while (arr[1].indexOf(date.hour) === -1) {
+    date = date[operation]({ hours: 1 })[reset]("hour");
+    if (currentDay !== date.day) {
+      return [date, true];
     }
   }
-  return false;
+  return [date, false];
 };
 
 /**
@@ -188,22 +201,22 @@ const shiftHour = (
  *
  * @param arr The cron schedule as an array.
  * @param date The date to shift.
- * @param operation The function to call on date: 'add' or 'subtract'
+ * @param operation The function to call on date: 'plus' or 'minus'
  * @param reset The function to call on date: 'startOf' or 'endOf'
  * @return Whether the minute of the date was changed
  */
 const shiftMinute = (
   arr: number[][],
-  date: Moment,
-  operation: "add" | "subtract",
+  date: DateTime,
+  operation: "plus" | "minus",
   reset: "startOf" | "endOf"
-) => {
-  const currentHour = date.hour();
-  while (arr[0].indexOf(date.minute()) === -1) {
-    date[operation](1, "minutes")[reset]("minute");
-    if (currentHour !== date.hour()) {
-      return true;
+): [DateTime, boolean] => {
+  const currentHour = date.hour;
+  while (arr[0].indexOf(date.minute) === -1) {
+    date = date[operation]({ minutes: 1 })[reset]("minute");
+    if (currentHour !== date.hour) {
+      return [date, true];
     }
   }
-  return false;
+  return [date, false];
 };
