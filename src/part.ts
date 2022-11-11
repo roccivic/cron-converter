@@ -1,5 +1,5 @@
 import { Options, Unit } from "./types";
-import { dedup, flatten, range, sort } from "./util";
+import { dedup, flatten, parseNumber, range, sort } from "./util";
 
 /**
  * Converts an array of numbers to a part of a cron string
@@ -9,13 +9,17 @@ import { dedup, flatten, range, sort } from "./util";
  * @param options The formatting options to use
  * @return The part of a cron string
  */
-export const arrayToStringPart = (arr: number[], unit: Unit, options: Options) => {
+export const arrayToStringPart = (
+  arr: number[],
+  unit: Unit,
+  options: Options
+) => {
   const values = sort(
     dedup(
       fixSunday(
         arr.map((value) => {
-          const parsedValue = Number(value);
-          if (isNaN(parsedValue) || !isFinite(parsedValue)) {
+          const parsedValue = parseNumber(value);
+          if (parsedValue === undefined) {
             throw getError(`Invalid value "${value}"`, unit);
           }
           return parsedValue;
@@ -194,20 +198,15 @@ const getError = (error: string, unit: Unit) =>
 const parseRange = (rangeString: string, context: string, unit: Unit) => {
   const subparts = rangeString.split("-");
   if (subparts.length === 1) {
-    const value = parseInt(subparts[0], 10);
-    if (isNaN(value) || !isFinite(value)) {
+    const value = parseNumber(subparts[0]);
+    if (value === undefined) {
       throw getError(`Invalid value "${context}"`, unit);
     }
     return [value];
   } else if (subparts.length === 2) {
-    const minValue = parseInt(subparts[0], 10);
-    const maxValue = parseInt(subparts[1], 10);
-    if (
-      isNaN(minValue) ||
-      !isFinite(minValue) ||
-      isNaN(maxValue) ||
-      !isFinite(maxValue)
-    ) {
+    const minValue = parseNumber(subparts[0]);
+    const maxValue = parseNumber(subparts[1]);
+    if (minValue === undefined || maxValue === undefined) {
       throw getError(`Invalid value "${context}"`, unit);
     }
     if (maxValue < minValue) {
@@ -231,8 +230,8 @@ const parseRange = (rangeString: string, context: string, unit: Unit) => {
  */
 const parseStep = (step: string, unit: Unit) => {
   if (step !== undefined) {
-    const parsedStep = parseInt(step, 10);
-    if (isNaN(parsedStep) || !isFinite(parsedStep) || parsedStep < 1) {
+    const parsedStep = parseNumber(step);
+    if (parsedStep === undefined) {
       throw getError(`Invalid interval step value "${step}"`, unit);
     }
     return parsedStep;

@@ -33,6 +33,26 @@ const invalidRanges = [
     input: "0-",
     error: 'Invalid value "0-" for month',
   },
+  {
+    unit: units[0],
+    input: "1a",
+    error: 'Invalid value "1a" for minute',
+  },
+  {
+    unit: units[0],
+    input: "1a-2",
+    error: 'Invalid value "1a-2" for minute',
+  },
+  {
+    unit: units[0],
+    input: "1-2b",
+    error: 'Invalid value "1-2b" for minute',
+  },
+  {
+    unit: units[0],
+    input: "*/2b",
+    error: 'Invalid interval step value "2b" for minute',
+  },
 ];
 describe("Should throw on invalid range string", function () {
   invalidRanges.forEach(function (invalidRange) {
