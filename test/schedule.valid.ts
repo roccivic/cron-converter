@@ -96,9 +96,10 @@ describe("Should output execution time for valid schedule", function () {
 });
 
 describe("Should output execution time for valid schedule twice", function () {
-  const parts = stringToArray("*/5 * * * *");
+  const expression = "*/5 * * * *"
+  const parts = stringToArray(expression);
   const schedule = getSchedule(parts, "2013-02-08T09:32:15.000Z");
-  it("should find schedule for " + schedule, function () {
+  it(`should find schedule for '${expression}'`, function () {
     expect(schedule.next().toJSON()).to.equal("2013-02-08T09:35:00.000Z");
     expect(schedule.next().toJSON()).to.equal("2013-02-08T09:40:00.000Z");
   });
