@@ -11,6 +11,10 @@ const invalidCron = [
     error: "Empty interval value for minute",
   },
   {
+    array: [0, [], [], [], []] as number[][],
+    error: "Invalid cron array",
+  },
+  {
     array: [["a"], [1], [1], [1], [1]] as number[][],
     error: 'Invalid value "a" for minute',
   },
