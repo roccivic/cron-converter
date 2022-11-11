@@ -1,4 +1,4 @@
-import { getSchedule, stringToArray } from "../src/cron";
+import { getSchedule, stringToArray } from "../src/index.js";
 import { expect } from "chai";
 
 const schedules = [

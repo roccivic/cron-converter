@@ -1,4 +1,4 @@
-import { arrayToString, getSchedule, stringToArray } from "../src/cron";
+import { arrayToString, getSchedule, stringToArray } from "../src/index.js";
 import { expect } from "chai";
 
 describe("Should throw when uninstanciated", function () {

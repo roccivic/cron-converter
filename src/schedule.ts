@@ -1,4 +1,4 @@
-import { assertValidArray } from "./util";
+import { assertValidArray } from "./util.js";
 import { DateTime } from "luxon";
 
 /**

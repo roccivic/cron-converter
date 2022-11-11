@@ -1,4 +1,4 @@
-import { Unit } from "./types";
+import { Unit } from "./types.js";
 
 export const units : ReadonlyArray<Unit> = Object.freeze([
   {

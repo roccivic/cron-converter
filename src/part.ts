@@ -1,5 +1,5 @@
-import { Options, Unit } from "./types";
-import { dedup, flatten, parseNumber, range, sort } from "./util";
+import { Options, Unit } from "./types.js";
+import { dedup, flatten, parseNumber, range, sort } from "./util.js";
 
 /**
  * Converts an array of numbers to a part of a cron string

@@ -1,4 +1,4 @@
-import { sort } from "../src/util";
+import { sort } from "../src/util.js";
 import { expect } from "chai";
 
 const arrays = [

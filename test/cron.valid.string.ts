@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { arrayToString, stringToArray } from "../src/cron";
+import { arrayToString, stringToArray } from "../src/index.js";
 
 const validCron = [
   {

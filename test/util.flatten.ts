@@ -1,4 +1,4 @@
-import { flatten } from "../src/util";
+import { flatten } from "../src/util.js";
 import { expect } from "chai";
 
 const arrays = [

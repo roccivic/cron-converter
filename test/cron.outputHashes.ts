@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { arrayToString, stringToArray } from "../src/cron";
+import { arrayToString, stringToArray } from "../src/index.js";
 
 describe("Should output hashes", function () {
   it("for full ranges", function () {

@@ -1,4 +1,4 @@
-import { parseNumber } from "../src/util";
+import { parseNumber } from "../src/util.js";
 import { expect } from "chai";
 describe("parseNumber", function () {
   [

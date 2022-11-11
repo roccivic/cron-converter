@@ -2,8 +2,9 @@
   "name": "cron-converter",
   "version": "1.0.2",
   "description": "Cron string converter",
-  "main": "./dist/cron.js",
-  "types": "./dist/cron.d.ts",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src",
@@ -12,7 +13,7 @@
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
-    "test": "mocha --extension ts --require ts-node/register test",
+    "test": "mocha --extension ts --require ts-node/register --loader=ts-node/esm test",
     "coverage": "nyc -r lcov -e .ts -x 'test/**/*' npm run test"
   },
   "keywords": [

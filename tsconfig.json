@@ -8,6 +8,9 @@
     "esModuleInterop": true,
     "lib": ["es2015"],
     "declaration": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "module": "es2015",
+    "target": "es2015",
+    "moduleResolution": "NodeNext"
   }
 }

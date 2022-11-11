@@ -1,6 +1,6 @@
-import { stringToArrayPart } from "../src/part";
+import { stringToArrayPart } from "../src/part.js";
 import { expect } from "chai";
-import { units } from "../src/units";
+import { units } from "../src/units.js";
 
 const invalidRanges = [
   {

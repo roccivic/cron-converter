@@ -1,4 +1,4 @@
-import { dedup } from "../src/util";
+import { dedup } from "../src/util.js";
 import { expect } from "chai";
 
 const arrays = [

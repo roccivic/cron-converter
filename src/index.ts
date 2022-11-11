@@ -1,8 +1,8 @@
-import { arrayToStringPart, stringToArrayPart } from "./part";
-import { assertValidArray } from "./util";
-import { Options } from "./types";
-import { Schedule } from "./schedule";
-import { units } from "./units";
+import { arrayToStringPart, stringToArrayPart } from "./part.js";
+import { assertValidArray } from "./util.js";
+import { Options } from "./types.js";
+import { Schedule } from "./schedule.js";
+import { units } from "./units.js";
 
 const defaultOptions: Options = {
   outputHashes: false,
@@ -16,7 +16,7 @@ const defaultOptions: Options = {
  * @param str The string to parse
  * @return The cron schedule as an array
  */
-export const stringToArray = (str: string) => {
+export function stringToArray(str: string) {
   if (typeof str !== "string") {
     throw new Error("Invalid cron string");
   }
@@ -34,13 +34,13 @@ export const stringToArray = (str: string) => {
  * @param arr The array to parse
  * @return The cron schedule as a string
  */
-export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
+export function arrayToString(arr: number[][], options?: Partial<Options>) {
   assertValidArray(arr);
   const parts = arr.map((part, idx) =>
     arrayToStringPart(part, units[idx], { ...defaultOptions, ...options })
   );
   return parts.join(" ");
-};
+}
 
 /**
  * Returns the schedule iterator
@@ -50,8 +50,10 @@ export const arrayToString = (arr: number[][], options?: Partial<Options>) => {
  * @param timezone An optional timezone string
  * @return A schedule iterator
  */
-export const getSchedule = (
+export function getSchedule(
   arr: number[][],
   now?: Date | string,
   timezone?: string
-) => new Schedule(arr, now, timezone);
+) {
+  return new Schedule(arr, now, timezone);
+}

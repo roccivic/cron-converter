@@ -1,4 +1,4 @@
-import { range } from "../src/util";
+import { range } from "../src/util.js";
 import { expect } from "chai";
 
 const ranges = [
