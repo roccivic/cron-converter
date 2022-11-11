@@ -19,8 +19,20 @@ const invalidCron = [
     error: 'Invalid value "a" for minute',
   },
   {
+    array: [["12e5"], [1], [1], [1], [1]] as number[][],
+    error: 'Invalid value "12e5" for minute',
+  },
+  {
     array: [[0], [0], [0], [0], [0]],
     error: 'Value "0" out of range for day',
+  },
+  {
+    array: [[1.5], [1], [1], [1], [1]],
+    error: 'Invalid value "1.5" for minute',
+  },
+  {
+    array: [[-2], [1], [1], [1], [1]],
+    error: 'Value "-2" out of range for minute',
   },
 ];
 

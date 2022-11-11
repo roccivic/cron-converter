@@ -1,4 +1,28 @@
 /**
+ * Parses a value as an integer or returns `undefined`
+ * if the value could not be parsed a `number`
+ *
+ * @param value The integer `number` to parse
+ * @returns The parsed integer or `undefined`
+ */
+export const parseNumber = (value: unknown) => {
+  if (typeof value === "string") {
+    const str: string = value.trim();
+    if (/^\d+$/.test(str)) {
+      const num = Number(str);
+      if (!isNaN(num) && isFinite(num)) {
+        return num;
+      }
+    }
+  } else if (typeof value === "number") {
+    if (!isNaN(value) && isFinite(value) && value === Math.floor(value)) {
+      return value;
+    }
+  }
+  return undefined;
+};
+
+/**
  * Assert that a value is a valid cron array
  *
  * @param arr The array to check
