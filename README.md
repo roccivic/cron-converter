@@ -6,6 +6,8 @@ Cron string parser for node and the browser
 [![Build status](https://github.com/roccivic/cron-converter/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/roccivic/cron-converter/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/roccivic/cron-converter/badge.svg?branch=master&service=github)](https://coveralls.io/github/roccivic/cron-converter?branch=master)
 
+Try the [online demo](https://cron-converter-demo.netlify.app/) and check the [source code](https://github.com/roccivic/cron-converter-demo) for the integration.
+
 # Install
 
 ```bash
@@ -20,46 +22,20 @@ npm install cron-converter --save
 
 # Compatibility
 
-- The API of versions `2.x.x` is not backwards compatible with versions `1.x.x`
-- As of version `2.0.0` the type definitions are bundled and you should not install `@types/cron-converter`
+Versions `2.x.x` of `cron-converter` are not backwards compatible with versions `1.x.x`.
+
+| | `2.x.x`  | `1.x.x` |
+| ---- | ------------- | ------------- |
+| API | Functional | Object-oriented |
+| Loader | ESM | CommonJS |
+| Type definitions | Bundled | Install [`@types/cron-converter`](https://www.npmjs.com/package/@types/cron-converter) |
+| Date/time | [`Luxon`](https://moment.github.io/luxon/) | [`Moment.js`](https://momentjs.com/) |
+| Tree-shaking | ✅ | ❌ |
 
 # Import
 
-`cron-converter` provides 3 functions that can be imported into your project.
-
 ```ts
 import { stringToArray, arrayToString, getSchedule } from "cron-converter";
-```
-
-These functions have the following signatures.
-
-```ts
-/**
- * @param str The string to parse
- * @return The cron schedule as an array
- */
-export declare const stringToArray: (str: string) => number[][];
-
-/**
- * @param arr The array to parse
- * @return The cron schedule as a string
- */
-export declare const arrayToString: (
-  arr: number[][],
-  options?: Partial<Options> | undefined
-) => string;
-
-/**
- * @param arr The cron schedule as an array
- * @param now An optional reference `Date`
- * @param timezone An optional timezone string
- * @return A schedule iterator
- */
-export declare const getSchedule: (
-  arr: number[][],
-  now?: string | Date | undefined,
-  timezone?: string | undefined
-) => Schedule;
 ```
 
 # Usage
@@ -140,11 +116,7 @@ let schedule = getSchedule(arr);
 let reference = new Date(2013, 2, 8, 9, 32);
 const schedule = getSchedule(arr, reference, "Europe/London");
 
-// The reference date can also be a `Moment` object
-reference = moment([2013, 2, 8, 9, 32]);
-schedule = getSchedule(arr, reference);
-
-// Calls to `.next()` and `.prev()` return a `Moment` object
+// Calls to `.next()` and `.prev()` return a Luxon `DateTime` object
 
 // Prints: '2013-03-08T09:35:00+00:00''
 console.log(schedule.next().format());
