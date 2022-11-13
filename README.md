@@ -27,7 +27,7 @@ Versions `2.x.x` of `cron-converter` are not backwards compatible with versions 
 | | `2.x.x`  | `1.x.x` |
 | ---- | ------------- | ------------- |
 | API | Functional | Object-oriented |
-| Loader | ESM | CommonJS |
+| Loader | ESM and CommonJS | CommonJS only |
 | Type definitions | Bundled | Install [`@types/cron-converter`](https://www.npmjs.com/package/@types/cron-converter) |
 | Date/time | [`Luxon`](https://moment.github.io/luxon/) | [`Moment.js`](https://momentjs.com/) |
 | Tree-shaking | ✅ | ❌ |

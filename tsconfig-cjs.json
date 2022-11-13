@@ -1,9 +1,8 @@
 {
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "module": "es2015",
-    "outDir": "dist/mjs",
+    "module": "commonjs",
+    "outDir": "dist/cjs",
     "target": "es2015",
-    "moduleResolution": "nodenext"
   }
 }
