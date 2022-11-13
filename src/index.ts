@@ -57,3 +57,16 @@ export function getSchedule(
 ) {
   return new Schedule(arr, now, timezone);
 }
+
+/**
+ * Returns a readonly array of cron units.
+ * These specify the minimum and maximum values
+ * for each part of a cron expression, as well as
+ * the unit name and any alternative respresentations
+ * for the values of that unit.
+ *
+ * @returns The `units` array
+ */
+export function getUnits() {
+  return units;
+}

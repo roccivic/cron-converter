@@ -35,7 +35,7 @@ Versions `2.x.x` of `cron-converter` are not backwards compatible with versions 
 # Import
 
 ```ts
-import { stringToArray, arrayToString, getSchedule } from "cron-converter";
+import { stringToArray, arrayToString, getSchedule, getUnits } from "cron-converter";
 ```
 
 # Usage
@@ -130,6 +130,12 @@ schedule.reset();
 console.log(schedule.prev().format());
 // Prints: '2013-03-08T09:25:00+00:00''
 console.log(schedule.prev().format());
+```
+
+## Get the units configuration
+This is useful if you are creating a user interface. See [units.ts](./src/units.ts).
+```ts
+const units = getUnits();
 ```
 
 ## Test and build
