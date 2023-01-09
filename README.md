@@ -114,7 +114,7 @@ let schedule = getSchedule(arr);
 
 // Optionally pass a reference `Date` and a `timezone`
 let reference = new Date(2013, 2, 8, 9, 32);
-const schedule = getSchedule(arr, reference, "Europe/London");
+schedule = getSchedule(arr, reference, "Europe/London");
 
 // Calls to `.next()` and `.prev()` return a Luxon `DateTime` object
 
