@@ -3,6 +3,8 @@ import { assertValidArray } from "./util.js";
 import { Options } from "./types.js";
 import { Schedule } from "./schedule.js";
 import { units } from "./units.js";
+export { Schedule } from "./schedule.js";
+export { Unit, Options } from "./types.js";
 
 const defaultOptions: Options = {
   outputHashes: false,
