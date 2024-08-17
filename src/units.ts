@@ -14,7 +14,10 @@ export const units : ReadonlyArray<Unit> = Object.freeze([
   {
     name: 'day',
     min: 1,
-    max: 31
+    max: 31,
+    alt: new Map([
+      ['L', -1]
+    ])
   },
   {
     name: 'month',

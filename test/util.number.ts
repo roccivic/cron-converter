@@ -6,6 +6,7 @@ import {Unit} from "../src/types.js";
 const MINUTE_UNIT = units.find(unit => unit.name === 'minute') as Unit;
 const WEEKDAY_UNIT = units.find(unit => unit.name === 'weekday') as Unit;
 const MONTH_UNIT = units.find(unit => unit.name === 'month') as Unit;
+const DAY_UNIT = units.find(unit => unit.name === 'day') as Unit;
 
 describe("parseNumber", function () {
   [
@@ -62,5 +63,12 @@ describe("parseNumber", function () {
     expect(parseNumber(MONTH_UNIT, 'JAN')).to.equal(1);
     expect(parseNumber(MONTH_UNIT, 'DEC')).to.equal(12);
     expect(parseNumber(MONTH_UNIT, 'NONE')).to.equal(undefined);
+  });
+
+  it(`End of mount alt name`, function () {
+    expect(parseNumber(DAY_UNIT, 'L')).to.equal(-1);
+    expect(parseNumber(DAY_UNIT, 1)).to.equal(1);
+    expect(parseNumber(DAY_UNIT, -1)).to.equal(-1);
+    expect(parseNumber(DAY_UNIT, 'NONE')).to.equal(undefined);
   });
 });
