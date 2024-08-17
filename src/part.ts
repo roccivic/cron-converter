@@ -196,6 +196,14 @@ const getError = (error: string, unit: Unit) =>
  * @return The resulting array
  */
 const parseRange = (rangeString: string, context: string, unit: Unit) => {
+  if (unit.name === 'day' && rangeString.startsWith('-')) {
+    // Negative number are allowed for days
+    const value = parseNumber(rangeString);
+    if (value === undefined) {
+      throw getError(`Invalid value "${context}"`, unit);
+    }
+    return [value];
+  }
   const subparts = rangeString.split("-");
   if (subparts.length === 1) {
     const value = parseNumber(subparts[0]);
@@ -299,8 +307,12 @@ const replaceAlternatives = (str: string, unit: Unit) => {
  * @param unit The unit for the part
  */
 const assertInRange = (values: number[], unit: Unit) => {
-  const first = values[0];
-  const last = values[values.length - 1];
+  let first = values[0];
+  let last = values[values.length - 1];
+  if (unit.name === 'day') {
+    first = Math.abs(first);
+    last = Math.abs(last);
+  }
   if (first < unit.min) {
     throw getError(`Value "${first}" out of range`, unit);
   } else if (last > unit.max) {

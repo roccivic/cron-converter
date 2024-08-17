@@ -8,7 +8,7 @@
 export const parseNumber = (value: unknown) => {
   if (typeof value === "string") {
     const str: string = value.trim();
-    if (/^\d+$/.test(str)) {
+    if (/^-?\d+$/.test(str)) {
       const num = Number(str);
       if (!isNaN(num) && isFinite(num)) {
         return num;
