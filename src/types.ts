@@ -2,7 +2,7 @@ export type Unit = {
   name: 'minute' | 'hour' | 'day' | 'month' | 'weekday',
   min: number;
   max: number;
-  alt?: ReadonlyArray<string>;
+  alt?: Map<string, number>;
 }
 
 export type Options = {

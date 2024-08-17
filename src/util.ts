@@ -1,12 +1,19 @@
+import {Unit} from "./types.js";
+
 /**
  * Parses a value as an integer or returns `undefined`
  * if the value could not be parsed a `number`
  *
  * @param value The integer `number` to parse
+ * @param unit The unit
  * @returns The parsed integer or `undefined`
  */
-export const parseNumber = (value: unknown) => {
+export const parseNumber = (unit: Unit, value: unknown) => {
   if (typeof value === "string") {
+    if (unit.alt && unit.alt.has(value.toUpperCase())) {
+      return unit.alt.get(value.toUpperCase());
+    }
+
     const str: string = value.trim();
     if (/^-?\d+$/.test(str)) {
       const num = Number(str);

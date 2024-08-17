@@ -18,7 +18,7 @@ export const arrayToStringPart = (
     dedup(
       fixSunday(
         arr.map((value) => {
-          const parsedValue = parseNumber(value);
+          const parsedValue = parseNumber(unit, value);
           if (parsedValue === undefined) {
             throw getError(`Invalid value "${value}"`, unit);
           }
@@ -47,7 +47,7 @@ export const stringToArrayPart = (str: string, unit: Unit) => {
     dedup(
       fixSunday(
         flatten(
-          replaceAlternatives(str, unit)
+          str
             .split(",")
             .map((value: string) => {
               const valueParts = value.split("/");
@@ -171,7 +171,12 @@ const formatValue = (value: number, unit: Unit, options: Options) => {
     (options.outputMonthNames && unit.name === "month")
   ) {
     if (unit.alt) {
-      return unit.alt[value - unit.min];
+      const altValue = Array.from(unit.alt.entries())
+        .find(([, altValue]) => altValue === value)
+        ?.[0];
+      if (altValue) {
+        return altValue;
+      }
     }
   }
   return value;
@@ -198,7 +203,7 @@ const getError = (error: string, unit: Unit) =>
 const parseRange = (rangeString: string, context: string, unit: Unit) => {
   if (unit.name === 'day' && rangeString.startsWith('-')) {
     // Negative number are allowed for days
-    const value = parseNumber(rangeString);
+    const value = parseNumber(unit, rangeString);
     if (value === undefined) {
       throw getError(`Invalid value "${context}"`, unit);
     }
@@ -206,14 +211,14 @@ const parseRange = (rangeString: string, context: string, unit: Unit) => {
   }
   const subparts = rangeString.split("-");
   if (subparts.length === 1) {
-    const value = parseNumber(subparts[0]);
+    const value = parseNumber(unit, subparts[0]);
     if (value === undefined) {
       throw getError(`Invalid value "${context}"`, unit);
     }
     return [value];
   } else if (subparts.length === 2) {
-    const minValue = parseNumber(subparts[0]);
-    const maxValue = parseNumber(subparts[1]);
+    const minValue = parseNumber(unit, subparts[0]);
+    const maxValue = parseNumber(unit, subparts[1]);
     if (minValue === undefined || maxValue === undefined) {
       throw getError(`Invalid value "${context}"`, unit);
     }
@@ -238,7 +243,7 @@ const parseRange = (rangeString: string, context: string, unit: Unit) => {
  */
 const parseStep = (step: string, unit: Unit) => {
   if (step !== undefined) {
-    const parsedStep = parseNumber(step);
+    const parsedStep = parseNumber(unit, step);
     if (parsedStep === undefined) {
       throw getError(`Invalid interval step value "${step}"`, unit);
     }
@@ -281,23 +286,6 @@ const fixSunday = (values: number[], unit: Unit) => {
     });
   }
   return values;
-};
-
-/**
- * Replaces the alternative representations of numbers in a string
- *
- * @param str The string to process
- * @param unit The unit for the part
- * @return The resulting string
- */
-const replaceAlternatives = (str: string, unit: Unit) => {
-  if (unit.alt) {
-    str = str.toUpperCase();
-    for (let i = 0; i < unit.alt.length; i++) {
-      str = str.replace(unit.alt[i], String(i + unit.min));
-    }
-  }
-  return str;
 };
 
 /**
