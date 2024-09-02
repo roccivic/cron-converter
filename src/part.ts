@@ -47,7 +47,7 @@ export const stringToArrayPart = (str: string, unit: Unit) => {
     dedup(
       fixSunday(
         flatten(
-          str
+          replaceAlternatives(str, unit)
             .split(",")
             .map((value: string) => {
               const valueParts = value.split("/");
@@ -171,12 +171,7 @@ const formatValue = (value: number, unit: Unit, options: Options) => {
     (options.outputMonthNames && unit.name === "month")
   ) {
     if (unit.alt) {
-      const altValue = Array.from(unit.alt.entries())
-        .find(([, altValue]) => altValue === value)
-        ?.[0];
-      if (altValue) {
-        return altValue;
-      }
+      return unit.alt[value - unit.min];
     }
   }
   return value;
@@ -232,6 +227,23 @@ const parseRange = (rangeString: string, context: string, unit: Unit) => {
   } else {
     throw getError(`Invalid value "${rangeString}"`, unit);
   }
+};
+
+/**
+ * Replaces the alternative representations of numbers in a string
+ *
+ * @param str The string to process
+ * @param unit The unit for the part
+ * @return The resulting string
+ */
+const replaceAlternatives = (str: string, unit: Unit) => {
+  if (unit.alt) {
+    str = str.toUpperCase();
+    for (let i = 0; i < unit.alt.length; i++) {
+      str = str.replace(unit.alt[i], String(i + unit.min));
+    }
+  }
+  return str;
 };
 
 /**

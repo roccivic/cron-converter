@@ -9,11 +9,11 @@ import {Unit} from "./types.js";
  * @returns The parsed integer or `undefined`
  */
 export const parseNumber = (unit: Unit, value: unknown) => {
-  if (typeof value === "string") {
-    if (unit.alt && unit.alt.has(value.toUpperCase())) {
-      return unit.alt.get(value.toUpperCase());
-    }
+  if (unit.name === 'day' && value === 'L') {
+    return -1;
+  }
 
+  if (typeof value === "string") {
     const str: string = value.trim();
     if (/^-?\d+$/.test(str)) {
       const num = Number(str);
