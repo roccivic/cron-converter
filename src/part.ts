@@ -115,6 +115,8 @@ const toString = (values: number[], unit: Unit, options: Options) => {
     } else {
       retval = "*";
     }
+  } else if (unit.name === 'day' && values.length === 1 && values[0] === -1) {
+    retval = 'L';
   } else {
     const step = getStep(values);
     if (step && isInterval(values, step)) {
@@ -196,14 +198,6 @@ const getError = (error: string, unit: Unit) =>
  * @return The resulting array
  */
 const parseRange = (rangeString: string, context: string, unit: Unit) => {
-  if (unit.name === 'day' && rangeString.startsWith('-')) {
-    // Negative number are allowed for days
-    const value = parseNumber(unit, rangeString);
-    if (value === undefined) {
-      throw getError(`Invalid value "${context}"`, unit);
-    }
-    return [value];
-  }
   const subparts = rangeString.split("-");
   if (subparts.length === 1) {
     const value = parseNumber(unit, subparts[0]);
@@ -227,23 +221,6 @@ const parseRange = (rangeString: string, context: string, unit: Unit) => {
   } else {
     throw getError(`Invalid value "${rangeString}"`, unit);
   }
-};
-
-/**
- * Replaces the alternative representations of numbers in a string
- *
- * @param str The string to process
- * @param unit The unit for the part
- * @return The resulting string
- */
-const replaceAlternatives = (str: string, unit: Unit) => {
-  if (unit.alt) {
-    str = str.toUpperCase();
-    for (let i = 0; i < unit.alt.length; i++) {
-      str = str.replace(unit.alt[i], String(i + unit.min));
-    }
-  }
-  return str;
 };
 
 /**
@@ -301,6 +278,23 @@ const fixSunday = (values: number[], unit: Unit) => {
 };
 
 /**
+ * Replaces the alternative representations of numbers in a string
+ *
+ * @param str The string to process
+ * @param unit The unit for the part
+ * @return The resulting string
+ */
+const replaceAlternatives = (str: string, unit: Unit) => {
+  if (unit.alt) {
+    str = str.toUpperCase();
+    for (let i = 0; i < unit.alt.length; i++) {
+      str = str.replace(unit.alt[i], String(i + unit.min));
+    }
+  }
+  return str;
+};
+
+/**
  * Asserts that all `values` are in range for `unit`
  *
  * @param values The values to test
@@ -309,7 +303,7 @@ const fixSunday = (values: number[], unit: Unit) => {
 const assertInRange = (values: number[], unit: Unit) => {
   let first = values[0];
   let last = values[values.length - 1];
-  if (unit.name === 'day') {
+  if (unit.name === 'day' && first === -1 && last === -1) {
     first = Math.abs(first);
     last = Math.abs(last);
   }

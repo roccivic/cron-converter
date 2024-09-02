@@ -100,42 +100,6 @@ const schedules = [
     next: "2013-02-11T06:00:00.000Z",
     timezone: "utc",
   },
-  // Days from the end of the mouth (negative)
-  {
-    schedule: "55 23 -1 * *",
-    now: "2024-02-08T09:32:15.000Z",
-    prev: "2024-01-31T23:55:00.000Z",
-    next: "2024-02-29T23:55:00.000Z",
-    timezone: "utc",
-  },
-  {
-    schedule: "55 23 -1 * *",
-    now: "2023-02-08T09:32:15.000Z",
-    prev: "2023-01-31T23:55:00.000Z",
-    next: "2023-02-28T23:55:00.000Z",
-    timezone: "utc",
-  },
-  {
-    schedule: "55 23 -1 * *",
-    now: "2023-01-08T09:32:15.000Z",
-    prev: "2022-12-31T23:55:00.000Z",
-    next: "2023-01-31T23:55:00.000Z",
-    timezone: "utc",
-  },
-  {
-    schedule: "55 23 -1 * *",
-    now: "2023-04-30T09:32:15.000Z",
-    prev: "2023-03-31T23:55:00.000Z",
-    next: "2023-04-30T23:55:00.000Z",
-    timezone: "utc",
-  },
-  {
-    schedule: "55 23 -2 * *",
-    now: "2023-04-30T09:32:15.000Z",
-    prev: "2023-04-29T23:55:00.000Z",
-    next: "2023-05-30T23:55:00.000Z",
-    timezone: "utc",
-  },
   // Last day of month alias
   {
     schedule: "55 23 L * *",

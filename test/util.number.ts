@@ -25,6 +25,7 @@ describe("parseNumber", function () {
     "",
     " ",
     "+123",
+    "-123",
     "1.2",
     "1,2",
     "12e5",
