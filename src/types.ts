@@ -9,4 +9,6 @@ export type Options = {
   outputHashes: boolean;
   outputWeekdayNames: boolean;
   outputMonthNames: boolean;
+  enableLastDayOfMonth: boolean;
+  enableNegativeDaysOfMonth: boolean;
 }

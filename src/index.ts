@@ -10,6 +10,8 @@ const defaultOptions: Options = {
   outputHashes: false,
   outputMonthNames: false,
   outputWeekdayNames: false,
+  enableLastDayOfMonth: false,
+  enableNegativeDaysOfMonth: false,
 };
 
 /**

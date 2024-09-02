@@ -9,6 +9,11 @@ const invalidRanges = [
     error: 'Invalid value "" for minute',
   },
   {
+    unit: units[4],
+    input: "-3",
+    error: 'Invalid value "-3" for weekday',
+  },
+  {
     unit: units[1],
     input: "33-1",
     error: 'Max range is less than min range in "33-1" for hour',

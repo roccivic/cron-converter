@@ -108,6 +108,8 @@ describe("Should parse valid string", function () {
           outputHashes: false,
           outputMonthNames: false,
           outputWeekdayNames: false,
+          enableLastDayOfMonth: false,
+          enableNegativeDaysOfMonth: false,
         })
       ).to.equal(validRange.output);
     });

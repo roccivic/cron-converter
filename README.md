@@ -66,7 +66,7 @@ const str = arrayToString([[0], [1], [1], [5], [0, 2, 4, 6]]);
 console.log(str);
 ```
 
-## Formatting options
+## Additional options
 
 ### outputMonthNames
 
@@ -101,6 +101,43 @@ const arr = [[1], [1], [1], [1, 6, 11], [0, 1, 2, 3, 4, 5, 6]];
 
 // Prints: '1 1 1 H/5 H'
 console.log(arrayToString(arr, { outputHashes: true }));
+```
+
+### enableLastDayOfMonth
+
+Default: `false`
+
+```ts
+const arr = stringToArray("1 1 L 1 1", { enableLastDayOfMonth: true });
+
+// Prints:
+// [
+//   [ 1 ],
+//   [ 1 ],
+//   [ -1 ],
+//   [ 1 ],
+//   [ 1 ]
+// ]
+console.log(arr);
+```
+
+### enableNegativeDayOfMonth
+
+Default: `false`
+
+```ts
+// Second last day of month
+const arr = stringToArray("1 1 -2 1 1", { enableNegativeDayOfMonth: true });
+
+// Prints:
+// [
+//   [ 1 ],
+//   [ 1 ],
+//   [ -2 ],
+//   [ 1 ],
+//   [ 1 ]
+// ]
+console.log(arr);
 ```
 
 ## Get the schedule execution times
