@@ -51,7 +51,7 @@ describe("parseNumber", function () {
     });
   });
 
-  it(`End of mount alt name`, function () {
+  it(`End of month alt name`, function () {
     expect(parseNumber(DAY_UNIT, 'L')).to.equal(-1);
     expect(parseNumber(DAY_UNIT, 1)).to.equal(1);
     expect(parseNumber(DAY_UNIT, -1)).to.equal(-1);
