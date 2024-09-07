@@ -28,4 +28,10 @@ describe("Should throw", function () {
       "Invalid timezone provided"
     );
   });
+
+  it("enableLastDayOfMonth disabled", function () {
+    expect(() => stringToArray("* * L * *", {enableLastDayOfMonth: false})).to.throw(
+      "Invalid value \"L\" for day"
+    );
+  });
 });

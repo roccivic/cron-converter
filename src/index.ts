@@ -1,6 +1,6 @@
 import { arrayToStringPart, stringToArrayPart } from "./part.js";
 import { assertValidArray } from "./util.js";
-import { Options } from "./types.js";
+import { Options, ParseOptions } from "./types.js";
 import { Schedule } from "./schedule.js";
 import { units } from "./units.js";
 export { Schedule } from "./schedule.js";
@@ -12,13 +12,19 @@ const defaultOptions: Options = {
   outputWeekdayNames: false,
 };
 
+
+const defaultParseOptions: ParseOptions = {
+  enableLastDayOfMonth: true
+};
+
 /**
  * Parses a cron string
  *
  * @param str The string to parse
+ * @param options Parse options
  * @return The cron schedule as an array
  */
-export function stringToArray(str: string) {
+export function stringToArray(str: string, options?: Partial<ParseOptions>) {
   if (typeof str !== "string") {
     throw new Error("Invalid cron string");
   }
@@ -26,7 +32,7 @@ export function stringToArray(str: string) {
   if (parts.length !== 5) {
     throw new Error("Invalid cron string format");
   } else {
-    return parts.map((str, idx) => stringToArrayPart(str, units[idx]));
+    return parts.map((str, idx) => stringToArrayPart(str, units[idx], { ...defaultParseOptions, ...options }));
   }
 };
 
