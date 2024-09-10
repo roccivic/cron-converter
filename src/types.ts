@@ -10,3 +10,7 @@ export type Options = {
   outputWeekdayNames: boolean;
   outputMonthNames: boolean;
 }
+
+export type ParseOptions = {
+  enableLastDayOfMonth: boolean;
+}

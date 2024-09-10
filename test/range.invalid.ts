@@ -58,7 +58,7 @@ describe("Should throw on invalid range string", function () {
   invalidRanges.forEach(function (invalidRange) {
     it(invalidRange.input, function () {
       expect(() =>
-        stringToArrayPart(invalidRange.input, invalidRange.unit)
+        stringToArrayPart(invalidRange.input, invalidRange.unit, {enableLastDayOfMonth: true})
       ).to.throw(invalidRange.error);
     });
   });

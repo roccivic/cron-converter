@@ -34,6 +34,10 @@ const invalidCron = [
     array: [[-2], [1], [1], [1], [1]],
     error: 'Value "-2" out of range for minute',
   },
+  {
+    array: [[1], [1], [-2], [1], [1]],
+    error: 'Value "-2" out of range for day',
+  },
 ];
 
 describe("Should throw on invalid cron array", function () {

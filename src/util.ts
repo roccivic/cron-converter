@@ -1,11 +1,19 @@
+import { ParseOptions, Unit } from "./types.js";
+
 /**
  * Parses a value as an integer or returns `undefined`
  * if the value could not be parsed a `number`
  *
  * @param value The integer `number` to parse
+ * @param unit The unit
+ * @param options Parse options
  * @returns The parsed integer or `undefined`
  */
-export const parseNumber = (value: unknown) => {
+export const parseNumber = (unit: Unit, value: unknown, options: ParseOptions) => {
+  if (options?.enableLastDayOfMonth === true && unit.name === 'day' && value === 'L') {
+    return -1;
+  }
+
   if (typeof value === "string") {
     const str: string = value.trim();
     if (/^\d+$/.test(str)) {

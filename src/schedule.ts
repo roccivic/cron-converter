@@ -157,7 +157,7 @@ const shiftDay = (
 ): [DateTime, boolean] => {
   const currentMonth = date.month;
   while (
-    arr[2].indexOf(date.day) === -1 ||
+    (arr[2].indexOf(date.day) === -1 && arr[2].indexOf(date.day - date.endOf('month').day - 1) === -1) ||
     // luxon uses 1-7 for weekdays, but we use 0-6
     arr[4].indexOf(date.weekday === 7 ? 0 : date.weekday) === -1
   ) {

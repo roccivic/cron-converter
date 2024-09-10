@@ -100,6 +100,14 @@ const schedules = [
     next: "2013-02-11T06:00:00.000Z",
     timezone: "utc",
   },
+  // Last day of month alias
+  {
+    schedule: "55 23 L * *",
+    now: "2024-02-08T09:32:15.000Z",
+    prev: "2024-01-31T23:55:00.000Z",
+    next: "2024-02-29T23:55:00.000Z",
+    timezone: "utc",
+  }
 ];
 describe("Should output execution time for valid schedule", function () {
   schedules.forEach(function (s) {

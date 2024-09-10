@@ -14,6 +14,10 @@ const validCron = [
     in: [[0], [1], [1], [5], [0, 2, 4, 6]],
     out: "0 1 1 5 */2",
   },
+  {
+    in: [[0], [1], [-1], [5], [0, 2, 4, 6]],
+    out: "0 1 L 5 */2",
+  },
 ];
 
 describe("Should parse valid cron array", function () {

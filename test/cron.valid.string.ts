@@ -54,6 +54,10 @@ const validCron = [
     in: "* 2-6/2,19-23/2 * * *",
     out: "* 2,4,6,19,21,23 * * *",
   },
+  {
+    in: "* 2-6/2,19-23/2 L * *",
+    out: "* 2,4,6,19,21,23 L * *",
+  },
 ];
 
 describe("Should parse valid cron string", function () {

@@ -98,7 +98,7 @@ const validRanges = [
 ];
 describe("Should parse valid string", function () {
   validRanges.forEach(function (validRange) {
-    const range = stringToArrayPart(validRange.input, validRange.unit);
+    const range = stringToArrayPart(validRange.input, validRange.unit, {enableLastDayOfMonth: true});
     it(validRange.input + " as array", function () {
       expect(range).to.eql(validRange.arr);
     });
