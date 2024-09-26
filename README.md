@@ -22,7 +22,9 @@ npm install cron-converter --save
 
 # Compatibility
 
-Versions `2.x.x` of `cron-converter` are not backwards compatible with versions `1.x.x`.
+Version `2.1.0` introduces support for the non standard `L` character which represents the last day of the month. This feature is on by default and can be turned off by setting the `enableLastDayOfMonth` option to `false`.
+
+Versions `2.x.x` are not backwards compatible with versions `1.x.x`.
 
 | | `2.x.x`  | `1.x.x` |
 | ---- | ------------- | ------------- |
@@ -66,7 +68,7 @@ const str = arrayToString([[0], [1], [1], [5], [0, 2, 4, 6]]);
 console.log(str);
 ```
 
-## Formatting options
+## Options
 
 ### outputMonthNames
 
@@ -101,6 +103,24 @@ const arr = [[1], [1], [1], [1, 6, 11], [0, 1, 2, 3, 4, 5, 6]];
 
 // Prints: '1 1 1 H/5 H'
 console.log(arrayToString(arr, { outputHashes: true }));
+```
+
+### enableLastDayOfMonth
+
+Default: `true`
+
+```ts
+const arr = [[1], [1], [1], [-1], [1]];
+
+// Prints: '1 1 1 L 1'
+console.log(arrayToString(arr, { enableLastDayOfMonth: true }));
+```
+
+```ts
+const str = '1 1 1 L 1';
+
+// Prints: [[1], [1], [1], [-1], [1]]
+console.log(stringToArray(str, { enableLastDayOfMonth: true }));
 ```
 
 ## Get the schedule execution times
