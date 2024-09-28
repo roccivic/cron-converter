@@ -6,15 +6,15 @@ import { units } from "./units.js";
 export { Schedule } from "./schedule.js";
 export { Unit, Options } from "./types.js";
 
+const defaultParseOptions: ParseOptions = {
+  enableLastDayOfMonth: true,
+};
+
 const defaultOptions: Options = {
+  ...defaultParseOptions,
   outputHashes: false,
   outputMonthNames: false,
   outputWeekdayNames: false,
-};
-
-
-const defaultParseOptions: ParseOptions = {
-  enableLastDayOfMonth: true
 };
 
 /**
@@ -32,9 +32,11 @@ export function stringToArray(str: string, options?: Partial<ParseOptions>) {
   if (parts.length !== 5) {
     throw new Error("Invalid cron string format");
   } else {
-    return parts.map((str, idx) => stringToArrayPart(str, units[idx], { ...defaultParseOptions, ...options }));
+    return parts.map((str, idx) =>
+      stringToArrayPart(str, units[idx], { ...defaultParseOptions, ...options })
+    );
   }
-};
+}
 
 /**
  * Parses a 2-dimentional array of integers and serializes it to a string

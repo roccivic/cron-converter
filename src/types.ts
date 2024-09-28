@@ -3,14 +3,14 @@ export type Unit = {
   min: number;
   max: number;
   alt?: ReadonlyArray<string>;
-}
-
-export type Options = {
-  outputHashes: boolean;
-  outputWeekdayNames: boolean;
-  outputMonthNames: boolean;
-}
+};
 
 export type ParseOptions = {
   enableLastDayOfMonth: boolean;
-}
+};
+
+export type Options = ParseOptions & {
+  outputHashes: boolean;
+  outputWeekdayNames: boolean;
+  outputMonthNames: boolean;
+};

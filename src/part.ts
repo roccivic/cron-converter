@@ -18,7 +18,7 @@ export const arrayToStringPart = (
     dedup(
       fixSunday(
         arr.map((value) => {
-          const parsedValue = parseNumber(unit, value, {enableLastDayOfMonth: false});
+          const parsedValue = parseNumber(unit, value, options);
           if (parsedValue === undefined) {
             throw getError(`Invalid value "${value}"`, unit);
           }
@@ -31,7 +31,7 @@ export const arrayToStringPart = (
   if (!values.length) {
     throw getError("Empty interval value", unit);
   }
-  assertInRange(values, unit);
+  assertInRange(values, unit, options);
   return toString(values, unit, options);
 };
 
@@ -40,10 +40,14 @@ export const arrayToStringPart = (
  *
  * @param str The part of a cron string to convert
  * @param unit The unit for the part
- * @param options Parse options
+ * @param options The parse options
  * @return An array of numbers
  */
-export const stringToArrayPart = (str: string, unit: Unit, options: ParseOptions) => {
+export const stringToArrayPart = (
+  str: string,
+  unit: Unit,
+  options: ParseOptions
+) => {
   const values = sort(
     dedup(
       fixSunday(
@@ -71,7 +75,7 @@ export const stringToArrayPart = (str: string, unit: Unit, options: ParseOptions
       )
     )
   );
-  assertInRange(values, unit);
+  assertInRange(values, unit, options);
   return values;
 };
 
@@ -105,7 +109,7 @@ const toRanges = (values: number[]) => {
  *
  * @param values An array of numbers
  * @param unit The unit for the part
- * @param options The formatting options to use
+ * @param options The options to use
  * @return The part of a cron string
  */
 const toString = (values: number[], unit: Unit, options: Options) => {
@@ -116,8 +120,8 @@ const toString = (values: number[], unit: Unit, options: Options) => {
     } else {
       retval = "*";
     }
-  } else if (unit.name === 'day' && values.length === 1 && values[0] === -1) {
-    retval = 'L';
+  } else if (unit.name === "day" && values.length === 1 && values[0] === -1) {
+    retval = "L";
   } else {
     const step = getStep(values);
     if (step && isInterval(values, step)) {
@@ -199,7 +203,12 @@ const getError = (error: string, unit: Unit) =>
  * @param options Parse options
  * @return The resulting array
  */
-const parseRange = (rangeString: string, context: string, unit: Unit, options: ParseOptions) => {
+const parseRange = (
+  rangeString: string,
+  context: string,
+  unit: Unit,
+  options: ParseOptions
+) => {
   const subparts = rangeString.split("-");
   if (subparts.length === 1) {
     const value = parseNumber(unit, subparts[0], options);
@@ -302,11 +311,12 @@ const replaceAlternatives = (str: string, unit: Unit) => {
  *
  * @param values The values to test
  * @param unit The unit for the part
+ * @param options The parse options
  */
-const assertInRange = (values: number[], unit: Unit) => {
+const assertInRange = (values: number[], unit: Unit, options: ParseOptions) => {
   let first = values[0];
   let last = values[values.length - 1];
-  if (unit.name === 'day' && first === -1 && last === -1) {
+  if (options.enableLastDayOfMonth && unit.name === "day" && first === -1 && last === -1) {
     first = Math.abs(first);
     last = Math.abs(last);
   }

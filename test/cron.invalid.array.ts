@@ -1,7 +1,13 @@
 import { expect } from "chai";
 import { arrayToString } from "../src/index.js";
 
-const invalidCron = [
+type Test = {
+  array: number[][];
+  error: string;
+  enableLastDayOfMonth?: boolean;
+};
+
+const invalidCron: Test[] = [
   {
     array: [],
     error: "Invalid cron array",
@@ -38,12 +44,21 @@ const invalidCron = [
     array: [[1], [1], [-2], [1], [1]],
     error: 'Value "-2" out of range for day',
   },
+  {
+    array: [[1], [1], [-1], [1], [1]],
+    error: 'Value "-1" out of range for day',
+    enableLastDayOfMonth: false,
+  },
 ];
 
 describe("Should throw on invalid cron array", function () {
   invalidCron.forEach(function (invalid) {
     it(invalid.array.toString(), function () {
-      expect(() => arrayToString(invalid.array)).to.throw(invalid.error);
+      expect(() =>
+        arrayToString(invalid.array, {
+          enableLastDayOfMonth: invalid.enableLastDayOfMonth,
+        })
+      ).to.throw(invalid.error);
     });
   });
 });

@@ -105,6 +105,7 @@ describe("Should parse valid string", function () {
     it(validRange.input + " as string", function () {
       expect(
         arrayToStringPart(range, validRange.unit, {
+          enableLastDayOfMonth: true,
           outputHashes: false,
           outputMonthNames: false,
           outputWeekdayNames: false,

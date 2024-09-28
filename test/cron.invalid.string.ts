@@ -70,12 +70,18 @@ const invalidCron = [
     string: "5/ * * * *",
     error: 'Invalid interval step value "" for minute',
   },
+  {
+    string: "* * L * *",
+    error: 'Invalid value "L" for day',
+  },
 ];
 
 describe("Should throw on invalid cron string", function () {
   invalidCron.forEach(function (invalid) {
     it(`${invalid.string}`, function () {
-      expect(() => stringToArray(invalid.string)).to.throw(invalid.error);
+      expect(() =>
+        stringToArray(invalid.string, { enableLastDayOfMonth: false })
+      ).to.throw(invalid.error);
     });
   });
 });
